@@ -4,7 +4,7 @@
 - ⚠️ This project is still in beta. You can help or suggest ideas in [bag's discord](https://discord.bag-xml.com) ⚠️
 
 # Features
-- Cache Invidious API responses
+- Cache API responses
 - Customizable config
 
 # Setup
