@@ -1,5 +1,4 @@
 # TubeRepair custom backend, using Flask from Python.
-- (Codename: mayonnaise)
 - __A self-hosting solution to edit the backend to your likings.__
 - __Fetches API from Invidious with no API key authentication needed.__
 - ⚠️ This project is still in beta. You can help or suggest ideas in [bag's discord](https://discord.bag-xml.com) ⚠️
