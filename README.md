@@ -1,7 +1,7 @@
 # Currently empty because it's unfinished, about 5%
 # TubeRepair custom backend, using Flask from Python.
 - __A self-hosting solution to edit the backend to your likings.__
-- __Fetches API from Invidious with no API key authentication needed.__
+- __Fetches API from Invidious with no API authentication needed.__
 - ⚠️ This project is still in beta. You can help or suggest ideas in [bag's discord](https://discord.bag-xml.com) ⚠️
 
 # Features
@@ -26,3 +26,9 @@ cd ..
 python main.py
 ```
 Remember to edit config.py, otherwise it will not run properly
+
+# Credits
+
+- [ObscureMosquito](https://github.com/ObscureMosquito)
+- [SpaceSaver](https://github.com/SpaceSaver)
+- (and me.)
