@@ -1,5 +1,5 @@
 # COMING SOON!
-# TubeRepair custom backend, using Flask from Python.
+# TubeRepair custom backend, using Flask and Jinja2.
 - __A self-hosting solution to edit the backend to your likings.__
 - __Fetches API from Invidious with no API authentication needed.__
 - ⚠️ This project is still in beta. You can help or suggest ideas in [bag's discord](https://discord.bag-xml.com) ⚠️
