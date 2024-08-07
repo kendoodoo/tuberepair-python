@@ -1,4 +1,4 @@
-# Currently empty because it's unfinished, about 5%
+# COMING SOON!
 # TubeRepair custom backend, using Flask from Python.
 - __A self-hosting solution to edit the backend to your likings.__
 - __Fetches API from Invidious with no API authentication needed.__
