@@ -27,7 +27,7 @@ python main.py
 ```
 Remember to edit config.py, otherwise it will not run properly
 
-# Credits
+# Contributors
 
 - [ObscureMosquito](https://github.com/ObscureMosquito)
 - [SpaceSaver](https://github.com/SpaceSaver)
