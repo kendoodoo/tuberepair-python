@@ -1,0 +1,19 @@
+<entry gd:etag='W/&quot;Ck8GRH47eCp7I2A9XRdTGEQ.&quot;'>
+	<id>tag:youtube.com,2008:channel:{{ author_id }}</id>
+	<updated>2014-09-16T18:07:05.000Z</updated>
+	<category scheme='http://schemas.google.com/g/2005#kind' term='/schemas/2007#channel'/>
+	<title>{{ author }}</title>
+	<summary>{{ description }}</summary>
+	<link rel='/schemas/2007#featured-video' type='application/atom+xml' href='/feeds/api/videos/YM582qGZHLI?v=2'/>
+	<link rel='alternate' type='text/html' href='https://www.youtube.com/channel/{{ author_id }}'/>
+	<link rel='self' type='application/atom+xml' href='/feeds/api/channels/{{ author_id }}?v=2'/>
+	<author>
+		<name>{{ author }}</name>
+		<uri>/feeds/api/users/webauditors</uri>
+		<yt:userId>{{ author_id }}</yt:userId>
+	</author>
+	<yt:channelId>{{ author_id }}</yt:channelId>
+	<yt:channelStatistics subscriberCount='{{subcount}}' viewCount='0'/>
+	<gd:feedLink rel='/schemas/2007#channel.content' href='/feeds/api/users/webauditors/uploads?v=2' countHint='0'/>
+	<media:thumbnail url='{{ channel_pic_url }}'/>
+</entry>
