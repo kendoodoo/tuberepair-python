@@ -8,6 +8,10 @@ Paused due to personal stuff. You can check the code via releases. But it's not 
 - Cache API responses
 - Customizable config
 
+# Ideas
+- Add Piped support
+- Server status page
+
 # Setup
 Make sure you have Python 3 and virtualenv installed.
 ```bash
