@@ -1,4 +1,4 @@
-# COMING SOON!
+# Paused due to personal problems. Code's done, so don't worry.
 # TubeRepair custom backend, using Flask and Jinja2.
 - __A self-hosting solution to edit the backend to your likings.__
 - __Fetches API from Invidious with no API authentication needed.__
