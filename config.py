@@ -14,7 +14,7 @@ HOST = ""
 # if your own instance is not secure go with http (default: https)
 HTTP = "https"
 
-# Set indivious instance
+# Set invidious instance
 # remove the http:// or https://
 URL = "inv.tux.pizza"
 
