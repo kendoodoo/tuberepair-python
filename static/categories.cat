@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<app:categories
+	xmlns:app='http://www.w3.org/2007/app'
+	xmlns:atom='http://www.w3.org/2005/Atom'
+	xmlns:yt='http://gdata.youtube.com/schemas/2007' fixed='yes' scheme='http://gdata.youtube.com/schemas/2007/categories.cat'>
+	<atom:category term='Film' label='Film &amp; Animation' xml:lang='en-US'>
+		<yt:assignable/>
+		<yt:browsable regions='AE AR AU BD BE BG BR CA CL CO CZ DE DK DZ EE EG ES ET FI FR GB GH GR HK HR HU ID IE IL IN IR IS IT JO JP KE KR LT LV MA MX MY NG NL NO NZ PE PH PK PL PT RO RS RU SA SE SG SI SK SN TH TN TR TW TZ UA UG US VN YE ZA'/>
+	</atom:category>
+
+	<atom:category term='Music' label='Music' xml:lang='en-US'>
+		<yt:assignable/>
+		<yt:browsable regions='AE AR AU BD BE BG BR CA CL CO CZ DE DK DZ EE EG ES ET FI FR GB GH GR HK HR HU ID IE IL IN IR IS IT JO JP KE KR LT LV MA MX MY NG NL NO NZ PE PH PK PL PT RO RS RU SA SE SG SI SK SN TH TN TR TW TZ UA UG US VN YE ZA'/>
+	</atom:category>
+
+	<atom:category term='Games' label='Gaming' xml:lang='en-US'>
+		<yt:assignable/>
+		<yt:browsable regions='AE AR AU BD BE BG BR CA CL CO CZ DE DK DZ EE EG ES ET FI FR GB GH GR HK HR HU ID IE IL IN IR IS IT JO JP KE KR LT LV MA MX MY NG NL NO NZ PE PH PK PL PT RO RS RU SA SE SG SI SK SN TH TN TR TW TZ UA UG US VN YE ZA'/>
+	</atom:category>
+
+</app:categories>

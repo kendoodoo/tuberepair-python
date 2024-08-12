@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed
+    xmlns='http://www.w3.org/2005/Atom'
+    xmlns:media='http://search.yahoo.com/mrss/'
+    xmlns:openSearch='http://a9.com/-/spec/opensearchrss/1.0/'
+    xmlns:gd='http://schemas.google.com/g/2005'
+    xmlns:yt='http://gdata.youtube.com/schemas/2007'>
+    <id>http://gdata.youtube.com/feeds/api/users/youtube/playlists</id>
+    <updated>2011-12-27T20:32:10.466Z</updated>
+    <category scheme='http://schemas.google.com/g/2005#kind' term='http://gdata.youtube.com/schemas/2007#playlistLink'/>
+    <title type='text'>Playlists of youtube</title>
+    <logo>http://www.youtube.com/img/pic_youtubelogo_123x63.gif</logo>
+    <link rel='related' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/users/youtube'/>
+    <link rel='alternate' type='text/html' href='http://www.youtube.com/profile?user=youtube#p/p'/>
+    <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/users/youtube/playlists'/>
+    <link rel='http://schemas.google.com/g/2005#batch' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/users/youtube/playlists/batch'/>
+    <link rel='self' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/users/youtube/playlists?start-index=1&amp;max-results=25'/>
+    <link rel='next' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/users/youtube/playlists?start-index=26&amp;max-results=25'/>
+    <author>
+        <name>youtube</name>
+        <uri>http://gdata.youtube.com/feeds/api/users/youtube</uri>
+    </author>
+    <generator version='2.1' uri='http://gdata.youtube.com'>YouTube data API</generator>
+    <openSearch:totalResults>90</openSearch:totalResults>
+    <openSearch:startIndex>1</openSearch:startIndex>
+    <openSearch:itemsPerPage>25</openSearch:itemsPerPage>
+
+{% for playlist in data %}
+    <entry>
+        <id>http://gdata.youtube.com/feeds/api/users/youtube/playlists/{{playlist['playlistId']}}</id>
+        <published>2011-12-19T22:02:40.000Z</published>
+        <updated>2011-12-27T18:33:18.000Z</updated>
+        <category scheme='http://schemas.google.com/g/2005#kind' term='http://gdata.youtube.com/schemas/2007#playlistLink'/>
+        <title type='text'>{{playlist['title']}}</title>
+        <content type='text'/>
+        <link rel='related' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/users/youtube'/>
+        <link rel='alternate' type='text/html' href='http://www.youtube.com/view_play_list?p={{playlist['playlistId']}}'/>
+        <link rel='self' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/users/youtube/playlists/{{playlist['playlistId']}}'/>
+        <author>
+            <name>{{playlist['author']}}</name>
+            <uri>http://gdata.youtube.com/feeds/api/users/youtube</uri>
+        </author>
+        <yt:description/>
+        <gd:feedLink rel='http://gdata.youtube.com/schemas/2007#playlist' href='http://gdata.youtube.com/feeds/api/playlists/{{playlist['playlistId']}}' countHint='0'/>
+        <media:group>
+            <media:thumbnail url='{{playlist['playlistThumbnail']}}' height='90' width='120' yt:name='default'/>
+            <media:thumbnail url='{{playlist['playlistThumbnail']}}' height='360' width='480' yt:name='hqdefault'/>
+            <yt:duration seconds='60'/>
+        </media:group>
+        <yt:playlistId>{{playlist['playlistId']}}</yt:playlistId>
+    </entry>
+{% endfor %}
+
+</feed>

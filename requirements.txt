@@ -1,0 +1,6 @@
+Flask
+Flask-CacheControl
+Flask-Compress
+Jinja2
+innertube
+requests-cache
