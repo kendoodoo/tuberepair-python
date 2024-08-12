@@ -9,7 +9,6 @@
 
 # What's missing and ideas
 - Add Piped support
-- Server status page
 
 # Setup
 Make sure you have Python 3 and virtualenv installed.
