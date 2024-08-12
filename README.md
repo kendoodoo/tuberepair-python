@@ -35,4 +35,4 @@ Remember to edit config.py, otherwise it will not run properly
 
 - [ObscureMosquito](https://github.com/ObscureMosquito)
 - [SpaceSaver](https://github.com/SpaceSaver)
-- (and me.)
+- (et al.)
