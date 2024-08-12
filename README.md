@@ -1,4 +1,3 @@
-You should know what you're doing. Don't bug other people.
 # TubeRepair custom backend, using Flask and Jinja2.
 - __A self-hosting solution to edit the backend to your likings.__
 - __Fetches API from Invidious with no API authentication needed.__
@@ -8,7 +7,7 @@ You should know what you're doing. Don't bug other people.
 - Cache API responses
 - Customizable config
 
-# Ideas
+# What's missing and ideas
 - Add Piped support
 - Server status page
 
@@ -29,7 +28,7 @@ cd ..
 # Running
 python main.py
 ```
-Remember to edit config.py, otherwise it will not run properly
+Remember to edit config.py, otherwise it will not run properly, Especially HOST and URL.
 
 # Contributors
 
