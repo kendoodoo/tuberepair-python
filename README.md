@@ -1,3 +1,4 @@
+# v0.0.2 will come soon. With a bunch of improvements. And clean code.
 # TubeRepair custom backend, using Flask and Jinja2.
 - __A self-hosting solution to edit the backend to your likings.__
 - __Fetches API from Invidious with no API authentication needed.__
