@@ -25,9 +25,7 @@ pip install -r requirements.txt
 
 # Preparing virtualenv
 virtualenv tuberepair # you can use any name, but for convenience
-cd tuberepair
-source bin/activate
-cd ..
+source tuberepair/bin/activate
 
 # Running
 python main.py
