@@ -1,37 +1,25 @@
 # --------------------- #
-# Version v0.1 (beta 3) #
+# Version v0.0.1 (b3.5) #
 # Author: kendoodoo     #
 # --------------------- #
 
-from flask import Flask, request, jsonify, redirect, send_file
+from flask import Flask, request, jsonify, redirect, send_file, render_template
 from innertube import InnerTube
-from requests_cache import CachedSession
 from flask_compress import Compress
 from uuid import uuid4
 
-# for now
-import requests
-from modules.timeconvert import unix
-import json
-
-# ewwwwww
-import subprocess
-
 # custom function
 import config
-from modules.logs import version
+from modules import logs
+from modules import yt
 import get
 
-version(config.VERSION)
+logs.version(config.VERSION)
 app = Flask(__name__)
 
 # use compression to load faster
 if config.COMPRESS:
     compress = Compress(app)
-
-# cache to not spam the invidious instance
-session = CachedSession('cache/channel_info', expire_after=480)
-session_homepage = CachedSession('cache/featured', expire_after=7200)
 
 # static contents (sort of)
 # --------------------------------------------- #
@@ -45,7 +33,8 @@ def sidebar():
 @app.route("/youtube/accounts/registerDevice", methods=['POST'])
 def login_bypass():
     # return key
-    return f"DeviceId={uuid4().hex}\nDeviceKey={uuid4().hex}"
+    key = uuid4().hex
+    return f"DeviceId={key}\nDeviceKey={key}"
 
 # --------------------------------------------- #
 
@@ -56,11 +45,7 @@ def login_bypass():
 # or experimental
 @app.route("/getvideo/<video_id>")
 def getvideo(video_id):
-
-    # somehow the custom function refused to work
-    client = InnerTube("IOS")
-    data = client.player(str(video_id))
-    streams = data["streamingData"]["hlsManifestUrl"]
+    streams = yt.hls_video_url(str(video_id))
     return redirect(streams, 307)
 
 # --------------------------------------------- #
@@ -78,10 +63,8 @@ def search(channel_id):
 # 2 alternate routes for popular page and search results
 @app.route("/feeds/api/standardfeeds/<regioncode>/<popular>")
 @app.route("/feeds/api/standardfeeds/<popular>")
-def frontpage(regioncode=None, popular=None):
+def frontpage(regioncode="US", popular=None):
     # app requested for region code
-    if not regioncode:
-        regioncode = "US"
     return get.featured_videos(popular, regioncode)
 
 # search results
@@ -95,6 +78,7 @@ def channels():
     return get.search_results(request.args.get('q'), "channel")
 
 # comments
+@app.route("/feeds/api/videos/<videoid>/comments")
 @app.route("/api/videos/<videoid>/comments")
 def comments(videoid):
     return get.comments(videoid)
@@ -116,5 +100,6 @@ def playlists_video(playlist_id):
 
 # --------------------------------------------- #
 
+# god im so gay
 if __name__ == "__main__":
     app.run(port=config.PORT, host="0.0.0.0", debug=config.DEBUG)
