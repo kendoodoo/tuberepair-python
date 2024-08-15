@@ -140,13 +140,13 @@ def uploads(channel_id):
     return output
 
 def channel_playlists(channel_id):
-    data = fetch(f"{config.URL}/api/v1/channels/{channel_id}/latest")
+    data = fetch(f"{config.URL}/api/v1/channels/{channel_id}/playlists")
 
     # get template
     t = env.get_template('channel_playlists.jinja2')
 
     output = t.render({
-        'data': data
+        'data': data['playlists']
     })
     
     return output
