@@ -14,6 +14,7 @@
 - Rate limit
 - Prevent spam via User Agent
 - Out of the box experience
+- Remove all unhinged comments
 
 # Setup
 Make sure you have Python 3 and virtualenv installed.
