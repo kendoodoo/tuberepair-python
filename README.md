@@ -8,8 +8,12 @@
 - Cache API responses
 - Customizable config
 
-# What's missing and ideas
-- Add Piped support
+### Coming soon:
+- Profanity filter
+- IP blacklist and whitelist
+- Rate limit
+- Prevent spam via User Agent
+- Out of the box experience
 
 # Setup
 Make sure you have Python 3 and virtualenv installed.
