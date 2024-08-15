@@ -4,7 +4,6 @@
 # --------------------- #
 
 from flask import Flask, request, jsonify, redirect, send_file, render_template
-from innertube import InnerTube
 from flask_compress import Compress
 from uuid import uuid4
 
