@@ -1,7 +1,6 @@
 # Version v0.0.1 (beta-3.5)
 from flask import Flask, request, redirect, send_file
 from flask_compress import Compress
-from innertube import InnerTube
 from uuid import uuid4
 
 # custom function
