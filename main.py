@@ -1,18 +1,14 @@
-# --------------------- #
-# Version v0.0.1 (b3.5) #
-# Author: kendoodoo     #
-# --------------------- #
-
-from flask import Flask, request, jsonify, redirect, send_file, render_template
+# Version v0.0.1 (beta-3.5)
+from flask import Flask, request, redirect, send_file
 from flask_compress import Compress
+from innertube import InnerTube
 from uuid import uuid4
 
 # custom function
 import config
-from modules import logs
-from modules import yt
-import get
+from modules import logs, yt, get
 
+# Load version
 logs.version(config.VERSION)
 app = Flask(__name__)
 
@@ -31,20 +27,20 @@ def sidebar():
 # bypass login
 @app.route("/youtube/accounts/registerDevice", methods=['POST'])
 def login_bypass():
-    # return key
+    # return random key
     key = uuid4().hex
     return f"DeviceId={key}\nDeviceKey={key}"
 
 # --------------------------------------------- #
 
-# still in testing
+# images and videos
+# in testing
 # --------------------------------------------- #
 
 # fetches video from innertube.
-# or experimental
 @app.route("/getvideo/<video_id>")
 def getvideo(video_id):
-    streams = yt.hls_video_url(str(video_id))
+    streams = yt.hls_video_url(video_id)
     return redirect(streams, 307)
 
 # --------------------------------------------- #
@@ -53,7 +49,6 @@ def getvideo(video_id):
 # --------------------------------------------- #
 
 # get channel info
-# TODO: get likes and dislikes (nvm you can't)
 @app.route("/feeds/api/channels/<channel_id>")
 def search(channel_id):
     return get.channel_info(channel_id)
@@ -66,18 +61,19 @@ def frontpage(regioncode="US", popular=None):
     # app requested for region code
     return get.featured_videos(popular, regioncode)
 
-# search results
+# search for videos
 @app.route("/feeds/api/videos")
 def search_videos():
-    return get.search_results(request.args.get('q'), "video")
+    query = request.args.get('q')
+    return get.search_results(query, "video")
 
 # search for channels
 @app.route("/feeds/api/channels")
 def channels():
-    return get.search_results(request.args.get('q'), "channel")
+    query = request.args.get('q')
+    return get.search_results(query, "channel")
 
-# comments
-@app.route("/feeds/api/videos/<videoid>/comments")
+# video comments
 @app.route("/api/videos/<videoid>/comments")
 def comments(videoid):
     return get.comments(videoid)
@@ -99,6 +95,6 @@ def playlists_video(playlist_id):
 
 # --------------------------------------------- #
 
-# god im so gay
+# config
 if __name__ == "__main__":
     app.run(port=config.PORT, host="0.0.0.0", debug=config.DEBUG)

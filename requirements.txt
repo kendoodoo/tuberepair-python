@@ -3,3 +3,4 @@ Flask-CacheControl
 Flask-Compress
 Jinja2
 requests-cache
+requests
