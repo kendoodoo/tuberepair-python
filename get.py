@@ -1,12 +1,7 @@
-# -------------------------- #
-#    DON'T EVEN COMPLAIN.    #
-# -------------------------- #
-
-from urllib.request import urlopen
 from requests_cache import CachedSession
 from jinja2 import Environment, FileSystemLoader
+from datetime import timedelta
 from modules.timeconvert import unix
-import datetime
 import requests
 import json
 
@@ -15,27 +10,29 @@ import config
 from modules.logs import text
 
 # cache to not spam the invidious instance
-session = CachedSession('cache/channel_info', expire_after=300)
-session_homepage = CachedSession('cache/featured', expire_after=3600)
+session = CachedSession('cache/info', expire_after=timedelta(hours=1))
 
 # jinja2 path
 env = Environment(loader=FileSystemLoader('templates'))
+
+# simplify requests
+def fetch(url):
+    url = session.get(url)
+    data = url.json()
+    return data
 
 # search results, for both videos and channels
 def search_results(query, category):
     # remove space character
     search_keyword = query.replace(" ", "%20")
-
     
     # print logs if enabled
-    # guilty lol
     if config.SPYING == True:
         text('Searched: ' + query)
     
     # search by videos
     if category == "video":
-        url = session.get(f"https://{config.URL}/api/v1/search?q={search_keyword}&type=video")
-        data = url.json()
+        data = fetch(f"{config.URL}/api/v1/search?q={search_keyword}&type=video")
         t = env.get_template('search_results.jinja2')
 
         output = t.render({
@@ -48,8 +45,7 @@ def search_results(query, category):
 
     # search by channels
     if category == "channel":
-        url = requests.get(f"https://{config.URL}/api/v1/search?q={search_keyword}&type=channel")
-        data = url.json()
+        data = fetch(f"{config.URL}/api/v1/search?q={search_keyword}&type=channel")
 
         t = env.get_template('search_results_channel.jinja2')
 
@@ -64,21 +60,20 @@ def search_results(query, category):
 def featured_videos(popular, regioncode):
     # trending videos categories
     # there is better way to do this, but for now Freaky...
-    apiurl = "https://" + config.URL + "/api/v1/trending?region=" + regioncode
+    apiurl = config.URL + "/api/v1/trending?region=" + regioncode
     if popular == "most_popular_Film":
-        apiurl = f"https://{config.URL}/api/v1/trending?type=Movies&region={regioncode}"
+        apiurl = f"{config.URL}/api/v1/trending?type=Movies&region={regioncode}"
     if popular == "most_popular_Games":
-        apiurl = f"https://{config.URL}/api/v1/trending?type=Gaming&region={regioncode}"
+        apiurl = f"{config.URL}/api/v1/trending?type=Gaming&region={regioncode}"
     if popular == "most_popular_Music":
-        apiurl = f"https://{config.URL}/api/v1/trending?type=Music&region={regioncode}"
+        apiurl = f"{config.URL}/api/v1/trending?type=Music&region={regioncode}"
 
     # print logs if enabled
     if config.SPYING == True:
         text("Region code: " + regioncode)
 
     # fetch api from invidious
-    url = session_homepage.get(apiurl)
-    data = url.json()
+    data = fetch(apiurl)
     
     # get template
     t = env.get_template('featured.jinja2')
@@ -93,8 +88,7 @@ def featured_videos(popular, regioncode):
 
 def comments(videoid):
     # fetch invidious comments api
-    url = session_homepage.get(f"https://{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}")
-    data = url.json()
+    data = fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}")
 
     # get template
     t = env.get_template('comments.jinja2')
@@ -110,8 +104,7 @@ def comments(videoid):
 
 def channel_info(channel_id):
     # fetch from... you guessed it
-    url = session.get(f"https://{config.URL}/api/v1/channels/{channel_id}")
-    data = url.json()
+    data = fetch(f"{config.URL}/api/v1/channels/{channel_id}")
 
     # wow being not lazy is ea-zy
     channel_url = data['authorId']
@@ -133,8 +126,7 @@ def channel_info(channel_id):
     return output
 
 def uploads(channel_id):
-    url = requests.get(f"https://{config.URL}/api/v1/channels/{channel_id}/latest")
-    data = url.json()
+    data = fetch(f"{config.URL}/api/v1/channels/{channel_id}/latest")
 
     # get template
     t = env.get_template('uploads.jinja2')
@@ -148,8 +140,7 @@ def uploads(channel_id):
     return output
 
 def channel_playlists(channel_id):
-    url = requests.get(f"https://{config.URL}/api/v1/channels/{channel_id}/latest")
-    data = url.json()
+    data = fetch(f"{config.URL}/api/v1/channels/{channel_id}/latest")
 
     # get template
     t = env.get_template('channel_playlists.jinja2')
@@ -161,8 +152,7 @@ def channel_playlists(channel_id):
     return output
 
 def playlist_videos(playlist_id):
-    url = requests.get(f"https://{config.URL}/api/v1/playlists/{playlist_id}")
-    data = url.json()
+    data = fetch(f"{config.URL}/api/v1/playlists/{playlist_id}")
 
     # get template
     t = env.get_template('playlist_videos.jinja2')
