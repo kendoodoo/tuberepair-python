@@ -21,16 +21,16 @@ Make sure you have Python 3 and virtualenv installed.
 # Download
 git clone https://github.com/kendoodoo/tuberepair-backend
 cd tuberepair-backend
-pip install -r requirements.txt
 
 # Preparing virtualenv
 virtualenv tuberepair # you can use any name, but for convenience
 source tuberepair/bin/activate
+pip install -r requirements.txt
 
 # Running
+Remember to edit config.py before running set HOST to your server ip (yes i havent think anything better)
 python main.py
 ```
-Remember to edit config.py, otherwise it will not run properly, Especially HOST and URL.
 
 # Contributors
 
