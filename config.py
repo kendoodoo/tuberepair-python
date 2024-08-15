@@ -1,26 +1,22 @@
 # -- DEV ZONE -- #
 # You can change this to anything
-VERSION = "v.0.1-beta3"
-
+VERSION = "v0.0.2-alpha"
 # -------------- #
 
 # -- General -- #
 
 # Point to what address
 # your current ip if you're local, or domain
+# include http:// or https://
 HOST = ""
 
-# HTTP protocol
-# if your own instance is not secure go with http (default: https)
-HTTP = "https"
-
-# Set invidious instance
-# remove the http:// or https://
-URL = "inv.tux.pizza"
+# Set indivious instance
+# add http:// or https://
+URL = "https://inv.tux.pizza"
 
 # Set port
-# Anything around 1000-9000
-PORT = "5000"
+# Anything around 1000-10000
+PORT = "4000"
 
 # Debug mode 
 # recommended True if you want to fix the code and auto reload
