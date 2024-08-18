@@ -1,5 +1,5 @@
 # Version v0.0.1 (beta-3.5)
-from flask import Flask, request, redirect, send_file
+from flask import Flask, request, redirect, send_file, Response
 from flask_compress import Compress
 from uuid import uuid4
 
@@ -39,8 +39,8 @@ def login_bypass():
 # fetches video from innertube.
 @app.route("/getvideo/<video_id>")
 def getvideo(video_id):
-    streams = yt.hls_video_url(video_id)
-    return redirect(streams, 307)
+    streams = yt.hls_video(video_id)
+    return Response(streams, mimetype="application/vnd.apple.mpegurl")
 
 # --------------------------------------------- #
 
