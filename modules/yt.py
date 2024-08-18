@@ -1,6 +1,14 @@
 import requests, re
+import requests_cache
+from datetime import timedelta
 
-def hls_video(video_id):
+session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(hours=4), ignored_parameters=['key'])
+
+api_key = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8'
+
+
+
+def hls_video_url(video_id):
 
     header_data = {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/98.2  Mobile/15E148 Safari/605.1.15"
@@ -14,7 +22,7 @@ def hls_video(video_id):
         "videoId": video_id
     }
     
-    data = requests.post('https://www.youtube.com/youtubei/v1/player?key=AIzaSyB-63vPrdThhKuerbB2N_l7Kwwcxj6yUAc', json=json_data, headers=header_data).json()
+    data = requests.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, headers=header_data).json()
     panda = requests.get(data["streamingData"]["hlsManifestUrl"]).text.split("\n")
     formatfilter = re.compile(r"^#EXT-X-STREAM-INF:BANDWIDTH=(?P<bandwidth>\d+),CODECS=\"(?P<codecs>[^\"]+)\",RESOLUTION=(?P<width>\d+)x(?P<height>\d+),FRAME-RATE=(?P<fps>\d+),VIDEO-RANGE=(?P<videoRange>[^,]+),AUDIO=\"(?P<audioGroup>[^\"]+)\"(,SUBTITLES=\"(?P<subGroup>[^\"]+)\")?")
     vertical = None
