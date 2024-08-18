@@ -7,7 +7,7 @@ VERSION = "v0.0.2-alpha2"
 
 # get 360p video
 # loads a ton faster
-MEDIUM_QUALITY = False
+MEDIUM_QUALITY = True
 
 # Set indivious instance
 # NOTE: for info fetching only right now. I might go full innertube soon.

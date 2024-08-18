@@ -39,11 +39,11 @@ def login_bypass():
 # fetches video from innertube.
 @app.route("/getvideo/<video_id>")
 def getvideo(video_id):
-    if config.MEDIUM_QUALITY:
-        return Response(yt.hls_video(video_id), mimetype="application/vnd.apple.mpegurl")
+    if not config.MEDIUM_QUALITY:
+        return Response(yt.hls_video_url(video_id), mimetype="application/vnd.apple.mpegurl")
     else:
         # 360p will be feed if enabled
-        return redirect(yt.hls_video_url(video_id), 307)
+        return redirect(yt.medium_quality_video_url(video_id), 307)
 
 # --------------------------------------------- #
 
