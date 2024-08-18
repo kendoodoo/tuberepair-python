@@ -22,7 +22,7 @@ def fetch(url):
     return data
 
 # search results, for both videos and channels
-def search_results(query, category):
+def search_results(query, category, url):
     # remove space character
     search_keyword = query.replace(" ", "%20")
     
@@ -38,7 +38,7 @@ def search_results(query, category):
         output = t.render({
             'data': data[:config.SEARCHED_VIDEOS],
             'unix': unix,
-            'url': config.HOST
+            'url': url
         })
 
         return output
@@ -51,13 +51,13 @@ def search_results(query, category):
 
         output = t.render({
             'data': data,
-            'url': config.HOST
+            'url': url
         })
 
         return output
 
 # featured videos
-def featured_videos(popular, regioncode):
+def featured_videos(popular, regioncode, url):
     # trending videos categories
     # there is better way to do this, but for now Freaky...
     apiurl = config.URL + "/api/v1/trending?region=" + regioncode
@@ -81,12 +81,12 @@ def featured_videos(popular, regioncode):
     output = t.render({
         'data': data[:config.FEATURED_VIDEOS],
         'unix': unix,
-        'url': config.HOST
+        'url': url
     })
 
     return output
 
-def comments(videoid):
+def comments(videoid, url):
     # fetch invidious comments api
     data = fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}")
 
@@ -96,13 +96,13 @@ def comments(videoid):
     output = t.render({
         'data': data['comments'],
         'unix': unix,
-        'url': config.HOST
+        'url': url
     })
 
     return output
 
 
-def channel_info(channel_id):
+def channel_info(channel_id, url):
     # fetch from... you guessed it
     data = fetch(f"{config.URL}/api/v1/channels/{channel_id}")
 
@@ -120,12 +120,12 @@ def channel_info(channel_id):
         'author_id': channel_url,
         'channel_pic_url': channel_pic_url,
         'subcount': sub_count,
-        'url': config.HOST
+        'url': url
     })
 
     return output
 
-def uploads(channel_id):
+def uploads(channel_id, url):
     data = fetch(f"{config.URL}/api/v1/channels/{channel_id}/latest")
 
     # get template
@@ -134,24 +134,24 @@ def uploads(channel_id):
     output = t.render({
         'data': data['videos'],
         'unix': unix,
-        'url': config.HOST
+        'url': url
     })
 
     return output
 
-def channel_playlists(channel_id):
-    data = fetch(f"{config.URL}/api/v1/channels/{channel_id}/playlists")
+def channel_playlists(channel_id, url):
+    data = fetch(f"{config.URL}/api/v1/channels/{channel_id}/latest")
 
     # get template
     t = env.get_template('channel_playlists.jinja2')
 
     output = t.render({
-        'data': data['playlists']
+        'data': data
     })
     
     return output
 
-def playlist_videos(playlist_id):
+def playlist_videos(playlist_id, url):
     data = fetch(f"{config.URL}/api/v1/playlists/{playlist_id}")
 
     # get template
@@ -160,7 +160,7 @@ def playlist_videos(playlist_id):
     output = t.render({
         'data': data,
         'unix': unix,
-        'url': config.HOST
+        'url': url
     })
     
     return output
