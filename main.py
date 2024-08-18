@@ -1,6 +1,7 @@
 # Version v0.0.1 (beta-3.5)
 from flask import Flask, request, redirect, send_file, Response
 from flask_compress import Compress
+from innertube import InnerTube
 from uuid import uuid4
 
 # custom function
@@ -39,8 +40,11 @@ def login_bypass():
 # fetches video from innertube.
 @app.route("/getvideo/<video_id>")
 def getvideo(video_id):
-    streams = yt.hls_video(video_id)
-    return Response(streams, mimetype="application/vnd.apple.mpegurl")
+    if config.MEDIUM_QUALITY:
+        return Response(yt.hls_video(video_id), mimetype="application/vnd.apple.mpegurl")
+    else:
+        # 360p will be feed if enabled
+        return redirect(yt.hls_video_url(video_id), 307)
 
 # --------------------------------------------- #
 
@@ -50,7 +54,7 @@ def getvideo(video_id):
 # get channel info
 @app.route("/feeds/api/channels/<channel_id>")
 def search(channel_id):
-    return get.channel_info(channel_id)
+    return get.channel_info(channel_id, request.url_root)
 
 # featured videos
 # 2 alternate routes for popular page and search results
@@ -58,39 +62,39 @@ def search(channel_id):
 @app.route("/feeds/api/standardfeeds/<popular>")
 def frontpage(regioncode="US", popular=None):
     # app requested for region code
-    return get.featured_videos(popular, regioncode)
+    return get.featured_videos(popular, regioncode, request.url_root)
 
 # search for videos
 @app.route("/feeds/api/videos")
 def search_videos():
     query = request.args.get('q')
-    return get.search_results(query, "video")
+    return get.search_results(query, "video", request.url_root)
 
 # search for channels
 @app.route("/feeds/api/channels")
 def channels():
     query = request.args.get('q')
-    return get.search_results(query, "channel")
+    return get.search_results(query, "channel", request.url_root)
 
 # video comments
 @app.route("/api/videos/<videoid>/comments")
 def comments(videoid):
-    return get.comments(videoid)
+    return get.comments(videoid, request.url_root)
 
 # uploaded videos
 @app.route("/feeds/api/users/<channel_id>/uploads")
 def uploads(channel_id):
-    return get.uploads(channel_id)
+    return get.uploads(channel_id, request.url_root)
 
 # get playlists
 @app.route("/feeds/api/users/<channel_id>/playlists")
 def playlists(channel_id):
-    return get.channel_playlists(channel_id)
+    return get.channel_playlists(channel_id, request.url_root)
 
 # get playlist's video
 @app.route("/feeds/api/playlists/<playlist_id>")
 def playlists_video(playlist_id):
-    return get.playlist_videos(playlist_id)
+    return get.playlist_videos(playlist_id, request.url_root)
 
 # --------------------------------------------- #
 
