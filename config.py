@@ -1,16 +1,16 @@
 # -- DEV ZONE -- #
 # You can change this to anything
-VERSION = "v0.0.2-alpha"
+VERSION = "v0.0.2-alpha2"
 # -------------- #
 
 # -- General -- #
 
-# Point to what address
-# your current ip if you're local, or domain
-# include http:// or https://
-HOST = ""
+# get 360p video
+# loads a ton faster
+MEDIUM_QUALITY = False
 
 # Set indivious instance
+# NOTE: for info fetching only right now. I might go full innertube soon.
 # add http:// or https://
 URL = "https://inv.tux.pizza"
 
@@ -26,11 +26,11 @@ DEBUG = True
 # Don't judge people on their search lol
 SPYING = True
 
-# -- Custom functions ZONE! -- #
-
 # Compress response
-# Really helps squeezing it down
+# Really helps squeezing it down, about 80%
 COMPRESS = True
+
+# -- Custom functions ZONE! -- #
 
 # Number of featured videos (including categories)
 # max: 50
@@ -47,8 +47,3 @@ COMMENTS = 15
 # Sort comments
 # "newest", "popular"
 SORT_COMMENTS = "popular"
-
-# Thumbnail quality
-# from 5 to 1 ascending: (5) 120x90, (4) 320x180, (3) 480x360, (2) 640x480, (1) 1280x720
-# 3 and 2 recommended, 4 for lightweight loading
-THUMBNAIL_QUALITY = 3
