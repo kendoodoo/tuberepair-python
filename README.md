@@ -11,12 +11,6 @@ A server is live right now, thanks to nugg3t! https://tuberepair.nugg3t.xyz/
 - Cache API responses
 - Customizable config
 
-### Coming soon:
-- IP blacklist (and whitelist)
-- Rate limit, for search and videos (Defaulting to 10/per min videos and search, each)
-- Intense caching
-- Out of the box experience
-
 ### In the future
 - Based all requests via innertube (ditching invidious and request to youtube Private API directly)
 
