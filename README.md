@@ -38,6 +38,5 @@ python main.py
 # Contributors
 
 - [kendoodoo](https://github.com/kendoodoo)
-- [ObscureMosquito](https://github.com/ObscureMosquito) (Resources)
 - [SpaceSaver](https://github.com/SpaceSaver) (A bunch of ideas, HLS playback filter)
 - (et al.)
