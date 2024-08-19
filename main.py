@@ -1,7 +1,5 @@
 # Version v0.0.1 (beta-3.5)
 from flask import Flask, request, redirect, send_file, render_template, Response
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 from flask_compress import Compress
 from uuid import uuid4
 
