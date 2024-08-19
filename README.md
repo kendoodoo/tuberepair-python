@@ -20,7 +20,7 @@ A server is live right now, thanks to nugg3t! https://tuberepair.nugg3t.xyz/
 - Based all requests via innertube (ditching invidious and request to youtube Private API directly)
 
 # Setup
-Make sure you have Python 3 and virtualenv installed.
+Make sure you have Python 3 and virtualenv (optional) installed.
 ```bash
 # Download
 git clone https://github.com/kendoodoo/tuberepair-backend
