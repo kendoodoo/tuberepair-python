@@ -2,14 +2,13 @@
 - __A self-hosting solution to edit the backend to your likings.__
 - __Fetches API from Invidious with no API authentication needed.__
 - Works from 1.0.0 to 1.2.1
-- ⚠️ This project is still in beta. You can help or suggest ideas in [bag's discord](https://discord.bag-xml.com) ⚠️
+- ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
 
 # Features
 - Cache API responses
 - Customizable config
 
 ### Coming soon:
-- Profanity filter
 - IP blacklist (and whitelist)
 - Rate limit, for search and videos (Defaulting to 10/per min videos and search, each)
 - Intense caching
