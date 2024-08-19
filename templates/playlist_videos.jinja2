@@ -18,8 +18,8 @@
 	<link rel='service' type='application/atomsvc+xml' href='{{url}}/feeds/api/playlists/8E2186857EE27746?alt=atom-service&amp;v=2'/>
 	<author>
 		<name>YouTube</name>
-		<uri>{{url}}/feeds/api/users/{{video['authorId']}}</uri>
-		<yt:userId>{{video['authorId']}}</yt:userId>
+		<uri>{{url}}/feeds/api/users/</uri>
+		<yt:userId></yt:userId>
 	</author>
 	<generator version='2.1' uri='{{url}}'>YouTube video API</generator>
 <openSearch:totalResults>9</openSearch:totalResults>
@@ -29,8 +29,8 @@
 {% for video in data %}
 	<entry gd:etag='W/&quot;YDwqeyM.&quot;'>
 		<id>tag:youtube.com,2008:playlist:{{video['videoId']}}:{{video['videoId']}}</id>
-		<published>{{unix(video['published'])}}</published>
-		<updated>{{unix(video['published'])}}</updated>
+		<published>2012-08-23T12:33:58.000Z</published>
+		<updated>2012-08-23T12:33:58.000Z</updated>
 		<category scheme='https://schemas.google.com/g/2005#kind' term='{{url}}/schemas/1970#video'/>
 		<category scheme='{{url}}/schemas/1970/categories.cat' term='Howto' label='Howto &amp; Style'/>
 		<title>{{video['title']}}</title>
@@ -80,7 +80,7 @@
             <media:content url="{{url}}//{{video['videoId']}}.3gpp" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="9" />
 			<media:title type='plain'>{{video['title']}}</media:title>
 			<yt:duration seconds='{{video['lengthSeconds']}}'/>
-			<yt:uploaded>{{unix(video['published'])}}</yt:uploaded>
+			<yt:uploaded>2012-08-23T12:33:58.000Z</yt:uploaded>
 			<yt:uploaderId>{{video['authorId']}}</yt:uploaderId>
 			<yt:videoid>{{video['videoId']}}</yt:videoid>
 		</media:group>

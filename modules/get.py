@@ -139,26 +139,27 @@ def uploads(channel_id, url):
 
     return output
 
-def channel_playlists(channel_id):
+def channel_playlists(channel_id, url):
     data = fetch(f"{config.URL}/api/v1/channels/{channel_id}/playlists")
 
     # get template
     t = env.get_template('channel_playlists.jinja2')
 
     output = t.render({
-        'data': data['playlists']
+        'data': data['playlists'],
+        'url': url
     })
     
     return output
 
-def playlist_videos(playlist_id , url):
+def playlist_videos(playlist_id, url):
     data = fetch(f"{config.URL}/api/v1/playlists/{playlist_id}")
 
     # get template
     t = env.get_template('playlist_videos.jinja2')
 
     output = t.render({
-        'data': data,
+        'data': data['videos'],
         'unix': unix,
         'url': url
     })

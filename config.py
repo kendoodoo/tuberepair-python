@@ -1,36 +1,41 @@
 # -- DEV ZONE -- #
 # You can change this to anything
-VERSION = "v0.0.2-alpha2"
+VERSION = "v0.0.2-beta1"
 # -------------- #
 
 # -- General -- #
 
 # get 360p video
-# loads a ton faster
+# NOTE: loads a ton faster
 MEDIUM_QUALITY = True
 
 # Set indivious instance
-# NOTE: for info fetching only right now. I might go full innertube soon.
+# NOTE: for info fetching only right now.
 # add http:// or https://
 URL = "https://inv.tux.pizza"
 
 # Set port
 # Anything around 1000-10000
+# NOTE: set common ports so you can remember it.
 PORT = "4000"
 
+# Rate limiting
+# Useful if you're hosting it for dozens of people. To prevent spam.
+RATE_LIMITING = False
+
 # Debug mode 
-# recommended True if you want to fix the code and auto reload
+# NOTE: recommended True if you want to fix the code and auto reload
 DEBUG = True
 
 # Spying on stuff
-# Don't judge people on their search lol
+# NOTE: Don't judge people on their search lol
 SPYING = True
 
 # Compress response
-# Really helps squeezing it down, about 80%
+# NOTE: Really helps squeezing it down, about 80%. Won't affect potato PC that much.
 COMPRESS = True
 
-# -- Custom functions ZONE! -- #
+# -- Custom functions -- #
 
 # Number of featured videos (including categories)
 # max: 50
