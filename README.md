@@ -34,5 +34,5 @@ python main.py
 # Contributors
 
 - [kendoodoo](https://github.com/kendoodoo)
-- [SpaceSaver](https://github.com/SpaceSaver) (A bunch of ideas, HLS playback filter)
+- [SpaceSaver](https://github.com/SpaceSaver) (YouTube Private API, HLS playback filter)
 - (et al.)
