@@ -3,8 +3,8 @@ import requests_cache
 from datetime import timedelta
 import ua_generator
 
-# Videos expires after 5 hours, so you don't have to worry.
-session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(hours=4), ignored_parameters=['key'])
+# Videos expires after 6 hours, so you don't have to worry.
+session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(hours=5), ignored_parameters=['key'])
 
 # hard-coded API Key, so no limit at all.
 api_key = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8'
