@@ -1,8 +1,7 @@
-# v0.0.2 is out! Try it.
 # TubeRepair custom backend, using Flask and Jinja2.
 - __A self-hosting solution to edit the backend to your likings.__
 - __Fetches API from Invidious with no API authentication needed.__
-- Works from 1.0.0 to 1.2.1
+- Works from 1.0.0 to 1.2.1 (Classic YouTube soon!)
 - ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
 
 The code is live right now, thanks to nugg3t! https://tuberepair.nugg3t.xyz/
