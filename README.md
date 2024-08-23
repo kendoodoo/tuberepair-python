@@ -18,7 +18,7 @@ Thanks to nugg3t for the hosting: https://tuberepair.nugg3t.xyz/
 Make sure you have Python 3 and virtualenv (optional) installed.
 ```bash
 # Download
-git clone https://github.com/kendoodoo/tuberepair-backend
+git clone https://github.com/kendoodoo/tuberepair-python
 cd tuberepair-backend
 
 # Preparing virtualenv
