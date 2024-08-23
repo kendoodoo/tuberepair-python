@@ -3,26 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>unstable</title>
+    <title>{{version}}</title>
     <style>
         body {
-            margin: 0;
-            padding: 1em;
-            font-family: helveticaneue;
-            margin-left: auto;
-            margin-right: auto;
+            margin:1em;
+        }
+        @media only screen and (max-width: 700px) {
+            #title {
+              font-size: 1.65em;
+              margin-top: 8px;
+            }
+          }
+
+        /* container */
+        #ee {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: 0 auto;
             max-width: 100%;
+            min-width: 200px;
             width: 700px;
+        }
+        /* default hr sucks */
+        #hr {
+            width: auto;
+            height: 1px;
+            background-color: black;
+        }
+        #title {
+            font-size: calc(1.5em + 1vmin);
+        }
+        #credits {
+            color:rgb(150, 150, 150);
+        }
+        #link-box {
+            border: 1px solid grey;
+            border-radius: 5px;
+        }
+        #link-box a {
+            color: green;
         }
     </style>
 </head>
 <body>
-    <h1><img src="/static/warning.gif"> TubeRepair server ({{version}})</h1>
-    <hr>
-    <p>Welcome to my backend. This was wrote in Python for the TubeRepair tweak by bag.xml (et al).</p>
-    <p>This is now considered (kinda) stable, so check it out: <a href="https://github.com/kendoodoo/tuberepair-python">tuberepair-python</a> (github)</p>
-    <h3>How can you add my server?</h3>
-    <p>Open TubeRepair's setting and change the custom URL (don't forget "/" at the end!)</p>
-    <br><center><img src="/static/example.jpg" width="300px"><br><br><small style="color:grey">psst, look at the url bar instead :)</small></center>
+    <div id="ee">
+    <h1 id="title"><img src="data:image/png;base64,R0lGODlhGAAYAPMAAP////vzBf9kA90JB/IIhEcApQAA0wKr6h+3FABkElYsBZBxOr+/v4CAgEBAQAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/h1HaWZCdWlsZGVyIDAuMiBieSBZdmVzIFBpZ3VldAAh+QQNZAAMACwAAAAAGAAYAEMEZ5DJSRkANWcwOngP52lWN1xoipoYWZqjK4nnBa7xDO9832q0k2zDov1cxk/ISEralhcWxYm6qaSvnhaLzA2nvOMwyZVRy8CiFQ32PHFCYlEJj0+CqmsZprLWMXh5gnxBW1stgokqEhEAIfkEDWQADAAsAAAAABgAGABDBGCQyUkZADVnMPq93YBpnPedZzhqVqiyVCmioBe7eK6vm8vDE1lNBJQIUS+SivZJGpdMpK2lq/qKpV/xidPCjk7gcei9mVJT5VlK7EHZ7aAvKosz5vQ6Rp9vLq2ASX10EhEAOw==
+"> TubeRepair server</h1>
+    <div id="hr"></div>
+    <p>This was written in Python as a backend for the TubeRepair tweak by <a href="https://github.com/bag-xml">bag.xml</a> (et al).</p>
+    <p>Check it out via Github: <a href="https://github.com/kendoodoo/tuberepair-python">tuberepair-python</a></p>
+    <h3>How to add this server:</h3>
+    <center>
+        <p>Open TubeRepair's setting and change the custom URL to:</p>
+        <div id="link-box"><b><a href="/"><p id="url">js is not available</p></a></b></div>
+        <p id="credits">(hold to copy)</p>
+    </center>
+    <br>
+    </div>
 </body>
+<script>
+// the slash at the end for crap tweak to work
+document.getElementById('url').innerHTML = window.location.origin + "/"
+</script>
 </html>
