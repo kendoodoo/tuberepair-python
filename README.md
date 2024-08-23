@@ -19,7 +19,7 @@ Make sure you have Python 3 and virtualenv (optional) installed.
 ```bash
 # Download
 git clone https://github.com/kendoodoo/tuberepair-python
-cd tuberepair-backend
+cd tuberepair-python
 
 # Preparing virtualenv
 # You can just skip to pip, but for good measures.
