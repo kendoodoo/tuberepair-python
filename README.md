@@ -4,7 +4,7 @@
 - Works from 1.0.0 to 1.2.1 (Classic YouTube soon!)
 - ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
 
-The code is live right now, thanks to nugg3t! https://tuberepair.nugg3t.xyz/
+Thanks to nugg3t for the hosting: https://tuberepair.nugg3t.xyz/
 
 # Features
 - Cache API responses
