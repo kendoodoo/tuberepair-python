@@ -3,6 +3,7 @@
 - __Fetches API from Invidious with no key needed.__
 - Works from 1.0.0 to 1.2.1 (Classic YouTube soon!)
 - ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
+- (To bag.xml: I'm not fixing it)
 
 Thanks to nugg3t for the hosting: https://tuberepair.nugg3t.xyz/
 
