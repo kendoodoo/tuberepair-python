@@ -16,7 +16,7 @@ Thanks to nugg3t for the hosting: https://tuberepair.nugg3t.xyz/
 - Private server with password protection and secrets
 
 # Setup
-Make sure you have Python 3 and virtualenv (optional) installed.
+Make sure you have Python (3.8 minimum) and virtualenv (optional) installed.
 ```bash
 # Download
 git clone https://github.com/kendoodoo/tuberepair-python
