@@ -1,7 +1,7 @@
 # TubeRepair server, using Flask and Jinja2.
 - __A self-hosting solution, edit the backend to your likings.__
 - __Fetches API from Invidious with no key needed.__
-- Works from 1.0.0 to 1.2.1 (Classic YouTube soon!)
+- Works from 1.1.0 to 1.2.1 (Classic YouTube soon! And even 2.2.0!)
 - ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
 - (To bag.xml: I'm not fixing it)
 
