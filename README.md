@@ -32,8 +32,17 @@ pip install -r requirements.txt
 python main.py
 ```
 
-# Contributors
+# Credits
 
+### Contributors
 - [kendoodoo](https://github.com/kendoodoo)
+- [Nishijima Akito](https://github.com/shijimasoft) (Youtube Classic)
 - [SpaceSaver](https://github.com/SpaceSaver) (YouTube Private API, HLS playback filter)
 - (et al.)
+
+### Code
+I will not copy code that explicitly states "do not modify".
+- https://github.com/ftde0/yt2009
+__without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software__
+- https://github.com/tombulled/innertube
+__You may reproduce and distribute copies of the Work or Derivative Works thereof in any medium, with or without modifications__
