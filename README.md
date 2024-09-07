@@ -6,7 +6,6 @@
 
 ### Current servers (Thanks for the hosting!):
 - https://tuberepair.nugg3t.xyz/
-- https://tuberepair.skyglow.es/ (You could've mention it was a fork...)
 - https://tuberepair.uptimetrackers.com/
 
 # Features
