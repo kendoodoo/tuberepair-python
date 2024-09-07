@@ -3,9 +3,11 @@
 - __Fetches API from Invidious with no key needed.__
 - Works from 1.1.0 to 1.2.1 (Classic YouTube soon! And even 2.2.0!)
 - ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
-- (To bag.xml: I'm not fixing it)
 
-Thanks to nugg3t for the hosting: https://tuberepair.nugg3t.xyz/
+### Current servers (Thanks for the hosting!):
+- https://tuberepair.nugg3t.xyz/
+- https://tuberepair.skyglow.es/ (You could've mention it was a fork...)
+- https://tuberepair.uptimetrackers.com/
 
 # Features
 - Cache API responses
