@@ -2,6 +2,8 @@
 from flask import Flask, request, redirect, send_file, render_template, Response
 from flask_compress import Compress
 from uuid import uuid4
+import hashlib
+import random
 
 # custom function
 import config
@@ -29,10 +31,24 @@ def sidebar():
 
 # bypass login
 @app.route("/youtube/accounts/registerDevice", methods=['POST'])
+@app.route("/youtube/accounts/applelogin1", methods=['POST'])
+@app.route("/youtube/accounts/applelogin2", methods=['POST'])
 def login_bypass():
-    # return random key
-    key = uuid4().hex
-    return f"DeviceId={key}\nDeviceKey={key}"
+    r2 = hashlib.md5(str(random.randint(1, 1000)).encode()).hexdigest()
+    hmackr2 = hashlib.md5(str(random.randint(1, 1000)).encode()).hexdigest()
+    auth = hashlib.md5(str(random.randint(1, 1000)).encode()).hexdigest()
+    device_id_1 = hashlib.md5(str(random.randint(1, 1000)).encode()).hexdigest()
+    device_key_1 = hashlib.md5(str(random.randint(1, 1000)).encode()).hexdigest()
+    device_id_2 = hashlib.md5(str(random.randint(1, 1000)).encode()).hexdigest()
+    device_key_2 = "ULxlVAAVMhZ2GeqZA/X1GgqEEIP1ibcd3S+42pkWfmk="
+
+    # Returning all outputs
+    return (
+        f"r2={r2}\nhmackr2={hmackr2}\n\n"
+        f"Auth={auth}\n\n"
+        f"DeviceId={device_id_1}\nDeviceKey={device_key_1}\n\n"
+        f"DeviceId={device_id_2}\nDeviceKey={device_key_2}"
+    )
 
 # --------------------------------------------- #
 
