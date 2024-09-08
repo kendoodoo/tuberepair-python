@@ -1,4 +1,4 @@
-# beta 1.5 coming soon!
+# beta 1.5 coming soon! (oinkey donkey)
 # TubeRepair server, using Flask and Jinja2.
 - __Works out of the box, edit the backend to your likings.__
 - __Fetches from Youtube Private API without using a key (Coming soon!)__
