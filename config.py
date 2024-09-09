@@ -1,27 +1,32 @@
 # -- DEV ZONE -- #
 # You can change this to anything
-VERSION = "v0.0.2-beta1"
+VERSION = "v0.0.2-beta-1.5"
 # -------------- #
 
 # -- General -- #
 
-# get 360p video
+# ///video/// #
+
+# get 360p video instead of HLS
 # NOTE: loads a ton faster
-MEDIUM_QUALITY = True
+# True, False
+MEDIUM_QUALITY = False
+
+# resolution for HLS playback
+# None, 144, 240, 360, 480, 720, 1080...
+HLS_RESOLUTION = 480
+
+# ////////// #
 
 # Set indivious instance
 # NOTE: for info fetching only right now.
 # add http:// or https://
-URL = "https://inv.tux.pizza"
+URL = "https://invidious.skyglow.es"
 
 # Set port
 # Anything around 1000-10000
 # NOTE: set common ports so you can remember it.
 PORT = "4000"
-
-# Rate limiting
-# Useful if you're hosting it for dozens of people. To prevent spam.
-RATE_LIMITING = False
 
 # Debug mode 
 # NOTE: recommended True if you want to fix the code and auto reload
@@ -32,14 +37,13 @@ DEBUG = True
 SPYING = True
 
 # Compress response
-# NOTE: Really helps squeezing it down, about 80%. Won't affect potato PC that much.
-COMPRESS = True
+# NOTE: Really helps squeezing it down, about 80%.
 
 # -- Custom functions -- #
 
 # Number of featured videos (including categories)
 # max: 50
-FEATURED_VIDEOS = 15
+FEATURED_VIDEOS = 20
 
 # Number of search videos
 # max: 20
