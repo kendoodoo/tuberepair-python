@@ -2,6 +2,7 @@
 from flask import Flask, request, redirect, send_file, render_template, Response
 from flask_compress import Compress
 from uuid import uuid4
+from waitress import serve
 import hashlib
 import random
 
@@ -125,4 +126,7 @@ def playlists_video(playlist_id):
 
 # config
 if __name__ == "__main__":
-    app.run(port=config.PORT, host="0.0.0.0", debug=config.DEBUG)
+    if config.DEBUG:
+        app.run(port=config.PORT, host="0.0.0.0", debug=True)
+    else:
+        serve(app, port=config.PORT, host="0.0.0.0")

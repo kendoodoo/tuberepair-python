@@ -1,0 +1,73 @@
+services:
+  tuberepair:
+    container_name: tuberepair
+    restart: always
+    build:
+      context: .
+      args:
+        TUBEREPAIR_USER_UID: 2000
+        TUBEREPAIR_USER_GID: 2000
+    environment:
+      - LETSENCRYPT_HOST=${LETSENCRYPT_SD_HOST}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - VIRTUAL_HOST=${LETSENCRYPT_SD_HOST}
+      - VIRTUAL_PORT=4000
+    networks:
+      - proxy-tier
+      - default
+  hdtuberepair:
+    container_name: hdtuberepair
+    restart: always
+    build:
+      context: .
+      args:
+        TUBEREPAIR_USER_UID: 2000
+        TUBEREPAIR_USER_GID: 2000
+    environment:
+      - LETSENCRYPT_HOST=${LETSENCRYPT_HD_HOST}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - VIRTUAL_HOST=${LETSENCRYPT_HD_HOST}
+      - VIRTUAL_PORT=4000
+    networks:
+      - proxy-tier
+      - default
+
+  proxy:
+    image: nginxproxy/nginx-proxy:alpine
+    container_name: proxy
+    restart: always
+    volumes:
+      - certs:/etc/nginx/certs:z,ro
+      - vhost.d:/etc/nginx/vhost.d:z
+      - html:/usr/share/nginx/html:z
+      - /run/user/${USERID}/docker.sock:/tmp/docker.sock:ro #Being ran in rootless
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+
+  letsencrypt-companion:
+    container_name: letsencrypt-companion
+    image: nginxproxy/acme-companion
+    restart: always
+    volumes:
+      - certs:/etc/nginx/certs:z
+      - acme:/etc/acme.sh:z
+      - vhost.d:/etc/nginx/vhost.d:z
+      - html:/usr/share/nginx/html:z
+      - /run/user/${USERID}/docker.sock:/var/run/docker.sock:z,ro #Being ran in rootless
+    networks:
+      - proxy-tier
+    depends_on:
+      - proxy
+
+
+volumes:
+  certs:
+  acme:
+  vhost.d:
+  html:
+
+networks:
+  proxy-tier:
