@@ -12,6 +12,9 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - VIRTUAL_HOST=${LETSENCRYPT_SD_HOST}
       - VIRTUAL_PORT=4000
+      - SPYING=false
+      - DEBUG=false
+      - MEDIUM_QUALITY=false
     networks:
       - proxy-tier
       - default
@@ -28,6 +31,9 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - VIRTUAL_HOST=${LETSENCRYPT_HD_HOST}
       - VIRTUAL_PORT=4000
+      - SPYING=false
+      - DEBUG=false
+      - MEDIUM_QUALITY=true
     networks:
       - proxy-tier
       - default
