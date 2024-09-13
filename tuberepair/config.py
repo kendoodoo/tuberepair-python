@@ -84,4 +84,4 @@ else:
 if "SORT_COMMENTS" in OSEnv:
     SORT_COMMENTS = OSEnv["SORT_COMMENTS"]
 else:
-    SORT_COMMENTS = popular
+    SORT_COMMENTS = "popular"
