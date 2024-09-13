@@ -21,4 +21,4 @@ WORKDIR /tuberepair-python
 
 USER tuberepair
 
-CMD ["python3", "main.py"]
+ENTRYPOINT ["python3", "main.py"]

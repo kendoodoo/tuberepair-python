@@ -5,6 +5,7 @@ from uuid import uuid4
 from waitress import serve
 import hashlib
 import random
+import signal
 
 # custom function
 import config
@@ -124,8 +125,12 @@ def playlists_video(playlist_id):
 
 # --------------------------------------------- #
 
+def catch_docker_stop():
+    exit()
+
 # config
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, catch_docker_stop)
     if config.DEBUG:
         app.run(port=config.PORT, host="0.0.0.0", debug=True)
     else:
