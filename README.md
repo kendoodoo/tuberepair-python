@@ -37,7 +37,7 @@ python main.py
 # Credits
 
 ### Contributors
-- [kendoodoo](https://github.com/kendoodoo)
+- [kendoodoo](https://github.com/kendoodoo) (God)
 - [Nishijima Akito](https://github.com/shijimasoft) (Youtube Classic)
 - [SpaceSaver](https://github.com/SpaceSaver) (YouTube Private API, HLS playback filter)
 - (et al.)
