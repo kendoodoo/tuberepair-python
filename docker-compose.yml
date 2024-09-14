@@ -18,6 +18,8 @@ services:
     networks:
       - proxy-tier
       - default
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
   hdtuberepair:
     container_name: hdtuberepair
     restart: always
@@ -37,6 +39,8 @@ services:
     networks:
       - proxy-tier
       - default
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
 
   proxy:
     image: nginxproxy/nginx-proxy:alpine
@@ -47,6 +51,7 @@ services:
       - vhost.d:/etc/nginx/vhost.d:z
       - html:/usr/share/nginx/html:z
       - /run/user/${USERID}/docker.sock:/tmp/docker.sock:ro #Being ran in rootless
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 80:80
       - 443:443
@@ -63,6 +68,7 @@ services:
       - vhost.d:/etc/nginx/vhost.d:z
       - html:/usr/share/nginx/html:z
       - /run/user/${USERID}/docker.sock:/var/run/docker.sock:z,ro #Being ran in rootless
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - proxy-tier
     depends_on:
