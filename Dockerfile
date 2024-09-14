@@ -1,4 +1,4 @@
-FROM nginxproxy/nginx-proxy:alpine AS CF-Proxy
+FROM nginxproxy/nginx-proxy:alpine AS cf-proxy
 
 RUN chmod +x cloudflare-ips-conf.sh && ./cloudflare-ips-conf.sh
 COPY proxy.conf /etc/nginx/conf.d/proxy.conf
