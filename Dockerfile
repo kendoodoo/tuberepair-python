@@ -1,3 +1,13 @@
+FROM nginxproxy/nginx-proxy:alpine AS CF-Proxy
+
+RUN chmod +x cloudflare-ips-conf.sh && ./cloudflare-ips-conf.sh
+COPY proxy.conf /etc/nginx/conf.d/proxy.conf
+
+
+######################
+#     TUBEREPAIR     #
+######################
+
 FROM debian:stable
 ARG TUBEREPAIR_USER_UID="2000"
 ARG TUBEREPAIR_USER_GID="2000"
@@ -6,7 +16,7 @@ EXPOSE 443
 LABEL NAME="TubeRepair tuberepair.uptimetrackers.com blueprint"
 LABEL VERSION="0.1 Beta"
 
-COPY --chown=${TUBEREPAIR_USER_UID}:${TUBEREPAIR_USER_GID} ./tuberepair /tuberepair-python
+COPY --chown=${TUBEREPAIR_USER_UID}:${TUBEREPAIR_USER_GID} ./requirements.txt /tuberepair-python/
 
 RUN /bin/bash | \
     groupadd -g ${TUBEREPAIR_USER_GID} tuberepair && \
@@ -16,6 +26,8 @@ RUN /bin/bash | \
     cd /tuberepair-python && \
     pip3 install -r requirements.txt --break-system-packages && \
     apt-get clean
+
+COPY --chown=${TUBEREPAIR_USER_UID}:${TUBEREPAIR_USER_GID} ./tuberepair /tuberepair-python
 
 WORKDIR /tuberepair-python
 
