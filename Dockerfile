@@ -1,7 +1,8 @@
 FROM nginxproxy/nginx-proxy:alpine AS cf-proxy
 
+COPY cloudflare-ips-conf.sh proxy.conf ./
 RUN chmod +x cloudflare-ips-conf.sh && ./cloudflare-ips-conf.sh
-COPY proxy.conf /etc/nginx/conf.d/proxy.conf
+RUN mv allow-cf.conf proxy.conf /etc/nginx/conf.d/
 
 
 ######################

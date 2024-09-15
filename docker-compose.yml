@@ -43,9 +43,14 @@ services:
       - /etc/localtime:/etc/localtime:ro
 
   proxy:
-    image: nginxproxy/nginx-proxy:alpine
+    build:
+      context: .
+      target: cf-proxy
     container_name: proxy
     restart: always
+    environment:
+      LOG_FORMAT: $$real_client_ip - $$remote_user [$$time_local] $$request $$status $$body_bytes_sent $$http_host $$upstream_response_time $$http_referer $$http_user_agent;
+
     volumes:
       - certs:/etc/nginx/certs:z,ro
       - vhost.d:/etc/nginx/vhost.d:z
