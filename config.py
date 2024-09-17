@@ -21,12 +21,12 @@ HLS_RESOLUTION = 480
 # Set indivious instance
 # NOTE: for info fetching only right now.
 # add http:// or https://
-URL = "https://invidious.skyglow.es"
+URL = "https://inv.tux.pizza"
 
 # Set port
 # Anything around 1000-10000
 # NOTE: set common ports so you can remember it.
-PORT = "4000"
+PORT = "3000"
 
 # Debug mode 
 # NOTE: recommended True if you want to fix the code and auto reload
