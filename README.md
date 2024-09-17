@@ -2,7 +2,7 @@
 # TubeRepair server, using Flask and Jinja2.
 - __Works out of the box, edit the backend to your likings.__
 - __Fetches from Youtube Private API without using a key (Coming soon!)__
-- Works with Classic YouTube, 1.1.0 and 1.2.1 (Possibly 2.2.0 soon)
+- Works with Classic YouTube (iOS 5,6), 1.1.0 and 1.2.1 (Possibly 2.2.0 soon)
 - ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
 
 ### Current servers (Thanks for the hosting!):
