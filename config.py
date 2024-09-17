@@ -36,9 +36,6 @@ DEBUG = True
 # NOTE: Don't judge people on their search lol
 SPYING = True
 
-# Compress response
-# NOTE: Really helps squeezing it down, about 80%.
-
 # -- Custom functions -- #
 
 # Number of featured videos (including categories)
