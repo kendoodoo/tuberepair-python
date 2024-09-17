@@ -3,6 +3,8 @@ import requests_cache
 from datetime import timedelta
 import ua_generator
 
+import config
+
 # Videos expires after 5 hours, so you don't have to worry.
 session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(hours=4), ignored_parameters=['key'])
 
