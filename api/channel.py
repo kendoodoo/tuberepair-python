@@ -19,7 +19,7 @@ def search(channel_id):
         channel_pic_url = data['authorThumbnails'][0]['url']
         sub_count = data['subCount']
 
-        return get.template('search_results_channel.jinja2',{
+        return get.template('channel_info.jinja2',{
             'author': channel_name,
             'author_id': channel_url,
             'channel_pic_url': channel_pic_url,
