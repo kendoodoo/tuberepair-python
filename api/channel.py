@@ -34,7 +34,7 @@ def search(channel_id):
 def channels():
     url = request.url_root
     query = request.args.get('q')
-    data = get.fetch(f"{config.URL}/api/v1/search?q={search_keyword}&type=channel")
+    data = get.fetch(f"{config.URL}/api/v1/search?q={query}&type=channel")
 
     if data:
 
