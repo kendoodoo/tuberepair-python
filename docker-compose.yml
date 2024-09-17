@@ -12,9 +12,14 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - VIRTUAL_HOST=${LETSENCRYPT_SD_HOST}
       - VIRTUAL_PORT=4000
+      - SPYING=false
+      - DEBUG=false
+      - MEDIUM_QUALITY=false
     networks:
       - proxy-tier
       - default
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
   hdtuberepair:
     container_name: hdtuberepair
     restart: always
@@ -28,19 +33,30 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - VIRTUAL_HOST=${LETSENCRYPT_HD_HOST}
       - VIRTUAL_PORT=4000
+      - SPYING=false
+      - DEBUG=false
+      - MEDIUM_QUALITY=true
     networks:
       - proxy-tier
       - default
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
 
   proxy:
-    image: nginxproxy/nginx-proxy:alpine
+    build:
+      context: .
+      target: cf-proxy
     container_name: proxy
     restart: always
+    environment:
+      LOG_FORMAT: $$real_client_ip - $$remote_user [$$time_local] $$request $$status $$body_bytes_sent $$http_host $$upstream_response_time $$http_referer $$http_user_agent;
+
     volumes:
       - certs:/etc/nginx/certs:z,ro
       - vhost.d:/etc/nginx/vhost.d:z
       - html:/usr/share/nginx/html:z
       - /run/user/${USERID}/docker.sock:/tmp/docker.sock:ro #Being ran in rootless
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 80:80
       - 443:443
@@ -57,6 +73,7 @@ services:
       - vhost.d:/etc/nginx/vhost.d:z
       - html:/usr/share/nginx/html:z
       - /run/user/${USERID}/docker.sock:/var/run/docker.sock:z,ro #Being ran in rootless
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - proxy-tier
     depends_on:
