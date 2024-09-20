@@ -2,7 +2,7 @@
 # You can change this to anything
 import os
 from StringToBool import StringToBool
-VERSION = "v0.0.2-beta1-docker"
+VERSION = "v0.0.2-beta-1.5-docker"
 # -------------- #
 
 # -- General -- #
@@ -15,6 +15,13 @@ if "MEDIUM_QUALITY" in OSEnv:
     MEDIUM_QUALITY = StringToBool(OSEnv["MEDIUM_QUALITY"])
 else:
     MEDIUM_QUALITY = True
+
+# resolution for HLS playback
+# None, 144, 240, 360, 480, 720, 1080...
+if "HLS_RESOLUTION" in OSEnv:
+    HLS_RESOLUTION = int(OSEnv["MEDIUM_QUALITY"])
+else:
+    HLS_RESOLUTION = 720
 
 # Set indivious instance
 # NOTE: for info fetching only right now.
