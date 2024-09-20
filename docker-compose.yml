@@ -1,6 +1,6 @@
 services:
-  tuberepair:
-    container_name: tuberepair
+  hdtuberepair:
+    container_name: hdtuberepair
     restart: always
     build:
       context: .
@@ -20,8 +20,8 @@ services:
       - default
     volumes:
       - /etc/localtime:/etc/localtime:ro
-  hdtuberepair:
-    container_name: hdtuberepair
+  tuberepair:
+    container_name: tuberepair
     restart: always
     build:
       context: .
