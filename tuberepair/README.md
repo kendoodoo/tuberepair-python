@@ -1,4 +1,4 @@
-# beta 1.5 coming soon! (oinkey donkey)
+# beta 1.5 out now.
 # TubeRepair server, using Flask and Jinja2.
 - __Works out of the box, edit the backend to your likings.__
 - __Fetches from Youtube Private API without using a key (Coming soon!)__
@@ -37,7 +37,7 @@ python main.py
 # Credits
 
 ### Contributors
-- [kendoodoo](https://github.com/kendoodoo)
+- [kendoodoo](https://github.com/kendoodoo) (God)
 - [Nishijima Akito](https://github.com/shijimasoft) (Youtube Classic)
 - [SpaceSaver](https://github.com/SpaceSaver) (YouTube Private API, HLS playback filter)
 - (et al.)
