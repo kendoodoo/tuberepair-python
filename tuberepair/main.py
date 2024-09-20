@@ -1,4 +1,5 @@
 # Version v0.0.1 (beta-3.5)
+import signal
 from flask import Flask
 from flask_compress import Compress
 import config
@@ -24,6 +25,10 @@ app.register_blueprint(channel)
 
 # use compression to load faster
 compress = Compress(app)
+
+# Catch sigterm for docker
+def catch_docker_stop():
+    exit()
 
 # config
 if __name__ == "__main__":
