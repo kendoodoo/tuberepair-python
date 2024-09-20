@@ -1,6 +1,6 @@
 services:
-  hdtuberepair:
-    container_name: hdtuberepair
+  tuberepair:
+    container_name: tuberepair
     restart: always
     build:
       context: .
@@ -14,14 +14,14 @@ services:
       - VIRTUAL_PORT=4000
       - SPYING=false
       - DEBUG=false
-      - MEDIUM_QUALITY=false
+      - MEDIUM_QUALITY=true
     networks:
       - proxy-tier
       - default
     volumes:
       - /etc/localtime:/etc/localtime:ro
-  tuberepair:
-    container_name: tuberepair
+  hdtuberepair:
+    container_name: hdtuberepair
     restart: always
     build:
       context: .
@@ -35,7 +35,7 @@ services:
       - VIRTUAL_PORT=4000
       - SPYING=false
       - DEBUG=false
-      - MEDIUM_QUALITY=true
+      - MEDIUM_QUALITY=false
     networks:
       - proxy-tier
       - default
