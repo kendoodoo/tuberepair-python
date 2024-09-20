@@ -29,9 +29,6 @@
             height: 1px;
             background-color: black;
         }
-        #title {
-            font-size: calc(1.5em + 1vmin);
-        }
         #credits {
             color:rgb(150, 150, 150);
         }
@@ -46,9 +43,8 @@
 </head>
 <body>
     <div id="ee">
-    <h1 id="title"><img src="data:image/png;base64,R0lGODlhGAAYAPMAAP////vzBf9kA90JB/IIhEcApQAA0wKr6h+3FABkElYsBZBxOr+/v4CAgEBAQAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/h1HaWZCdWlsZGVyIDAuMiBieSBZdmVzIFBpZ3VldAAh+QQNZAAMACwAAAAAGAAYAEMEZ5DJSRkANWcwOngP52lWN1xoipoYWZqjK4nnBa7xDO9832q0k2zDov1cxk/ISEralhcWxYm6qaSvnhaLzA2nvOMwyZVRy8CiFQ32PHFCYlEJj0+CqmsZprLWMXh5gnxBW1stgokqEhEAIfkEDWQADAAsAAAAABgAGABDBGCQyUkZADVnMPq93YBpnPedZzhqVqiyVCmioBe7eK6vm8vDE1lNBJQIUS+SivZJGpdMpK2lq/qKpV/xidPCjk7gcei9mVJT5VlK7EHZ7aAvKosz5vQ6Rp9vLq2ASX10EhEAOw==
-"> TubeRepair server</h1>
-    <h2 id="title">{{version}}</h2>
+    <h1><img class="title-img"> TubeRepair server</h1>
+    <h3><img class="title-img"> {{version}}</h3>
     <div id="hr"></div>
     <p>This was written in Python as a backend for the TubeRepair tweak by <a href="https://github.com/bag-xml">bag.xml</a> (et al).</p>
     <p>Check it out via Github: <a href="https://github.com/kendoodoo/tuberepair-python">tuberepair-python</a></p>
@@ -64,6 +60,10 @@
 </body>
 <script>
 // the slash at the end for crap tweak to work
-document.getElementById('url').innerHTML = window.location.origin + "/"
+document.getElementById('url').innerHTML = window.location.origin + "/";
+var imgs = document.getElementsByClassName('title-img');
+for (var i = 0; i < imgs.length; i++) {
+    imgs[i].src = src="data:image/png;base64,R0lGODlhGAAYAPMAAP////vzBf9kA90JB/IIhEcApQAA0wKr6h+3FABkElYsBZBxOr+/v4CAgEBAQAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/h1HaWZCdWlsZGVyIDAuMiBieSBZdmVzIFBpZ3VldAAh+QQNZAAMACwAAAAAGAAYAEMEZ5DJSRkANWcwOngP52lWN1xoipoYWZqjK4nnBa7xDO9832q0k2zDov1cxk/ISEralhcWxYm6qaSvnhaLzA2nvOMwyZVRy8CiFQ32PHFCYlEJj0+CqmsZprLWMXh5gnxBW1stgokqEhEAIfkEDWQADAAsAAAAABgAGABDBGCQyUkZADVnMPq93YBpnPedZzhqVqiyVCmioBe7eK6vm8vDE1lNBJQIUS+SivZJGpdMpK2lq/qKpV/xidPCjk7gcei9mVJT5VlK7EHZ7aAvKosz5vQ6Rp9vLq2ASX10EhEAOw==";
+}
 </script>
 </html>
