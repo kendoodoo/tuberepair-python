@@ -6,7 +6,7 @@
 - ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
 
 ### Current servers (Thanks for the hosting!):
-- https://tuberepair.nugg3t.xyz/
+- https://tuberepair.litten.ca/
 - https://tuberepair.uptimetrackers.com/
 
 # Features
