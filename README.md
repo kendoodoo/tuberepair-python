@@ -34,6 +34,15 @@ pip install -r requirements.txt
 python main.py
 ```
 
+# Pause.
+LegacyJailbreak lacks developers, and full of impatient people.
+
+That's a huge problem, because of people don't know better. They beg and beg for devs to make code, and complain when their needs is not fulfilled. "TUBEREPAIR IS NOT WORKING" this, "TUBEREPAIR CANT PLAY VIDEOS" that. Fuck you.
+
+I feel bad for developers who make passionate projects for legacy iOS and still cope with the kids. Until it gets better. I will continue to make other related stuff, but I'm dropping this out.
+
+cheese
+
 # Credits
 
 ### Contributors
