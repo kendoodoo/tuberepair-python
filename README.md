@@ -37,7 +37,7 @@ python main.py
 # Pause.
 LegacyJailbreak lacks developers, and full of impatient people.
 
-That's a huge problem, because people don't know any better. They beg and beg for devs to make code, and complain when their needs is not fulfilled. "TUBEREPAIR IS NOT WORKING" this, "TUBEREPAIR CANT PLAY VIDEOS" that. Fuck you.
+That's a huge problem, because people don't know any better. They beg and beg for devs to make code, and complain when their needs is not fulfilled. "TUBEREPAIR IS NOT WORKING" this, "TUBEREPAIR CANT PLAY VIDEOS" that. Fuck you. Well, not all of them, but, you know.
 
 I feel bad for developers who make passionate projects for legacy iOS and still cope with the kids. Until it gets better. I will continue to make other related stuff, but I'm dropping this out.
 
