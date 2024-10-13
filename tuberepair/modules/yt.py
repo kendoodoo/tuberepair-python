@@ -13,7 +13,7 @@ api_key = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8'
 
 # Get HLS URL via youtubei and fetch the file, then filter to fix low quality playback error
 # Much thanks for SpaceSaver.
-def hls_video_url(video_id):
+def hls_video_url(video_id, res=None):
 
     # generate random user agent to spoof
     #
@@ -42,7 +42,7 @@ def hls_video_url(video_id):
     formatfilter = re.compile(r"^#EXT-X-STREAM-INF:BANDWIDTH=(?P<bandwidth>\d+),CODECS=\"(?P<codecs>[^\"]+)\",RESOLUTION=(?P<width>\d+)x(?P<height>\d+),FRAME-RATE=(?P<fps>\d+),VIDEO-RANGE=(?P<videoRange>[^,]+),AUDIO=\"(?P<audioGroup>[^\"]+)\"(,SUBTITLES=\"(?P<subGroup>[^\"]+)\")?")
     vertical = None
     maxRes = 0
-    wanted_resolution = config.HLS_RESOLUTION
+    wanted_resolution = res and res.isdigit() and min(max(int(res), 144), 16000) or config.HLS_RESOLUTION or 360
     # doesn't bother to explain the code, sooo...
     # TODO: explain the thing, lazer eyed cat.
     for x in range(len(panda)):

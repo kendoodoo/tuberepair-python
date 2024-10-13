@@ -13,8 +13,10 @@ def error():
 # 2 alternate routes for popular page and search results
 @video.route("/feeds/api/standardfeeds/<regioncode>/<popular>")
 @video.route("/feeds/api/standardfeeds/<popular>")
-def frontpage(regioncode="US", popular=None):
-    url = request.url_root
+@video.route("/<res>/feeds/api/standardfeeds/<regioncode>/<popular>")
+@video.route("/<res>/feeds/api/standardfeeds/<popular>")
+def frontpage(regioncode="US", popular=None, res=''):
+    url =request.url_root + res 
     # trending videos categories
     # the menu got less because of youtube removing it.
     apiurl = config.URL + "/api/v1/trending?region=" + regioncode
@@ -55,8 +57,11 @@ def frontpage(regioncode="US", popular=None):
 # search for videos
 @video.route("/feeds/api/videos")
 @video.route("/feeds/api/videos/")
-def search_videos():
-    url = request.url_root
+@video.route("/<res>/feeds/api/videos")
+@video.route("/<res>/feeds/api/videos/")
+def search_videos(res=''):
+    url = request.url_root + res
+    print("here", request.url_root)
     user_agent = request.headers.get('User-Agent')
     query = request.args.get('q')
 
@@ -66,7 +71,6 @@ def search_videos():
     # print logs if enabled
     if config.SPYING == True:
         text('Searched: ' + query)
-
     # search by videos
     data = get.fetch(f"{config.URL}/api/v1/search?q={search_keyword}&type=video")
 
@@ -91,8 +95,9 @@ def search_videos():
 # video's comments
 # IDEA: filter the comments too?
 @video.route("/api/videos/<videoid>/comments")
-def comments(videoid):
-    url = request.url_root
+@video.route("/<res>/api/videos/<videoid>/comments")
+def comments(videoid, res=''):
+    url = request.url_root + res 
     # fetch invidious comments api
     data = get.fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}")
     
@@ -108,12 +113,11 @@ def comments(videoid):
     
 # fetches video from innertube.
 @video.route("/getvideo/<video_id>")
-def getvideo(video_id):
-
-    if not config.MEDIUM_QUALITY:
-
+@video.route("/<res>/getvideo/<video_id>")
+def getvideo(video_id, res=None):
+    if res is not None or config.MEDIUM_QUALITY is False:
         # Set mimetype since videole device don't recognized it.
-        return Response(yt.hls_video_url(video_id), mimetype="application/vnd.apple.mpegurl")
+        return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
     
     # 360p if enabled
     return redirect(yt.medium_quality_video_url(video_id), 307)

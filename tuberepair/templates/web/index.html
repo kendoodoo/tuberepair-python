@@ -56,21 +56,33 @@
         <div id="link-box"><b><a href="/"><p id="url">js is not available</p></a></b></div>
         <p id="credits">(hold to copy)</p>
     </div>
+    <div style="text-align: center;">
+        <p>You can also pick a resolution by adding it after the /:</p>
+        <div id="link-box"><b><a href="/"><p id="360example">js is not available</p></a></b></div>
+        <p id="credits">(hold to copy)</p>
+    </div>
+    <div style="text-align: center;">
+        <p>You can also pick a resolution by adding it after the /:</p>
+        <div id="link-box"><b><a href="/"><p id="1080example">js is not available</p></a></b></div>
+        <p id="credits">(hold to copy)</p>
+    </div>
     <br>
     </div>
 </body>
 <script>
 // the slash at the end for crap tweak to work
-var link = window.location.origin;
-document.getElementById('url').innerHTML = window.location.origin + "/";
+var link = window.location.origin + '/';
+document.getElementById('url').innerHTML = link;
+document.getElementById('360example').innerHTML = link + '360';
+document.getElementById('1080example').innerHTML = link + '1080';
 
 var infoEle = document.getElementById('info');
 var medium = "{{medium}}";
 medium = medium === "True";
 if (medium) {
-    infoEle.innerHTML = "I'm currently not sending HLS videos. This is an SD (360p) Server!"
+    infoEle.innerHTML = "I'm currently not sending HLS videos by default. This is an SD (360p) Server!"
 } else {
-    infoEle.innerHTML = "I'm currently sending HLS videos. This is an {{hls}}p Server!"
+    infoEle.innerHTML = "I'm currently sending HLS videos by default. This is an {{hls}}p Server!"
 }
 
 var imgs = document.getElementsByClassName('title-img');

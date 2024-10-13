@@ -11,7 +11,8 @@ env = Environment(loader=FileSystemLoader('templates'))
 # get playlists
 # TODO: get more video info since invidious simplified it.
 @playlist.route("/feeds/api/users/<channel_id>/playlists")
-def playlists(channel_id):
+@playlist.route("/<res>/feeds/api/users/<channel_id>/playlists")
+def playlists(channel_id, res=None):
     url = request.url_root
     data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/playlists")
 
@@ -27,7 +28,8 @@ def playlists(channel_id):
 # get playlist's video
 # TODO: fix the damn thing
 @playlist.route("/feeds/api/playlists/<playlist_id>")
-def playlists_video(playlist_id):
+@playlist.route("/<res>/feeds/api/playlists/<playlist_id>")
+def playlists_video(playlist_id, res=None):
     url = request.url_root
     data = get.fetch(f"{config.URL}/api/v1/playlists/{playlist_id}")
     
@@ -38,4 +40,4 @@ def playlists_video(playlist_id):
             'url': url
         })
     
-    return error()
+    return get.error()
