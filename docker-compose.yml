@@ -14,7 +14,7 @@ services:
       - VIRTUAL_PORT=4000
       - SPYING=false
       - DEBUG=false
-      - MEDIUM_QUALITY=false
+      - MEDIUM_QUALITY=true
     networks:
       - proxy-tier
       - default
@@ -35,7 +35,7 @@ services:
       - VIRTUAL_PORT=4000
       - SPYING=false
       - DEBUG=false
-      - MEDIUM_QUALITY=true
+      - MEDIUM_QUALITY=false
     networks:
       - proxy-tier
       - default

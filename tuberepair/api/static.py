@@ -9,7 +9,7 @@ static = Blueprint("static", __name__, static_folder="../static")
 
 @static.route("/")
 def index():
-    return render_template('web/index.html', version=config.VERSION)
+    return render_template('web/index.html', version=config.VERSION, medium=config.MEDIUM_QUALITY, hls=config.HLS_RESOLUTION)
 
 @static.route("/hehe")
 def sidebawr():
