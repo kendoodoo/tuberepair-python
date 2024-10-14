@@ -16,7 +16,7 @@ def error():
 @video.route("/<res>/feeds/api/standardfeeds/<regioncode>/<popular>")
 @video.route("/<res>/feeds/api/standardfeeds/<popular>")
 def frontpage(regioncode="US", popular=None, res=''):
-    url =request.url_root + res 
+    url = request.url_root + res 
     # trending videos categories
     # the menu got less because of youtube removing it.
     apiurl = config.URL + "/api/v1/trending?region=" + regioncode
