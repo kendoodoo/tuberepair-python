@@ -14,7 +14,7 @@ session = CachedSession('cache/info', expire_after=timedelta(hours=1))
 from datetime import datetime
 
 def unix(unix):
-    return datetime.utcfromtimestamp(int(unix)).isoformat() + '.000Z'
+    return datetime.fromtimestamp(int(unix)).isoformat() + '.000Z'
 
 # jinja2 path
 env = Environment(loader=FileSystemLoader('templates'))

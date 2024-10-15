@@ -9,17 +9,17 @@ VERSION = "v0.0.2-beta-1.5-docker"
 
 OSEnv = os.environ
 
-# get 360p video
+# gets 360p by default is user doesn't provide a resolution
 # NOTE: loads a ton faster
 if "MEDIUM_QUALITY" in OSEnv:
     MEDIUM_QUALITY = StringToBool(OSEnv["MEDIUM_QUALITY"])
 else:
     MEDIUM_QUALITY = True
 
-# resolution for HLS playback
+# resolution for DEFAULT HLS playback
 # None, 144, 240, 360, 480, 720, 1080...
 if "HLS_RESOLUTION" in OSEnv:
-    HLS_RESOLUTION = int(OSEnv["MEDIUM_QUALITY"])
+    HLS_RESOLUTION = int(OSEnv["HLS_RESOLUTION"])
 else:
     HLS_RESOLUTION = 720
 
