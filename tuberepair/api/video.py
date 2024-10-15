@@ -13,10 +13,10 @@ def error():
 # 2 alternate routes for popular page and search results
 @video.route("/feeds/api/standardfeeds/<regioncode>/<popular>")
 @video.route("/feeds/api/standardfeeds/<popular>")
-@video.route("/<res>/feeds/api/standardfeeds/<regioncode>/<popular>")
-@video.route("/<res>/feeds/api/standardfeeds/<popular>")
+@video.route("/<int:res>/feeds/api/standardfeeds/<regioncode>/<popular>")
+@video.route("/<int:res>/feeds/api/standardfeeds/<popular>")
 def frontpage(regioncode="US", popular=None, res=''):
-    url = request.url_root + res 
+    url = request.url_root + str(res) 
     # trending videos categories
     # the menu got less because of youtube removing it.
     apiurl = config.URL + "/api/v1/trending?region=" + regioncode
@@ -57,10 +57,10 @@ def frontpage(regioncode="US", popular=None, res=''):
 # search for videos
 @video.route("/feeds/api/videos")
 @video.route("/feeds/api/videos/")
-@video.route("/<res>/feeds/api/videos")
-@video.route("/<res>/feeds/api/videos/")
+@video.route("/<int:res>/feeds/api/videos")
+@video.route("/<int:res>/feeds/api/videos/")
 def search_videos(res=''):
-    url = request.url_root + res
+    url = request.url_root + str(res)
     print("here", request.url_root)
     user_agent = request.headers.get('User-Agent')
     query = request.args.get('q')
@@ -95,9 +95,9 @@ def search_videos(res=''):
 # video's comments
 # IDEA: filter the comments too?
 @video.route("/api/videos/<videoid>/comments")
-@video.route("/<res>/api/videos/<videoid>/comments")
+@video.route("/<int:res>/api/videos/<videoid>/comments")
 def comments(videoid, res=''):
-    url = request.url_root + res 
+    url = request.url_root + str(res) 
     # fetch invidious comments api
     data = get.fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}")
     
@@ -113,7 +113,7 @@ def comments(videoid, res=''):
     
 # fetches video from innertube.
 @video.route("/getvideo/<video_id>")
-@video.route("/<res>/getvideo/<video_id>")
+@video.route("/<int:res>/getvideo/<video_id>")
 def getvideo(video_id, res=None):
     if res is not None or config.MEDIUM_QUALITY is False:
         # Set mimetype since videole device don't recognized it.
