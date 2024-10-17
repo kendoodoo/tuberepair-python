@@ -9,6 +9,11 @@ channel = Blueprint("channel", __name__)
 @channel.route("/feeds/api/channels/<channel_id>")
 @channel.route("/<int:res>/feeds/api/channels/<channel_id>")
 def search(channel_id, res=''):
+    
+    # Clamp Res
+    if type(res) == int:
+        res = min(max(res, 144), config.RESMAX)
+    
     url = request.url_root + str(res) 
     # fetch from... you guessed it
     data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}")
@@ -38,6 +43,11 @@ def search(channel_id, res=''):
 @channel.route("/feeds/api/channels")
 @channel.route("/<int:res>/feeds/api/channels")
 def channels(res=''):
+    
+    # Clamp Res
+    if type(res) == int:
+        res = min(max(res, 144), config.RESMAX)
+    
     url = request.url_root + str(res) 
     query = request.args.get('q')
     data = get.fetch(f"{config.URL}/api/v1/search?q={query}&type=channel")
@@ -60,6 +70,11 @@ def channels(res=''):
 @channel.route("/feeds/api/users/<channel_id>/uploads")
 @channel.route("/<int:res>/feeds/api/users/<channel_id>/uploads")
 def uploads(channel_id, res=''):
+    
+    # Clamp Res
+    if type(res) == int:
+        res = min(max(res, 144), config.RESMAX)
+    
     url = request.url_root + str(res) 
     data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/latest")
 

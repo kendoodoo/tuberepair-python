@@ -42,7 +42,7 @@ def hls_video_url(video_id, res=None):
     formatfilter = re.compile(r"^#EXT-X-STREAM-INF:BANDWIDTH=(?P<bandwidth>\d+),CODECS=\"(?P<codecs>[^\"]+)\",RESOLUTION=(?P<width>\d+)x(?P<height>\d+),FRAME-RATE=(?P<fps>\d+),VIDEO-RANGE=(?P<videoRange>[^,]+),AUDIO=\"(?P<audioGroup>[^\"]+)\"(,SUBTITLES=\"(?P<subGroup>[^\"]+)\")?")
     vertical = None
     maxRes = 0
-    wanted_resolution = res and type(res) == int and min(max(int(res), 144), 16000) or config.HLS_RESOLUTION or 360
+    wanted_resolution = res and type(res) == int and min(max(res, 144), config.RESMAX) or config.HLS_RESOLUTION or 360
     # doesn't bother to explain the code, sooo...
     # TODO: explain the thing, lazer eyed cat.
     for x in range(len(panda)):

@@ -13,6 +13,11 @@ env = Environment(loader=FileSystemLoader('templates'))
 @playlist.route("/feeds/api/users/<channel_id>/playlists")
 @playlist.route("/<int:res>/feeds/api/users/<channel_id>/playlists")
 def playlists(channel_id, res=''):
+
+    # Clamp Res
+    if type(res) == int:
+        res = min(max(res, 144), config.RESMAX)
+    
     url = request.url_root + str(res) 
     data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/playlists")
 
@@ -34,6 +39,11 @@ def playlists(channel_id, res=''):
 @playlist.route("/feeds/api/playlists/<playlist_id>")
 @playlist.route("/<int:res>/feeds/api/playlists/<playlist_id>")
 def playlists_video(playlist_id, res=''):
+    
+    # Clamp Res
+    if type(res) == int:
+        res = min(max(res, 144), config.RESMAX)
+    
     url = request.url_root + str(res) 
     data = get.fetch(f"{config.URL}/api/v1/playlists/{playlist_id}")
     

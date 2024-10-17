@@ -32,6 +32,16 @@ if "URL" in OSEnv:
 else:
     URL = "https://inv.tux.pizza"
 
+# Max res to allow users
+# Mainly to stop converting long numbers to strings.
+# Always set this geater or equal to YouTubes Max res
+# I don't recommend changing this.
+
+if "RESMAX" in OSEnv and OSEnv["RESMAX"].isdigit():
+    RESMAX = int(OSEnv["RESMAX"])
+else:
+    RESMAX = 36000
+
 # Set port
 # Anything around 1000-10000
 # NOTE: set common ports so you can remember it.
