@@ -19,19 +19,23 @@ def playlists(channel_id, res=''):
         res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res) 
-    data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/playlists")
+    continuationToken = request.args.get('continuation') and '?continuation=' + request.args.get('continuation') or ''
+    try:
+        data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/playlists{continuationToken}")
 
-    # Templates have the / at the end, so let's remove it.
-    if url[-1] == '/':
-        url = url[:-1]
-
-    if data:
-        return get.template('channel_playlists.jinja2',{
-            'data': data['playlists'],
-            'url': url
-        })
-
-    return get.error()
+        # Templates have the / at the end, so let's remove it.
+        if url[-1] == '/':
+            url = url[:-1]
+        
+        if data:
+            return get.template('channel_playlists.jinja2',{
+                'data': data['playlists'],
+                'continuation': 'continuation' in data and data['continuation'] or None,
+                'url': url
+            })
+        raise Exception("No Data was returned!")
+    except:
+        return get.error()
 
 
 # get playlist's video
