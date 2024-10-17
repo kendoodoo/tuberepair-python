@@ -30,6 +30,10 @@ def frontpage(regioncode="US", popular=None, res=''):
     # fetch api from invidious
     data = get.fetch(apiurl)
     
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
     if data:
 
         # print logs if enabled
@@ -74,6 +78,10 @@ def search_videos(res=''):
     # search by videos
     data = get.fetch(f"{config.URL}/api/v1/search?q={search_keyword}&type=video")
 
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
     if data:
 
         # classic tube check
@@ -100,7 +108,11 @@ def comments(videoid, res=''):
     url = request.url_root + str(res) 
     # fetch invidious comments api
     data = get.fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}")
-    
+
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
     if data:
 
         return get.template('comments.jinja2',{

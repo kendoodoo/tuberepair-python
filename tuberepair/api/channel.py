@@ -13,6 +13,10 @@ def search(channel_id, res=''):
     # fetch from... you guessed it
     data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}")
 
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
     if data:
         # wow being not lazy is ea-zy
         channel_url = data['authorId']
@@ -38,6 +42,10 @@ def channels(res=''):
     query = request.args.get('q')
     data = get.fetch(f"{config.URL}/api/v1/search?q={query}&type=channel")
 
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
     if data:
 
         # template
@@ -54,6 +62,10 @@ def channels(res=''):
 def uploads(channel_id, res=''):
     url = request.url_root + str(res) 
     data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/latest")
+
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
 
     if data:
         return get.template('uploads.jinja2',{

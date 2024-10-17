@@ -16,6 +16,10 @@ def playlists(channel_id, res=''):
     url = request.url_root + str(res) 
     data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/playlists")
 
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
     if data:
         return get.template('channel_playlists.jinja2',{
             'data': data['playlists'],
@@ -33,6 +37,10 @@ def playlists_video(playlist_id, res=''):
     url = request.url_root + str(res) 
     data = get.fetch(f"{config.URL}/api/v1/playlists/{playlist_id}")
     
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
     if data:
         return get.template('playlist_videos.jinja2',{
             'data': data['videos'],
