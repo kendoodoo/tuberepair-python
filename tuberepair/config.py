@@ -82,19 +82,20 @@ if "FEATURED_VIDEOS" in OSEnv:
 else:
     FEATURED_VIDEOS = 20
 
+# NO LONGER IN USE!
 # Number of search videos
 # max: 20
-if "SEARCHED_VIDEOS" in OSEnv:
-    SEARCHED_VIDEOS = min(int(OSEnv["SEARCHED_VIDEOS"]), 20)
-else:
-    SEARCHED_VIDEOS = 15
+#if "SEARCHED_VIDEOS" in OSEnv:
+#    SEARCHED_VIDEOS = min(int(OSEnv["SEARCHED_VIDEOS"]), 20)
+#else:
+#    SEARCHED_VIDEOS = 15
 
 # Number of displayed comments
 # max: 20
 if "COMMENTS" in OSEnv:
     COMMENTS = min(int(OSEnv["COMMENTS"]), 20)
 else:
-    COMMENTS = 15
+    COMMENTS = 20
 
 # Sort comments
 # "newest", "popular"

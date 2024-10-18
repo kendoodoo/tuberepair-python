@@ -75,7 +75,27 @@ def search_videos(res=''):
         res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res)
-    print("here", request.url_root)
+    # Getting current url with all the query info
+    nextPage = request.url
+    # Get 'start-index' query for later use
+    start_index = request.args.get('start-index')
+    # Get current page or start at the first page if 'start-index' is missing or invalid
+    if start_index and start_index.isdigit():
+        currentPage = start_index
+    else:
+        currentPage = '1'
+    # Setup for next page
+    nextPageNumber = int(currentPage) + 1
+    # Checks if we have a 'start-index'
+    if start_index:
+        # Replace for next page
+        nextPage = nextPage.replace(f'start-index={currentPage}', f'start-index={nextPageNumber}')
+    else:
+        # Add query for next page
+        nextPage += f'&start-index={nextPageNumber}'
+    # Santize
+    nextPage = nextPage.replace('&', '&amp;')
+
     user_agent = request.headers.get('User-Agent')
     query = request.args.get('q')
 
@@ -86,8 +106,7 @@ def search_videos(res=''):
     if config.SPYING == True:
         text('Searched: ' + query)
     # search by videos
-    data = get.fetch(f"{config.URL}/api/v1/search?q={search_keyword}&type=video")
-
+    data = get.fetch(f"{config.URL}/api/v1/search?q={search_keyword}&type=video&page={currentPage}")
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
         url = url[:-1]
@@ -97,18 +116,36 @@ def search_videos(res=''):
         # classic tube check
         if "YouTube v1.0.0" in user_agent:
             return get.template('classic/search.jinja2',{
-                'data': data[:config.SEARCHED_VIDEOS],
+                'data': data[:len(data)],
                 'unix': get.unix,
-                'url': url
+                'url': url,
+                'nextPage': nextPage
             })
 
         return get.template('search_results.jinja2',{
-            'data': data[:config.SEARCHED_VIDEOS],
+            'data': data[:len(data)],
             'unix': get.unix,
-            'url': url
+            'url': url,
+            'nextPage': nextPage
+        })
+    else:
+        # No data is also end of search. Really? Come on.
+        if "YouTube v1.0.0" in user_agent:
+            return get.template('classic/search.jinja2',{
+                'data': None,
+                'unix': get.unix,
+                'url': url,
+                'nextPage': None
+            })
+
+        return get.template('search_results.jinja2',{
+            'data': None,
+            'unix': get.unix,
+            'url': url,
+            'nextPage': None
         })
 
-    return error()
+    #return error()
 
 # video's comments
 # IDEA: filter the comments too?
