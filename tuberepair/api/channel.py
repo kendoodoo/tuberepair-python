@@ -51,7 +51,6 @@ def channels(res=''):
     url = request.url_root + str(res) 
     query = request.args.get('q')
     current_page, next_page = helpers.process_start_index(request)
-    text(f'sent: {config.URL}/api/v1/search?q={query}&type=channel&page={current_page}')
     data = get.fetch(f"{config.URL}/api/v1/search?q={query}&type=channel&page={current_page}")
 
     # Templates have the / at the end, so let's remove it.
