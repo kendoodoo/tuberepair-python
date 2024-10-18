@@ -1,4 +1,4 @@
-from modules import get
+from modules import get, helpers
 from flask import Blueprint, Flask, request, redirect, render_template
 import config
 from modules.logs import text
@@ -50,7 +50,9 @@ def channels(res=''):
     
     url = request.url_root + str(res) 
     query = request.args.get('q')
-    data = get.fetch(f"{config.URL}/api/v1/search?q={query}&type=channel")
+    current_page, next_page = helpers.process_start_index(request)
+    text(f'sent: {config.URL}/api/v1/search?q={query}&type=channel&page={current_page}')
+    data = get.fetch(f"{config.URL}/api/v1/search?q={query}&type=channel&page={current_page}")
 
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
@@ -61,10 +63,18 @@ def channels(res=''):
         # template
         return get.template('search_results_channel.jinja2',{
             'data': data,
-            'url': url
+            'url': url,
+            'next_page': next_page
+        })
+    else:
+        # No data is also end of search. Really? Come on.
+        return get.template('search_results_channel.jinja2',{
+            'data': None,
+            'url': url,
+            'next_page': None
         })
 
-    return get.error()
+    #return get.error()
     
 
 @channel.route("/feeds/api/users/<channel_id>/uploads")

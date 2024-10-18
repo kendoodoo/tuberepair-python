@@ -1,7 +1,7 @@
 # -- DEV ZONE -- #
 # You can change this to anything
 import os
-from StringToBool import StringToBool
+from modules import helpers
 VERSION = "v0.0.2-beta-1.5-docker"
 # -------------- #
 
@@ -12,7 +12,7 @@ OSEnv = os.environ
 # gets 360p by default is user doesn't provide a resolution
 # NOTE: loads a ton faster
 if "MEDIUM_QUALITY" in OSEnv:
-    MEDIUM_QUALITY = StringToBool(OSEnv["MEDIUM_QUALITY"])
+    MEDIUM_QUALITY = helpers.string_to_bool(OSEnv["MEDIUM_QUALITY"])
 else:
     MEDIUM_QUALITY = True
 
@@ -55,21 +55,21 @@ else:
 # NOTE: recommended True if you want to fix the code and auto reload
 
 if "DEBUG" in OSEnv:
-    DEBUG = StringToBool(OSEnv["DEBUG"])
+    DEBUG = helpers.string_to_bool(OSEnv["DEBUG"])
 else:
     DEBUG = True
 
 # Spying on stuff
 # NOTE: Don't judge people on their search lol
 if "SPYING" in OSEnv:
-    SPYING = StringToBool(OSEnv["SPYING"])
+    SPYING = helpers.string_to_bool(OSEnv["SPYING"])
 else:
     SPYING = True
 
 # Compress response
 # NOTE: Really helps squeezing it down, about 80%. Won't affect potato PC that much.
 if "SPYING" in OSEnv:
-    COMPRESS = StringToBool(OSEnv["SPYING"])
+    COMPRESS = helpers.string_to_bool(OSEnv["SPYING"])
 else:
     COMPRESS = True
 
