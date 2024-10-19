@@ -30,7 +30,7 @@ else:
 if "URL" in OSEnv:
     URL = OSEnv["URL"]
 else:
-    URL = "https://inv.tux.pizza"
+    URL = "https://inv.nadeko.net"
 
 # Max res to allow users
 # Mainly to stop converting long numbers to strings.

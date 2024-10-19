@@ -207,3 +207,36 @@ def getvideo(video_id, res=None):
     
     # 360p if enabled
     return redirect(yt.medium_quality_video_url(video_id), 307)
+
+@video.route("/feeds/api/videos/<video_id>/related")
+@video.route("/<int:res>/feeds/api/videos/<video_id>/related")
+def get_suggested(video_id, res=''):
+
+    data = get.fetch(f"{config.URL}/api/v1/videos/{video_id}")
+
+    text('Sent: ' + f"{config.URL}/api/v1/videos/{video_id}")
+
+    url = request.url_root + str(res)
+    user_agent = request.headers.get('User-Agent')
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+    text(str(data['recommendedVideos'][0].keys()))
+    if data:
+        data = data['recommendedVideos']
+        # classic tube check
+        if "YouTube v1.0.0" in user_agent:
+            return get.template('classic/search.jinja2',{
+                'data': data[:len(data)],
+                'unix': get.unix,
+                'url': url,
+                'next_page': None
+            })
+
+        return get.template('search_results_suggest.jinja2',{
+            'data': data[:len(data)],
+            'unix': get.unix,
+            'url': url,
+            'next_page': None
+        })
+    return error()

@@ -22,7 +22,7 @@ env = Environment(loader=FileSystemLoader('templates'))
 # simplify requests
 def fetch(url):
     try:
-        url = session.get(url)
+        url = session.get(url, headers={'User-Agent': 'TubeRepair'})
         data = url.json()
         return data
     except requests.ConnectionError:
