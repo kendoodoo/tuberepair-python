@@ -22,6 +22,7 @@ env = Environment(loader=FileSystemLoader('templates'))
 # simplify requests
 def fetch(url):
     try:
+        # Without sending User-Agent, the instance wouldn't send any data for {url}/api/v1/videos ... Why?
         url = session.get(url, headers={'User-Agent': 'TubeRepair'})
         data = url.json()
         return data
