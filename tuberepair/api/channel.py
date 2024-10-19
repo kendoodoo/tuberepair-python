@@ -85,8 +85,12 @@ def uploads(channel_id, res=''):
         res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res) 
-    data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/latest")
-
+    continuationToken = request.args.get('continuation') and '&amp;continuation=' + request.args.get('continuation') or ''
+    # https://docs.invidious.io/api/channels_endpoint/#get-apiv1channelsidvideos
+    # Despite documention says /latest takes in a continuation token, it doesn't
+    # sort_by is broken according to documention and will default to newest
+    # we will add it anyway incase it ever gets fixed
+    data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/videos?sort_by=newest{continuationToken}")
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
         url = url[:-1]
@@ -95,6 +99,7 @@ def uploads(channel_id, res=''):
         return get.template('uploads.jinja2',{
             'data': data['videos'],
             'unix': get.unix,
+            'continuation': 'continuation' in data and data['continuation'] or None,
             'url': url
         })
     
