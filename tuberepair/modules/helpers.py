@@ -1,6 +1,24 @@
 import werkzeug
 from .logs import text
 
+valid_search_orderby = {
+    'relevance': 'relevance',
+    'published': 'date',
+    'viewCount': 'views',
+    'rating': 'rating'
+}
+
+valid_search_time = {
+    'today': 'today',
+    'this_week': 'week',
+    'this_month': 'month'
+}
+
+valid_search_duration = {
+    'short': 'short',
+    'long': 'long'
+}
+
 def process_start_index(request):
     if type(request) is not werkzeug.local.LocalProxy:
         raise ValueError("request SHOULD BE werkzeug.local.LocalProxy! SOMETHING IS WRONG!")

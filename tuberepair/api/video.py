@@ -78,16 +78,52 @@ def search_videos(res=''):
     currentPage, next_page = helpers.process_start_index(request)
 
     user_agent = request.headers.get('User-Agent')
-    query = request.args.get('q')
 
-    # remove space character
-    search_keyword = query.replace(" ", "%20")
+    search_keyword = request.args.get('q')
+
+    if not search_keyword:
+        return error()
     
     # print logs if enabled
     if config.SPYING == True:
-        text('Searched: ' + query)
+        text('Searched: ' + search_keyword)
+
+    # remove space character
+    search_keyword = search_keyword.replace(" ", "%20")
+
+    # q and page is already made, so lets hand add it
+    query = f'q={search_keyword}&type=video&page={currentPage}'
+    
+    # If we have orderby, turn it into invidious friendly parameters
+    # Else ignore it
+    orderby = request.args.get('orderby')
+    if orderby in helpers.valid_search_orderby:
+        query += f'&sort={helpers.valid_search_orderby[orderby]}'
+
+    # If we have time, turn it into invidious friendly parameters
+    # Else ignore it
+    time = request.args.get('time')
+    if time in helpers.valid_search_time:
+        query += f'&date={helpers.valid_search_time[time]}'
+
+    # If we have duration, turn it into invidious friendly parameters
+    # Else ignore it
+    duration = request.args.get('duration')
+    if duration in helpers.valid_search_duration:
+        query += f'&duration={helpers.valid_search_duration[duration]}'
+    
+    # If we have captions, turn it into invidious friendly parameters
+    # Else ignore it
+    # NOTE: YouTube 1.1.0 app only supports subtitles in the search
+    caption = request.args.get('caption')
+    if type(caption) == str and caption.lower() == 'true':
+        query += '&features=subtitles'
+
+    # Santize and stitch 
+    query = query.replace('&', '&amp;')
+
     # search by videos
-    data = get.fetch(f"{config.URL}/api/v1/search?q={search_keyword}&type=video&page={currentPage}")
+    data = get.fetch(f"{config.URL}/api/v1/search?{query}")
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
         url = url[:-1]
