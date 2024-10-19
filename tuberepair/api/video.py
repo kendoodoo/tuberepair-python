@@ -214,14 +214,12 @@ def get_suggested(video_id, res=''):
 
     data = get.fetch(f"{config.URL}/api/v1/videos/{video_id}")
 
-    text('Sent: ' + f"{config.URL}/api/v1/videos/{video_id}")
-
     url = request.url_root + str(res)
     user_agent = request.headers.get('User-Agent')
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
         url = url[:-1]
-    text(str(data['recommendedVideos'][0].keys()))
+
     if data:
         data = data['recommendedVideos']
         # classic tube check
