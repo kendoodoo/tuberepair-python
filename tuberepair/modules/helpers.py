@@ -42,7 +42,7 @@ def process_start_index(request):
         # Add query for next page
         next_page += f'&start-index={next_pageNumber}'
     # Santize
-    next_page = next_page.replace('&', '&amp;')
+    # next_page = next_page.replace('&', '&amp;')
 
     return current_page, next_page
 

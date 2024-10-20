@@ -85,7 +85,7 @@ def uploads(channel_id, res=''):
         res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res) 
-    continuationToken = request.args.get('continuation') and '&amp;continuation=' + request.args.get('continuation') or ''
+    continuationToken = request.args.get('continuation') and '&continuation=' + request.args.get('continuation') or ''
     # https://docs.invidious.io/api/channels_endpoint/#get-apiv1channelsidvideos
     # Despite documention says /latest takes in a continuation token, it doesn't
     # sort_by is broken according to documention and will default to newest
