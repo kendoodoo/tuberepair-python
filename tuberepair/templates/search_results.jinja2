@@ -64,7 +64,7 @@
 				<media:content url="https://www.youtube.com/v/{{info['videoId']}}?version=3&amp;f=playlists&amp;app=youtube_gdata" type='application/x-shockwave-flash' medium='video' isDefault='true' expression='full' duration='0' yt:format='5'/>
 				<media:content url="{{url}}/getvideo/{{info['videoId']}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='1'/>
 				<media:content url="{{url}}/getvideo/{{info['videoId']}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='6'/>
-				<media:credit role='uploader' scheme='urn:youtube' yt:display="{{info['author']}}"" yt:type='partner'>{{info['authorId']}}</media:credit>
+				<media:credit role='uploader' scheme='urn:youtube' yt:display="{{info['author']}}" yt:type='partner'>{{info['authorId']}}</media:credit>
 				<media:description type='plain'>{{info['description']}}</media:description>
 				<media:keywords/>
 				<media:license type='text/html' href='https://www.youtube.com/t/terms'>youtube</media:license>
@@ -80,7 +80,7 @@
 				<media:content url="{{url}}/getvideo/{{info['videoId']}}" type="video/mp4" medium="video" expression="full" duration="0" yt:format="8" />
 				<media:content url="{{url}}/getvideo/{{info['videoId']}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="9" />
 				<media:title type='plain'>{{info['title']}}</media:title>
-				<yt:duration seconds="{{info['lengthSeconds']}}""/>
+				<yt:duration seconds="{{info['lengthSeconds']}}"/>
 				<yt:uploaded>{{published in info and unix(info['published']) or unix('0')}}</yt:uploaded>
 				<yt:uploaderId>{{info['authorId']}}</yt:uploaderId>
 				<yt:videoid>{{info['videoId']}}</yt:videoid>
