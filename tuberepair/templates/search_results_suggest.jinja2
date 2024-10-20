@@ -30,8 +30,8 @@
 	{% for info in data %}
 		<entry gd:etag='W/&quot;YDwqeyM.&quot;'>
 			<id>tag:youtube.com,2008:playlist:{{info['videoId']}}:{{info['videoId']}}</id>
-			<published>{{unix(info['published'])}}</published>
-			<updated>{{unix(info['published'])}}</updated>
+			<published>{{unix('0')}}</published>
+			<updated>{{unix('0')}}</updated>
 			<category scheme='https://schemas.google.com/g/2005#kind' term='https://gdata.youtube.com/schemas/1970#video'/>
 			<category scheme='https://gdata.youtube.com/schemas/1970/categories.cat' term='Howto' label='Howto &amp; Style'/>
 			<title>{{info['title']}}</title>
@@ -81,7 +81,7 @@
 				<media:content url="{{url}}/getvideo/{{info['videoId']}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="9" />
 				<media:title type='plain'>{{info['title']}}</media:title>
 				<yt:duration seconds='{{info['lengthSeconds']}}'/>
-				<yt:uploaded>{{unix(info['published'])}}</yt:uploaded>
+				<yt:uploaded>{{unix('0')}}</yt:uploaded>
 				<yt:uploaderId>{{info['authorId']}}</yt:uploaderId>
 				<yt:videoid>{{info['videoId']}}</yt:videoid>
 			</media:group>

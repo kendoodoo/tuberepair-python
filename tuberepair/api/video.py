@@ -1,4 +1,4 @@
-from modules import get
+from modules import get, helpers
 from flask import Blueprint, Flask, request, redirect, render_template, Response
 import config
 from modules.logs import text
@@ -16,6 +16,11 @@ def error():
 @video.route("/<int:res>/feeds/api/standardfeeds/<regioncode>/<popular>")
 @video.route("/<int:res>/feeds/api/standardfeeds/<popular>")
 def frontpage(regioncode="US", popular=None, res=''):
+
+    # Clamp Res
+    if type(res) == int:
+        res = min(max(res, 144), config.RESMAX)
+
     url = request.url_root + str(res) 
     # trending videos categories
     # the menu got less because of youtube removing it.
@@ -30,6 +35,10 @@ def frontpage(regioncode="US", popular=None, res=''):
     # fetch api from invidious
     data = get.fetch(apiurl)
     
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
     if data:
 
         # print logs if enabled
@@ -60,47 +69,119 @@ def frontpage(regioncode="US", popular=None, res=''):
 @video.route("/<int:res>/feeds/api/videos")
 @video.route("/<int:res>/feeds/api/videos/")
 def search_videos(res=''):
-    url = request.url_root + str(res)
-    print("here", request.url_root)
-    user_agent = request.headers.get('User-Agent')
-    query = request.args.get('q')
 
-    # remove space character
-    search_keyword = query.replace(" ", "%20")
+    # Clamp Res
+    if type(res) == int:
+        res = min(max(res, 144), config.RESMAX)
+    
+    url = request.url_root + str(res)
+    currentPage, next_page = helpers.process_start_index(request)
+
+    user_agent = request.headers.get('User-Agent')
+
+    search_keyword = request.args.get('q')
+
+    if not search_keyword:
+        return error()
     
     # print logs if enabled
     if config.SPYING == True:
-        text('Searched: ' + query)
+        text('Searched: ' + search_keyword)
+
+    # remove space character
+    search_keyword = search_keyword.replace(" ", "%20")
+
+    # q and page is already made, so lets hand add it
+    query = f'q={search_keyword}&type=video&page={currentPage}'
+    
+    # If we have orderby, turn it into invidious friendly parameters
+    # Else ignore it
+    orderby = request.args.get('orderby')
+    if orderby in helpers.valid_search_orderby:
+        query += f'&sort={helpers.valid_search_orderby[orderby]}'
+
+    # If we have time, turn it into invidious friendly parameters
+    # Else ignore it
+    time = request.args.get('time')
+    if time in helpers.valid_search_time:
+        query += f'&date={helpers.valid_search_time[time]}'
+
+    # If we have duration, turn it into invidious friendly parameters
+    # Else ignore it
+    duration = request.args.get('duration')
+    if duration in helpers.valid_search_duration:
+        query += f'&duration={helpers.valid_search_duration[duration]}'
+    
+    # If we have captions, turn it into invidious friendly parameters
+    # Else ignore it
+    # NOTE: YouTube 1.1.0 app only supports subtitles in the search
+    caption = request.args.get('caption')
+    if type(caption) == str and caption.lower() == 'true':
+        query += '&features=subtitles'
+
+    # Santize and stitch 
+    query = query.replace('&', '&amp;')
+
     # search by videos
-    data = get.fetch(f"{config.URL}/api/v1/search?q={search_keyword}&type=video")
+    data = get.fetch(f"{config.URL}/api/v1/search?{query}")
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
 
     if data:
 
         # classic tube check
         if "YouTube v1.0.0" in user_agent:
             return get.template('classic/search.jinja2',{
-                'data': data[:config.SEARCHED_VIDEOS],
+                'data': data[:len(data)],
                 'unix': get.unix,
-                'url': url
+                'url': url,
+                'next_page': next_page
             })
 
         return get.template('search_results.jinja2',{
-            'data': data[:config.SEARCHED_VIDEOS],
+            'data': data[:len(data)],
             'unix': get.unix,
-            'url': url
+            'url': url,
+            'next_page': next_page
+        })
+    else:
+        # No data is also end of search. Really? Come on.
+        if "YouTube v1.0.0" in user_agent:
+            return get.template('classic/search.jinja2',{
+                'data': None,
+                'unix': get.unix,
+                'url': url,
+                'next_page': None
+            })
+
+        return get.template('search_results.jinja2',{
+            'data': None,
+            'unix': get.unix,
+            'url': url,
+            'next_page': None
         })
 
-    return error()
+    #return error()
 
 # video's comments
 # IDEA: filter the comments too?
 @video.route("/api/videos/<videoid>/comments")
 @video.route("/<int:res>/api/videos/<videoid>/comments")
 def comments(videoid, res=''):
+    
+    # Clamp Res
+    if type(res) == int:
+        res = min(max(res, 144), config.RESMAX)
+    
     url = request.url_root + str(res) 
     # fetch invidious comments api
     data = get.fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}")
-    
+
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
     if data:
 
         return get.template('comments.jinja2',{
@@ -116,8 +197,44 @@ def comments(videoid, res=''):
 @video.route("/<int:res>/getvideo/<video_id>")
 def getvideo(video_id, res=None):
     if res is not None or config.MEDIUM_QUALITY is False:
+        
+        # Clamp Res
+        if type(res) == int:
+            res = min(max(res, 144), config.RESMAX)
+    
         # Set mimetype since videole device don't recognized it.
         return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
     
     # 360p if enabled
     return redirect(yt.medium_quality_video_url(video_id), 307)
+
+@video.route("/feeds/api/videos/<video_id>/related")
+@video.route("/<int:res>/feeds/api/videos/<video_id>/related")
+def get_suggested(video_id, res=''):
+
+    data = get.fetch(f"{config.URL}/api/v1/videos/{video_id}")
+
+    url = request.url_root + str(res)
+    user_agent = request.headers.get('User-Agent')
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
+    if data:
+        data = data['recommendedVideos']
+        # classic tube check
+        if "YouTube v1.0.0" in user_agent:
+            return get.template('classic/search.jinja2',{
+                'data': data[:len(data)],
+                'unix': get.unix,
+                'url': url,
+                'next_page': None
+            })
+
+        return get.template('search_results_suggest.jinja2',{
+            'data': data[:len(data)],
+            'unix': get.unix,
+            'url': url,
+            'next_page': None
+        })
+    return error()
