@@ -231,7 +231,7 @@ def get_suggested(video_id, res=''):
                 'next_page': None
             })
 
-        return get.template('search_results_suggest.jinja2',{
+        return get.template('search_results.jinja2',{
             'data': data[:len(data)],
             'unix': get.unix,
             'url': url,

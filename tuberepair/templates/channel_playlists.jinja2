@@ -36,17 +36,17 @@
         <title type='text'>{{playlist['title']}}</title>
         <content type='text'/>
         <link rel='related' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/users/youtube'/>
-        <link rel='alternate' type='text/html' href='http://www.youtube.com/view_play_list?p={{playlist['playlistId']}}'/>
-        <link rel='self' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/users/youtube/playlists/{{playlist['playlistId']}}'/>
+        <link rel='alternate' type='text/html' href="http://www.youtube.com/view_play_list?p={{playlist['playlistId']}}"/>
+        <link rel='self' type='application/atom+xml' href="http://gdata.youtube.com/feeds/api/users/youtube/playlists/{{playlist['playlistId']}}"/>
         <author>
             <name>{{playlist['author']}}</name>
             <uri>http://gdata.youtube.com/feeds/api/users/youtube</uri>
         </author>
         <yt:description/>
-        <gd:feedLink rel='http://gdata.youtube.com/schemas/2007#playlist' href='http://gdata.youtube.com/feeds/api/playlists/{{playlist['playlistId']}}' countHint='0'/>
+        <gd:feedLink rel='http://gdata.youtube.com/schemas/2007#playlist' href="http://gdata.youtube.com/feeds/api/playlists/{{playlist['playlistId']}}" countHint='0'/>
         <media:group>
-            <media:thumbnail url='{{playlist['playlistThumbnail']}}' height='90' width='120' yt:name='default'/>
-            <media:thumbnail url='{{playlist['playlistThumbnail']}}' height='360' width='480' yt:name='hqdefault'/>
+            <media:thumbnail url="{{playlist['playlistThumbnail']}}" height='90' width='120' yt:name='default'/>
+            <media:thumbnail url="{{playlist['playlistThumbnail']}}" height='360' width='480' yt:name='hqdefault'/>
             <yt:duration seconds='60'/>
         </media:group>
         <yt:playlistId>{{playlist['playlistId']}}</yt:playlistId>
