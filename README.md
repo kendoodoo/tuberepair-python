@@ -1,4 +1,3 @@
-# <a href="#pause">im pausing this.</a>
 # TubeRepair server, using Flask and Jinja2.
 - __Works out of the box, edit the backend to your likings.__
 - __Fetches from Youtube Private API without using a key (Coming soon!)__
@@ -33,15 +32,6 @@ pip install -r requirements.txt
 # Running
 python main.py
 ```
-
-# Pause.
-LegacyJailbreak lacks developers, and full of impatient people.
-
-That's a huge problem, because people don't know any better. They beg and beg for devs to make code, and complain when their needs is not fulfilled. "TUBEREPAIR IS NOT WORKING" this, "TUBEREPAIR CANT PLAY VIDEOS" that. Fuck you. Well, not all of them, but, you know. THE SAME THING. Over again, years after years. Not to include clueless moderators and also devs. Your tweak, your responsibility. Write a update for fuck's sake.
-
-I feel bad for developers who make passionate projects for legacy iOS and still cope with the kids. Until it gets better. I will continue to make other related stuff, but I'm dropping this out.
-
-cheese
 
 # Credits
 
