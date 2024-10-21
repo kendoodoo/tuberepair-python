@@ -6,3 +6,4 @@ requests-cache
 requests
 ua_generator
 waitress
+requests[socks]
