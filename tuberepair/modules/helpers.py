@@ -1,4 +1,5 @@
 import werkzeug
+from modules import get
 from .logs import text
 
 valid_search_orderby = {
@@ -18,6 +19,14 @@ valid_search_duration = {
     'short': 'short',
     'long': 'long'
 }
+
+proxies = None
+
+def setup_proxies(proxy):
+    proxies = {
+        "http": proxy,
+        "https": proxy
+    }
 
 def process_start_index(request):
     if type(request) is not werkzeug.local.LocalProxy:
