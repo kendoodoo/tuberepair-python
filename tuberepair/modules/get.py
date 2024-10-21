@@ -6,7 +6,7 @@ import json
 
 # custom functions
 import config
-import helpers
+from modules import helpers
 from .logs import text
 
 # cache to not spam the invidious instance
