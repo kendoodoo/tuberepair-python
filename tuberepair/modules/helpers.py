@@ -23,6 +23,7 @@ valid_search_duration = {
 proxies = None
 
 def setup_proxies(proxy):
+    global proxies
     proxies = {
         "http": proxy,
         "https": proxy
