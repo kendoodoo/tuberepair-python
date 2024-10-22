@@ -33,7 +33,7 @@ else:
     URL = "https://inv.nadeko.net"
 
 if "PROXY" in OSEnv:
-    helpers.setup_proxies(["PROXY"])
+    helpers.setup_proxies(OSEnv["PROXY"])
 
 # Max res to allow users
 # Mainly to stop converting long numbers to strings.
