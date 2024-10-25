@@ -17,6 +17,9 @@ from datetime import datetime
 def unix(unix):
     return datetime.fromtimestamp(int(unix)).isoformat() + '.000Z'
 
+def unix_now(): # Will be used in another update
+    return datetime.now().isoformat() + '.000Z'
+
 # jinja2 path
 env = Environment(loader=FileSystemLoader('templates'))
 
