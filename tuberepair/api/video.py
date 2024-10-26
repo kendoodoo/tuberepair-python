@@ -187,7 +187,6 @@ def comments(videoid, res=''):
     if url[-1] == '/':
         url = url[:-1]
     if data:
-        print(f'continuation: {'continuation' in data and data['continuation']}')
         # NOTE: No comments sometimes returns {'error': 'Comments not found.'}
         if 'error' in data:
             comments = None
