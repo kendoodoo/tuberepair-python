@@ -1,18 +1,16 @@
 from requests_cache import CachedSession
 from jinja2 import Environment, FileSystemLoader
-from datetime import timedelta
+from datetime import timedelta, datetime
 import requests
 import json
 
 # custom functions
 import config
 from modules import helpers
-from .logs import text
+from .logs import print_with_seperator
 
 # cache to not spam the invidious instance
 session = CachedSession('cache/info', expire_after=timedelta(hours=1))
-
-from datetime import datetime
 
 def unix(unix):
     return datetime.fromtimestamp(int(unix)).isoformat() + '.000Z'
@@ -31,7 +29,22 @@ def fetch(url):
         data = url.json()
         return data
     except requests.ConnectionError:
-        text('INVIDIOUS INSTANCE FAILED!', 'red')
+        print_with_seperator('INVIDIOUS INSTANCE FAILED!', 'red')
+
+# If error logging is enable, detour the function.
+if config.GET_ERROR_LOGGING:
+    orig_fetch = fetch
+    def fetch(url):
+        data = orig_fetch(url)
+        #print_with_seperator(data)
+        if 'error' in data:
+            print_with_seperator(
+f'''Invidious returned an error processing "{url}"\n
+----Error begins below----\n
+{data}\n
+----End of error----''')
+        return data
+                                 
 
 def template(file, render_data):
     t = env.get_template(file)

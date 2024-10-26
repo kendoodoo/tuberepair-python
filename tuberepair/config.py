@@ -16,6 +16,12 @@ if "MEDIUM_QUALITY" in OSEnv:
 else:
     MEDIUM_QUALITY = True
 
+
+if "GET_ERROR_LOGGING" in OSEnv:
+    GET_ERROR_LOGGING = helpers.string_to_bool(OSEnv["GET_ERROR_LOGGING"])
+else:
+    GET_ERROR_LOGGING = True
+
 # resolution for DEFAULT HLS playback
 # None, 144, 240, 360, 480, 720, 1080...
 if "HLS_RESOLUTION" in OSEnv:

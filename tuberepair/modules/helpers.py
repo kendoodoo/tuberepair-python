@@ -1,6 +1,5 @@
 import werkzeug
-from modules import get
-from .logs import text
+from .logs import print_with_seperator
 
 valid_search_orderby = {
     'relevance': 'relevance',
