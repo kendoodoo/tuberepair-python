@@ -2,7 +2,7 @@
 # You can change this to anything
 import os
 from modules import helpers
-VERSION = "v0.0.5-beta-2.0-docker"
+VERSION = "v0.0.6-beta-RC1"
 # -------------- #
 
 # -- General -- #

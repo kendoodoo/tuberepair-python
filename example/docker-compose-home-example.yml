@@ -1,0 +1,17 @@
+services:
+  tuberepair:
+    container_name: tuberepair
+    restart: always
+    build:
+      context: .
+      args:
+        TUBEREPAIR_USER_UID: 2000
+        TUBEREPAIR_USER_GID: 2000
+    environment:
+      - SPYING=false
+      - DEBUG=false
+      - MEDIUM_QUALITY=true
+    ports:
+      - 80:4000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
