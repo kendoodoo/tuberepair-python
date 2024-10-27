@@ -27,7 +27,7 @@ app.register_blueprint(channel)
 compress = Compress(app)
 
 # Catch sigterm for docker
-def catch_docker_stop():
+def catch_docker_stop(*args):
     exit()
 
 # config

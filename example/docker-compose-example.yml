@@ -8,34 +8,13 @@ services:
         TUBEREPAIR_USER_UID: 2000
         TUBEREPAIR_USER_GID: 2000
     environment:
-      - LETSENCRYPT_HOST=${LETSENCRYPT_SD_HOST}
+      - LETSENCRYPT_HOST=${HOST_URL}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_HOST=${LETSENCRYPT_SD_HOST}
+      - VIRTUAL_HOST=${HOST_URL}
       - VIRTUAL_PORT=4000
       - SPYING=false
       - DEBUG=false
       - MEDIUM_QUALITY=true
-    networks:
-      - proxy-tier
-      - default
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-  hdtuberepair:
-    container_name: hdtuberepair
-    restart: always
-    build:
-      context: .
-      args:
-        TUBEREPAIR_USER_UID: 2000
-        TUBEREPAIR_USER_GID: 2000
-    environment:
-      - LETSENCRYPT_HOST=${LETSENCRYPT_HD_HOST}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_HOST=${LETSENCRYPT_HD_HOST}
-      - VIRTUAL_PORT=4000
-      - SPYING=false
-      - DEBUG=false
-      - MEDIUM_QUALITY=false
     networks:
       - proxy-tier
       - default
@@ -55,7 +34,8 @@ services:
       - certs:/etc/nginx/certs:z,ro
       - vhost.d:/etc/nginx/vhost.d:z
       - html:/usr/share/nginx/html:z
-      - /run/user/${USERID}/docker.sock:/tmp/docker.sock:ro #Being ran in rootless
+      - /run/user/${USERID}/docker.sock:/tmp/docker.sock:z,ro # Being ran in rootless, comment or remove this line for docker being ran as root
+      # - /var/run/docker.sock:/tmp/docker.sock:z,ro # Uncomment this line if your NOT running rootless docker
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 80:80
@@ -72,7 +52,8 @@ services:
       - acme:/etc/acme.sh:z
       - vhost.d:/etc/nginx/vhost.d:z
       - html:/usr/share/nginx/html:z
-      - /run/user/${USERID}/docker.sock:/var/run/docker.sock:z,ro #Being ran in rootless
+      - /run/user/${USERID}/docker.sock:/var/run/docker.sock:z,ro # Being ran in rootless, comment or remove this line for docker being ran as root
+      # - /var/run/docker.sock:/tmp/docker.sock:z,ro # Uncomment this line if your NOT running rootless docker
       - /etc/localtime:/etc/localtime:ro
     networks:
       - proxy-tier

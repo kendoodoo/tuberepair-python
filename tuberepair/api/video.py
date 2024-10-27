@@ -1,7 +1,7 @@
 from modules import get, helpers
 from flask import Blueprint, Flask, request, redirect, render_template, Response
 import config
-from modules.logs import text
+from modules.logs import print_with_seperator
 from modules import yt
 
 video = Blueprint("video", __name__)
@@ -34,6 +34,9 @@ def frontpage(regioncode="US", popular=None, res=''):
 
     # fetch api from invidious
     data = get.fetch(apiurl)
+
+    # Will be used for checking Classic
+    user_agent = request.headers.get('User-Agent').lower()
     
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
@@ -43,10 +46,10 @@ def frontpage(regioncode="US", popular=None, res=''):
 
         # print logs if enabled
         if config.SPYING == True:
-            text("Region code: " + regioncode)
+            print_with_seperator("Region code: " + regioncode)
 
         # Classic YT path
-        if popular == "recently_featured" or popular == "most_viewed" or popular == "top_rated":
+        if "youtube/1.0.0" in user_agent or "youtube v1.0.0" in user_agent:
             # get template
             return get.template('classic/featured.jinja2',{
                 'data': data[:15],
@@ -77,7 +80,7 @@ def search_videos(res=''):
     url = request.url_root + str(res)
     currentPage, next_page = helpers.process_start_index(request)
 
-    user_agent = request.headers.get('User-Agent')
+    user_agent = request.headers.get('User-Agent').lower()
 
     search_keyword = request.args.get('q')
 
@@ -86,7 +89,7 @@ def search_videos(res=''):
     
     # print logs if enabled
     if config.SPYING == True:
-        text('Searched: ' + search_keyword)
+        print_with_seperator('Searched: ' + search_keyword)
 
     # remove space character
     search_keyword = search_keyword.replace(" ", "%20")
@@ -131,7 +134,7 @@ def search_videos(res=''):
     if data:
 
         # classic tube check
-        if "YouTube v1.0.0" in user_agent:
+        if "youtube/1.0.0" in user_agent or "youtube v1.0.0" in user_agent:
             return get.template('classic/search.jinja2',{
                 'data': data[:len(data)],
                 'unix': get.unix,
@@ -175,19 +178,26 @@ def comments(videoid, res=''):
         res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res) 
+
+    continuation_token = request.args.get('continuation') and '&amp;continuation=' + request.args.get('continuation') or ''
     # fetch invidious comments api
-    data = get.fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}")
+    data = get.fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}{continuation_token}")
 
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
         url = url[:-1]
-
     if data:
-
+        # NOTE: No comments sometimes returns {'error': 'Comments not found.'}
+        if 'error' in data:
+            comments = None
+        else:
+            comments = data['comments']
         return get.template('comments.jinja2',{
-            'data': data['comments'],
+            'data': comments,
             'unix': get.unix,
-            'url': url
+            'url': url,
+            'continuation': 'continuation' in data and data['continuation'] or None,
+            'video_id': videoid
         })
 
     return error()

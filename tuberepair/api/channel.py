@@ -1,7 +1,7 @@
 from modules import get, helpers
 from flask import Blueprint, Flask, request, redirect, render_template
 import config
-from modules.logs import text
+from modules.logs import print_with_seperator
 
 channel = Blueprint("channel", __name__)
 
@@ -22,22 +22,22 @@ def search(channel_id, res=''):
     if url[-1] == '/':
         url = url[:-1]
 
-    if data:
-        # wow being not lazy is ea-zy
-        channel_url = data['authorId']
-        channel_name = data['author']
-        channel_pic_url = data['authorThumbnails'][0]['url']
-        sub_count = data['subCount']
-
-        return get.template('channel_info.jinja2',{
-            'author': channel_name,
-            'author_id': channel_url,
-            'channel_pic_url': channel_pic_url,
-            'subcount': sub_count,
-            'url': url
-        })
+    # Error handling
+    if data and 'error' in data:
+        return get.error()
     
-    return get.error()
+    channel_url = data['authorId']
+    channel_name = data['author']
+    channel_pic_url = data['authorThumbnails'][0]['url']
+    sub_count = data['subCount']
+
+    return get.template('channel_info.jinja2',{
+        'author': channel_name,
+        'author_id': channel_url,
+        'channel_pic_url': channel_pic_url,
+        'subcount': sub_count,
+        'url': url
+    })
 
 # search for channels
 @channel.route("/feeds/api/channels")
@@ -85,12 +85,12 @@ def uploads(channel_id, res=''):
         res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res) 
-    continuationToken = request.args.get('continuation') and '&amp;continuation=' + request.args.get('continuation') or ''
+    continuation_token = request.args.get('continuation') and '&amp;continuation=' + request.args.get('continuation') or ''
     # https://docs.invidious.io/api/channels_endpoint/#get-apiv1channelsidvideos
     # Despite documention says /latest takes in a continuation token, it doesn't
     # sort_by is broken according to documention and will default to newest
     # we will add it anyway incase it ever gets fixed
-    data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/videos?sort_by=newest{continuationToken}")
+    data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/videos?sort_by=newest{continuation_token}")
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
         url = url[:-1]

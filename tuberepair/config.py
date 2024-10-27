@@ -2,7 +2,7 @@
 # You can change this to anything
 import os
 from modules import helpers
-VERSION = "v0.0.5-beta-2.0-docker"
+VERSION = "v0.0.6-beta-RC1"
 # -------------- #
 
 # -- General -- #
@@ -15,6 +15,12 @@ if "MEDIUM_QUALITY" in OSEnv:
     MEDIUM_QUALITY = helpers.string_to_bool(OSEnv["MEDIUM_QUALITY"])
 else:
     MEDIUM_QUALITY = True
+
+
+if "GET_ERROR_LOGGING" in OSEnv:
+    GET_ERROR_LOGGING = helpers.string_to_bool(OSEnv["GET_ERROR_LOGGING"])
+else:
+    GET_ERROR_LOGGING = True
 
 # resolution for DEFAULT HLS playback
 # None, 144, 240, 360, 480, 720, 1080...
