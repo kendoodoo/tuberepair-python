@@ -37,7 +37,9 @@ if config.GET_ERROR_LOGGING:
     def fetch(url):
         data = orig_fetch(url)
         #print_with_seperator(data)
-        if 'error' in data:
+        if not data:
+            print_with_seperator(f'request "{url}" returned nothing from instance.')
+        elif 'error' in data:
             print_with_seperator(
 f'''Invidious returned an error processing "{url}"\n
 ----Error begins below----\n
