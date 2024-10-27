@@ -42,7 +42,8 @@ Make sure you have Linux, ports 80 and 443 open, [docker](https://docs.docker.co
 git clone https://github.com/kevinf100/tuberepair.uptimetrackers.com
 mv tuberepair.uptimetrackers.com/ tuberepairdocker/
 cd tuberepairdocker
-cp ./example/.env ./example/docker-compose-example.yml ../
+cp ./example/.env ../
+cp ./example/docker-compose-example.yml ./example/docker-compose.yml 
 ```
 ### docker-compose setup
 Next you'll need to edit the .env file or you can edit the docker-compose.yml directly.  
@@ -76,7 +77,8 @@ Make sure you have Linux and [docker](https://docs.docker.com/engine/install/).
 git clone https://github.com/kevinf100/tuberepair.uptimetrackers.com
 mv tuberepair.uptimetrackers.com/ tuberepairdocker/
 cd tuberepairdocker
-cp ./example/docker-compose-home-example.yml ../
+cp ./example/.env ../
+cp ./example/docker-compose-home-example.yml ./example/docker-compose.yml 
 ```
 ### docker-compose setup
 Next you'll need to edit the .env file or you can edit the docker-compose.yml directly.  
