@@ -37,7 +37,7 @@ def legacy_login_bypass2(res=None):
     return f'''Auth={uuid4().hex}'''
 
 # --------------------------------------------- #
-
+@static.route("/youtube/accounts/registerDevice", methods=['POST'])
 @static.route("/<int:res>/youtube/accounts/registerDevice", methods=['POST'])
 def login_bypass(res=None):
     # return random key
