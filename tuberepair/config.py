@@ -77,8 +77,8 @@ else:
 
 # Compress response
 # NOTE: Really helps squeezing it down, about 80%. Won't affect potato PC that much.
-if "SPYING" in OSEnv:
-    COMPRESS = helpers.string_to_bool(OSEnv["SPYING"])
+if "COMPRESS" in OSEnv:
+    COMPRESS = helpers.string_to_bool(OSEnv["COMPRESS"])
 else:
     COMPRESS = True
 
