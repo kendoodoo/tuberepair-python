@@ -131,38 +131,23 @@ def search_videos(res=''):
     if url[-1] == '/':
         url = url[:-1]
 
-    if data:
+    if not data:
+        next_page = None
 
-        # classic tube check
-        if "youtube/1.0.0" in user_agent or "youtube v1.0.0" in user_agent:
-            return get.template('classic/search.jinja2',{
-                'data': data[:len(data)],
-                'unix': get.unix,
-                'url': url,
-                'next_page': next_page
-            })
-
-        return get.template('search_results.jinja2',{
-            'data': data[:len(data)],
+    # classic tube check
+    if "youtube/1.0.0" in user_agent or "youtube v1.0.0" in user_agent:
+        return get.template('classic/search.jinja2',{
+            'data': data,
             'unix': get.unix,
             'url': url,
             'next_page': next_page
         })
     else:
-        # No data is also end of search. Really? Come on.
-        if "YouTube v1.0.0" in user_agent:
-            return get.template('classic/search.jinja2',{
-                'data': None,
-                'unix': get.unix,
-                'url': url,
-                'next_page': None
-            })
-
         return get.template('search_results.jinja2',{
-            'data': None,
+            'data': data,
             'unix': get.unix,
             'url': url,
-            'next_page': None
+            'next_page': next_page
         })
 
     #return error()
@@ -235,14 +220,14 @@ def get_suggested(video_id, res=''):
         # classic tube check
         if "YouTube v1.0.0" in user_agent:
             return get.template('classic/search.jinja2',{
-                'data': data[:len(data)],
+                'data': data,
                 'unix': get.unix,
                 'url': url,
                 'next_page': None
             })
 
         return get.template('search_results.jinja2',{
-            'data': data[:len(data)],
+            'data': data,
             'unix': get.unix,
             'url': url,
             'next_page': None

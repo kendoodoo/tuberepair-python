@@ -4,3 +4,4 @@ cache/
 venv/
 .DS_Store
 .env
+*.txt
