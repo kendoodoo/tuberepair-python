@@ -57,9 +57,9 @@
       <media:group>
         <media:category label="Music" scheme="{{ url }}/schemas/2007/categories.cat">Music</media:category>
         <media:content url="{{ url }}/getvideo/{{ uploads['videoId'] }}" type="video/mp4" medium="video" isDefault="true" expression="full" duration="0" yt:format="3" />
-        <media:content url="{{ url }}//{{ uploads['videoId'] }}.3gpp" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="2" />
+        <media:content url="{{ url }}/{{ uploads['videoId'] }}.3gpp" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="2" />
         <media:content url="{{ url }}/getvideo/{{ uploads['videoId'] }}" type="video/mp4" medium="video" expression="full" duration="0" yt:format="8" />
-        <media:content url="{{ url }}//{{ uploads['videoId'] }}.3gpp" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="9" />
+        <media:content url="{{ url }}/{{ uploads['videoId'] }}.3gpp" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="9" />
         <media:credit role="uploader" scheme="urn:youtube" yt:display="{{ uploads['author'] }}">{{ uploads['author'] }}</media:credit>
         <media:description type="plain">{{ uploads['description'] }}</media:description>
         <media:keywords>keywords</media:keywords>

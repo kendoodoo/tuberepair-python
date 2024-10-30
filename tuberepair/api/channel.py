@@ -57,21 +57,15 @@ def channels(res=''):
     if url[-1] == '/':
         url = url[:-1]
 
-    if data:
+    if not data:
+        next_page = None
 
         # template
-        return get.template('search_results_channel.jinja2',{
-            'data': data,
-            'url': url,
-            'next_page': next_page
-        })
-    else:
-        # No data is also end of search. Really? Come on.
-        return get.template('search_results_channel.jinja2',{
-            'data': None,
-            'url': url,
-            'next_page': None
-        })
+    return get.template('search_results_channel.jinja2',{
+        'data': data,
+        'url': url,
+        'next_page': next_page
+    })
 
     #return get.error()
     

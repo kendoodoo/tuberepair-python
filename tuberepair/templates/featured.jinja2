@@ -65,8 +65,8 @@
 		<media:group>
 			<media:category label='Howto &amp; Style' scheme='{{url}}/schemas/1970/categories.cat'>Howto</media:category>
 			<media:content url="http://www.youtube.com/v/{{video['videoId']}}?version=3&amp;f=playlists&amp;app=youtube_gdata" type='application/x-shockwave-flash' medium='video' isDefault='true' expression='full' duration='0' yt:format='5'/>
-			<media:content url="{{url}}//getvideo/{{video['videoId']}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='1'/>
-			<media:content url="{{url}}//getvideo/{{video['videoId']}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='6'/>
+			<media:content url="{{url}}/getvideo/{{video['videoId']}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='1'/>
+			<media:content url="{{url}}/getvideo/{{video['videoId']}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='6'/>
 			<media:credit role='uploader' scheme='urn:youtube' yt:display='{{video['author']}}' yt:type='partner'>{{video['authorId']}}</media:credit>
 			<media:description type='plain'>{{video['description']}}</media:description>
 			<media:keywords/>
@@ -79,9 +79,9 @@
 			<media:thumbnail url="https://i.ytimg.com/vi/{{video['videoId']}}/default.jpg" height='90' width='120' time='00:00:00.000' yt:name='middle'/>
 			<media:thumbnail url="https://i.ytimg.com/vi/{{video['videoId']}}/default.jpg" height='90' width='120' time='00:00:00.000' yt:name='end'/>
 			<media:content url="{{url}}/getvideo/{{video['videoId']}}" type="video/mp4" medium="video" isDefault="true" expression="full" duration="0" yt:format="3" />
-			<media:content url="{{url}}//getvideo/{{video['videoId']}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="2" />
+			<media:content url="{{url}}/getvideo/{{video['videoId']}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="2" />
 			<media:content url="{{url}}/getvideo/{{video['videoId']}}" type="video/mp4" medium="video" expression="full" duration="0" yt:format="8" />
-			<media:content url="{{url}}//getvideo/{{video['videoId']}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="9" />
+			<media:content url="{{url}}/getvideo/{{video['videoId']}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="9" />
 			<media:title type='plain'>{{video['description']}}</media:title>
 			<yt:duration seconds="{{video['lengthSeconds']}}"/>
 			<yt:uploaded>{{ unix(video['published']) }}</yt:uploaded>
