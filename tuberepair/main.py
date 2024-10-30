@@ -24,7 +24,8 @@ app.register_blueprint(video)
 app.register_blueprint(channel)
 
 # use compression to load faster
-compress = Compress(app)
+if config.COMPRESS:
+    compress = Compress(app)
 
 # Catch sigterm for docker
 def catch_docker_stop(*args):
