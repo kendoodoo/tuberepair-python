@@ -31,7 +31,8 @@ def playlists(channel_id, res=''):
             return get.template('channel_playlists.jinja2',{
                 'data': data['playlists'],
                 'continuation': 'continuation' in data and data['continuation'] or None,
-                'url': url
+                'url': url,
+                'channel_id': channel_id
             })
         raise Exception("No Data was returned!")
     except:
