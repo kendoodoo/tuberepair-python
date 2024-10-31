@@ -216,7 +216,10 @@ def get_suggested(video_id, res=''):
         url = url[:-1]
 
     if data:
-        data = data['recommendedVideos']
+        if 'error' in data:
+            data = None
+        else:
+            data = data['recommendedVideos']
         # classic tube check
         if "YouTube v1.0.0" in user_agent:
             return get.template('classic/search.jinja2',{
