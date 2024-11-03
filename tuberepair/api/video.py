@@ -156,6 +156,8 @@ def search_videos(res=''):
 # IDEA: filter the comments too?
 @video.route("/api/videos/<videoid>/comments")
 @video.route("/<int:res>/api/videos/<videoid>/comments")
+@video.route("/feeds/api/videos/<videoid>/comments")
+@video.route("/<int:res>/feeds/api/videos/<videoid>/comments")
 def comments(videoid, res=''):
     
     # Clamp Res
@@ -220,6 +222,7 @@ def get_suggested(video_id, res=''):
             data = None
         else:
             data = data['recommendedVideos']
+            print(data)
         # classic tube check
         if "YouTube v1.0.0" in user_agent:
             return get.template('classic/search.jinja2',{
