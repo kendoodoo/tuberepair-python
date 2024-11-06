@@ -210,7 +210,7 @@ def getURL(res=None):
         item_hash = add_route(url)
         t = threading.Thread(target=delete_route, args=(item_hash,))
         t.start()
-        return f'http://192.168.0.152:4000/getURLFinal/{item_hash}'
+        return f'{request.root_url}/getURLFinal/{item_hash}'
     else:
         return yt.data_to_medium_url(data)
     
