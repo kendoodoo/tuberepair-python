@@ -11,7 +11,7 @@
     <name>TubeFixer</name>
     <uri>https://tubefixer.ovh/</uri>
   </author>
-  <generator version="2.0" uri="{{url}}">TubeFixer API v2</generator>
+  <generator version="2.0" uri="{{url}}/">TubeFixer API v2</generator>
 <openSearch:totalResults>200</openSearch:totalResults>
   <openSearch:itemsPerPage>5</openSearch:itemsPerPage>
   <openSearch:startIndex></openSearch:startIndex>
@@ -27,7 +27,7 @@
     <content type="video/mp4" src="{{url}}/video/sd/{{video['videoId']}}" />
     <link rel="alternate" type="text/html" href="https://www.youtube.com/watch?v={{video['videoId']}}&amp;feature=youtube_gdata" />
     <link rel="http://gdata.youtube.com/schemas/2007#video.complaints" type="application/atom+xml" href="{{url}}/feeds/api/videos/{{video['videoId']}}/complaints" />
-    <link rel="http://gdata.youtube.com/schemas/2007#video.related" type="application/atom+xml" href="{{url}}/feeds/api/videos/{{video['videoId']}}/related" />
+    <link rel='http://gdata.youtube.com/schemas/2007#video.related' type='application/atom+xml' href="https://gdata.youtube.com/feeds/api/videos/{{video['videoId']}}/related"/>
     <link rel="http://gdata.youtube.com/schemas/2007#video.captionTracks" type="application/atom+xml" href="{{url}}/feeds/api/videos/{{video['videoId']}}/captions" yt:hasEntries="false" />
     <link rel="http://gdata.youtube.com/schemas/2007#mobile" type="text/html" href="http://m.youtube.com/details?v={{video['videoId']}}" />
     <link rel="http://gdata.youtube.com/schemas/2007#uploader" type="application/atom+xml" href="{{url}}/feeds/api/users/{{video['authorId']}}" />

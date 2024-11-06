@@ -1,0 +1,71 @@
+services:
+  tuberepair:
+    container_name: tuberepair
+    restart: always
+    build:
+      context: .
+      args:
+        TUBEREPAIR_USER_UID: 2000
+        TUBEREPAIR_USER_GID: 2000
+    environment:
+      - LETSENCRYPT_HOST=${HOST_URL}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - VIRTUAL_HOST=${HOST_URL}
+      - VIRTUAL_PORT=4000
+      - SPYING=false
+      - DEBUG=false
+      - MEDIUM_QUALITY=true
+    networks:
+      - proxy-tier
+      - default
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+  proxy:
+    build:
+      context: .
+      target: cf-proxy
+    container_name: proxy
+    restart: always
+    environment:
+      LOG_FORMAT: $$real_client_ip - $$remote_user [$$time_local] $$request $$status $$body_bytes_sent $$http_host $$upstream_response_time $$http_referer $$http_user_agent;
+
+    volumes:
+      - certs:/etc/nginx/certs:z,ro
+      - vhost.d:/etc/nginx/vhost.d:z
+      - html:/usr/share/nginx/html:z
+      - /run/user/${USERID}/docker.sock:/tmp/docker.sock:z,ro # Being ran in rootless, comment or remove this line for docker being ran as root
+      # - /var/run/docker.sock:/tmp/docker.sock:z,ro # Uncomment this line if your NOT running rootless docker
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+
+  letsencrypt-companion:
+    container_name: letsencrypt-companion
+    image: nginxproxy/acme-companion
+    restart: always
+    volumes:
+      - certs:/etc/nginx/certs:z
+      - acme:/etc/acme.sh:z
+      - vhost.d:/etc/nginx/vhost.d:z
+      - html:/usr/share/nginx/html:z
+      - /run/user/${USERID}/docker.sock:/var/run/docker.sock:z,ro # Being ran in rootless, comment or remove this line for docker being ran as root
+      # - /var/run/docker.sock:/tmp/docker.sock:z,ro # Uncomment this line if your NOT running rootless docker
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - proxy-tier
+    depends_on:
+      - proxy
+
+
+volumes:
+  certs:
+  acme:
+  vhost.d:
+  html:
+
+networks:
+  proxy-tier:
