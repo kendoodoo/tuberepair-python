@@ -186,6 +186,11 @@ def comments(videoid, res=''):
         })
 
     return error()
+
+@video.route("/getURL",  methods=['POST'])
+def getURL():
+    data = request.json
+    return data["streamingData"]['formats'][0]['url']
     
 # fetches video from innertube.
 @video.route("/getvideo/<video_id>")
