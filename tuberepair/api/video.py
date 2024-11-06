@@ -156,6 +156,8 @@ def search_videos(res=''):
 # IDEA: filter the comments too?
 @video.route("/api/videos/<videoid>/comments")
 @video.route("/<int:res>/api/videos/<videoid>/comments")
+@video.route("/feeds/api/videos/<videoid>/comments")
+@video.route("/<int:res>/feeds/api/videos/<videoid>/comments")
 def comments(videoid, res=''):
     
     # Clamp Res
