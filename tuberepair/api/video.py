@@ -3,8 +3,11 @@ from flask import Blueprint, Flask, request, redirect, render_template, Response
 import config
 from modules.logs import print_with_seperator
 from modules import yt
+import threading
+import time
 
 video = Blueprint("video", __name__)
+videos_dict = {}
 
 def error():
     return "",404
@@ -189,10 +192,32 @@ def comments(videoid, res=''):
 
     return error()
 
-@video.route("/getURL",  methods=['POST'])
-def getURL():
+def add_route(item):
+    item_hash = hash(item)
+    videos_dict[item_hash] = item
+    return item_hash
+
+def delete_route(item_hash):
+    time.sleep(15)
+    videos_dict.pop(item_hash)
+
+@video.route("/getURL", methods=['POST'])
+@video.route("/<int:res>/getURL", methods=['POST'])
+def getURL(res=None):
     data = request.json
-    return data["streamingData"]['formats'][0]['url']
+    if request.headers.get('HLS-Video'):
+        url = yt.data_to_hls_url(data, res)
+        item_hash = add_route(url)
+        t = threading.Thread(target=delete_route, args=(item_hash,))
+        t.start()
+        return f'http://192.168.0.152:4000/getURLFinal/{item_hash}'
+    else:
+        return yt.data_to_medium_url(data)
+    
+@video.route("/getURLFinal/<item_hash>")
+def getURLFinal(item_hash):
+    item_hash = int(item_hash)
+    return Response(videos_dict[item_hash], mimetype="application/vnd.apple.mpegurl")
     
 # fetches video from innertube.
 @video.route("/getvideo/<video_id>")
