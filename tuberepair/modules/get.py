@@ -40,13 +40,8 @@ if config.GET_ERROR_LOGGING:
         if not data:
             print_with_seperator(f'request "{url}" returned nothing from instance.')
         elif 'error' in data:
-            print_with_seperator(
-f'''Invidious returned an error processing "{url}"\n
-----Error begins below----\n
-{data}\n
-----End of error----''')
+            print_with_seperator(f'''Invidious returned an error processing "{url}"\n----Error begins below----\n{data}\n----End of error----''')
         return data
-                                 
 
 def template(file, render_data):
     t = env.get_template(file)
@@ -55,6 +50,3 @@ def template(file, render_data):
 
 def error():
     return "",404
-
-
-
