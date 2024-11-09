@@ -3,7 +3,7 @@ import requests_cache
 from datetime import timedelta
 
 import config
-from modules import helpers
+from modules import helpers, get
 
 # Videos expires after 5 hours, so you don't have to worry.
 session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(hours=4), ignored_parameters=['key'])
@@ -113,3 +113,29 @@ def medium_quality_video_url(video_id):
     data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, proxies=helpers.proxies).json()
 
     return data["streamingData"]['formats'][0]['url']
+
+class metadata:
+
+    def simple_channel_info(id):
+
+        json_data = {
+            "context": {
+                'client': {
+                    'clientName': 'WEB',
+                    'clientVersion': '2.20240814.00.00'
+                }
+            },
+            "params": "EgZzaG9ydHPyBgUKA5oBAA%3D%3D",
+            "browseId": id
+        }
+
+        # fetch the API.
+        data = session.post('https://www.youtube.com/youtubei/v1/browse?key=' + api_key, json=json_data).json()
+
+        # i'm lazy. again.
+        return {
+            "name": data['header']['pageHeaderRenderer']['pageTitle'],
+            "channel_id": data['contents']['twoColumnBrowseResultsRenderer']['tabs'][0]['tabRenderer']['endpoint']['browseEndpoint']['browseId'],
+            "profile_picture": data['header']['pageHeaderRenderer']['content']['pageHeaderViewModel']['image']['decoratedAvatarViewModel']['avatar']['avatarViewModel']['image']['sources'][0]['url'],
+            "subscribers": get.subscribers(data['header']['pageHeaderRenderer']['content']['pageHeaderViewModel']['metadata']['contentMetadataViewModel']['metadataRows'][1]['metadataParts'][0]['text']['content'])
+        }

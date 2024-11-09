@@ -50,3 +50,16 @@ def template(file, render_data):
 
 def error():
     return "",404
+
+# convert subscriber to text
+def subscribers(string):
+    processed_string = string.replace('subscribers', '')
+
+    if 'M' in processed_string:
+        return int(float(processed_string.replace('M', '')) * 100000)
+
+    if 'K' in processed_string:
+        return int(float(processed_string.replace('K', '')) * 1000)
+    
+    else:
+        return processed_string
