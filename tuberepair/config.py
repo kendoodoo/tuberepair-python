@@ -9,6 +9,12 @@ VERSION = "v0.0.7-beta-RC1"
 
 OSEnv = os.environ
 
+# enables gets from innertube test
+if "CLIENT_TEST" in OSEnv:
+    CLIENT_TEST = helpers.string_to_bool(OSEnv["CLIENT_TEST"])
+else:
+    CLIENT_TEST = False
+
 # gets 360p by default is user doesn't provide a resolution
 # NOTE: loads a ton faster
 if "MEDIUM_QUALITY" in OSEnv:
