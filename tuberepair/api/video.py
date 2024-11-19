@@ -3,8 +3,6 @@ from flask import Blueprint, Flask, request, redirect, render_template, Response
 import config
 from modules.logs import print_with_seperator
 from modules import yt
-import threading
-import time
 
 video = Blueprint("video", __name__)
 
