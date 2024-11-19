@@ -1,4 +1,4 @@
-from modules import get, helpers,yt
+from modules import get, helpers, yt
 from flask import Blueprint, Flask, request, redirect, render_template
 import config
 from modules.logs import print_with_seperator
@@ -15,12 +15,13 @@ def search(channel_id, res=''):
         res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res) 
-    # fetch from... you can't believe it.
 
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
         url = url[:-1]
 
+    # fetch from... you can't believe it.
+    # TODO: Make this a config setting letting users use innertube or Invidious!
     data = yt.metadata.simple_channel_info(channel_id)
     # Error handling
     if data and 'error' in data:

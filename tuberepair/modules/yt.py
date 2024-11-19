@@ -1,8 +1,5 @@
-import requests, re
-import requests_cache
+import requests_cache, re, config
 from datetime import timedelta
-
-import config
 from modules import helpers, get
 
 # Videos expires after 5 hours, so you don't have to worry.
@@ -101,26 +98,17 @@ def data_to_hls_url(data, res = None):
 # Much thanks for SpaceSaver.
 def hls_video_url(video_id, res=None):
 
-    # generate random user agent to spoof
-    #
-    ios_user_agent = str(ua_generator.generate(platform='ios'))
-    header_data = {
-        "User-Agent": ios_user_agent,
-        "Referer": "https://m.youtube.com/"
-    }
-
     # using IOS client since Apple invented HLS, duh.
     json_data = {
         "context": {"client": {
             "clientName": "IOS",
             "clientVersion": "19.16.3",
-            "visitorData": "CgtfVHB0eHw4PIBAREiEgHg%3D%3D"
         }},
         "videoId": video_id
     }
     
     # fetch innertube
-    data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, headers=header_data, proxies=helpers.proxies).json()
+    data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, proxies=helpers.proxies).json()
     return data_to_hls_url(data, res)
 
 def data_to_medium_url(data):
