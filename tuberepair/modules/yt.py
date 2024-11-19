@@ -12,30 +12,7 @@ session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(ho
 # hard-coded API Key, so no limit at all.
 api_key = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8'
 
-# Get HLS URL via youtubei and fetch the file, then filter to fix low quality playback error
-# Much thanks for SpaceSaver.
-def hls_video_url(video_id, res=None):
-
-    # generate random user agent to spoof
-    #
-    ios_user_agent = str(ua_generator.generate(platform='ios'))
-    header_data = {
-        "User-Agent": ios_user_agent,
-        "Referer": "https://m.youtube.com/"
-    }
-
-    # using IOS client since Apple invented HLS, duh.
-    json_data = {
-        "context": {"client": {
-            "clientName": "IOS",
-            "clientVersion": "19.16.3",
-            "visitorData": "CgtfVHB0eHw4PIBAREiEgHg%3D%3D"
-        }},
-        "videoId": video_id
-    }
-    
-    # fetch innertube
-    data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, headers=header_data, proxies=helpers.proxies).json()
+def data_to_hls_url(data, res = None):
     # get video's m3u8 to process it.
     panda = session.get(data["streamingData"]["hlsManifestUrl"], proxies=helpers.proxies).text.split("\n")
 
@@ -105,6 +82,35 @@ def hls_video_url(video_id, res=None):
     panda = "\n".join(panda)
     return panda
 
+# Get HLS URL via youtubei and fetch the file, then filter to fix low quality playback error
+# Much thanks for SpaceSaver.
+def hls_video_url(video_id, res=None):
+
+    # generate random user agent to spoof
+    #
+    ios_user_agent = str(ua_generator.generate(platform='ios'))
+    header_data = {
+        "User-Agent": ios_user_agent,
+        "Referer": "https://m.youtube.com/"
+    }
+
+    # using IOS client since Apple invented HLS, duh.
+    json_data = {
+        "context": {"client": {
+            "clientName": "IOS",
+            "clientVersion": "19.16.3",
+            "visitorData": "CgtfVHB0eHw4PIBAREiEgHg%3D%3D"
+        }},
+        "videoId": video_id
+    }
+    
+    # fetch innertube
+    data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, headers=header_data, proxies=helpers.proxies).json()
+    return data_to_hls_url(data, res)
+
+def data_to_medium_url(data):
+    return data["streamingData"]['formats'][0]['url']
+
 # play 360p
 # for the kids who begged for this, here you go...
 def medium_quality_video_url(video_id):
@@ -129,7 +135,7 @@ def medium_quality_video_url(video_id):
     data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, headers=header_data, proxies=helpers.proxies).json()
 
     # i'm lazy. again.
-    return data["streamingData"]['formats'][0]['url']
+    return data_to_medium_url(data)
 
 def channel_playlists():
 
