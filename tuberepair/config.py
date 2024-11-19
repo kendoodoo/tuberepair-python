@@ -2,12 +2,18 @@
 # You can change this to anything
 import os
 from modules import helpers
-VERSION = "v0.0.6-beta-RC2"
+VERSION = "v0.0.7-beta-RC1"
 # -------------- #
 
 # -- General -- #
 
 OSEnv = os.environ
+
+# enables gets from innertube test
+if "CLIENT_TEST" in OSEnv:
+    CLIENT_TEST = helpers.string_to_bool(OSEnv["CLIENT_TEST"])
+else:
+    CLIENT_TEST = False
 
 # gets 360p by default is user doesn't provide a resolution
 # NOTE: loads a ton faster
@@ -77,8 +83,8 @@ else:
 
 # Compress response
 # NOTE: Really helps squeezing it down, about 80%. Won't affect potato PC that much.
-if "SPYING" in OSEnv:
-    COMPRESS = helpers.string_to_bool(OSEnv["SPYING"])
+if "COMPRESS" in OSEnv:
+    COMPRESS = helpers.string_to_bool(OSEnv["COMPRESS"])
 else:
     COMPRESS = True
 

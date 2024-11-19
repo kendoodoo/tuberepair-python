@@ -3,6 +3,8 @@ from flask import Blueprint, Flask, request, redirect, render_template, Response
 import config
 from modules.logs import print_with_seperator
 from modules import yt
+import threading
+import time
 
 video = Blueprint("video", __name__)
 
@@ -156,6 +158,8 @@ def search_videos(res=''):
 # IDEA: filter the comments too?
 @video.route("/api/videos/<videoid>/comments")
 @video.route("/<int:res>/api/videos/<videoid>/comments")
+@video.route("/feeds/api/videos/<videoid>/comments")
+@video.route("/<int:res>/feeds/api/videos/<videoid>/comments")
 def comments(videoid, res=''):
     
     # Clamp Res
@@ -216,7 +220,10 @@ def get_suggested(video_id, res=''):
         url = url[:-1]
 
     if data:
-        data = data['recommendedVideos']
+        if 'error' in data:
+            data = None
+        else:
+            data = data['recommendedVideos']
         # classic tube check
         if "YouTube v1.0.0" in user_agent:
             return get.template('classic/search.jinja2',{

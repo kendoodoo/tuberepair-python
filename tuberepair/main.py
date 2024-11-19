@@ -12,6 +12,9 @@ from api.video import video
 from api.channel import channel
 from modules import logs
 
+if config.CLIENT_TEST:
+    from api.client_videos import client_videos
+
 # init
 # Load version text
 logs.version(config.VERSION)
@@ -22,9 +25,12 @@ app.register_blueprint(static)
 app.register_blueprint(playlist)
 app.register_blueprint(video)
 app.register_blueprint(channel)
+if config.CLIENT_TEST:
+    app.register_blueprint(client_videos)
 
 # use compression to load faster
-compress = Compress(app)
+if config.COMPRESS:
+    compress = Compress(app)
 
 # Catch sigterm for docker
 def catch_docker_stop(*args):
