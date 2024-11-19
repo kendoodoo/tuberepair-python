@@ -144,7 +144,6 @@ def medium_quality_video_url(video_id):
     # fetch the API.
     data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, proxies=helpers.proxies).json()
 
-    return data["streamingData"]['formats'][0]['url']
     # i'm lazy. again.
     return data_to_medium_url(data)
 

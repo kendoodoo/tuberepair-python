@@ -42,7 +42,7 @@ else:
 if "URL" in OSEnv:
     URL = OSEnv["URL"]
 else:
-    URL = "https://invidious.darkness.services"
+    URL = "inv.nadeko.net"
 
 if "PROXY" in OSEnv:
     helpers.setup_proxies(OSEnv["PROXY"])
