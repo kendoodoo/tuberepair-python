@@ -2,7 +2,7 @@
 # You can change this to anything
 import os
 from modules import helpers
-VERSION = "v0.0.7-beta-RC1"
+VERSION = "v0.0.7-beta-RC2"
 # -------------- #
 
 # -- General -- #

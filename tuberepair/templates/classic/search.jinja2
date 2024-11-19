@@ -20,8 +20,8 @@
   {% for info in data %}
     <entry gd:etag="X7TQO_tCDyvjdmzy26zWmC5Mbwc">
       <id>tag:youtube.com,2008:video:{{info['videoId']}}</id>
-      <published>{{unix(info['published'])}}</published>
-      <updated>{{unix(info['published'])}}</updated>
+      <published>{{'published' in info and unix(info['published']) or unix('0')}}</published>
+      <updated>{{'published' in info and unix(info['published']) or unix('0')}}</updated>
       <category scheme="http://schemas.google.com/g/2005#kind" term="http://gdata.youtube.com/schemas/2007#video" />
       <category scheme="http://gdata.youtube.com/schemas/2007/categories.cat" term="Entertainment" label="Entertainment" />
       <title>{{info['title']}}</title>
@@ -72,7 +72,7 @@
         <media:title type="plain">{{info['title']}}</media:title>
         <yt:aspectRatio>widescreen</yt:aspectRatio>
         <yt:duration seconds="{{info['lengthSeconds']}}" />
-        <yt:uploaded>{{unix(info['published'])}}</yt:uploaded>
+        <yt:uploaded>{{'published' in info and unix(info['published']) or unix('0')}}</yt:uploaded>
         <yt:uploaderId>{{info['authorId']}}</yt:uploaderId>
         <yt:videoid>{{info['videoId']}}</yt:videoid>
       </media:group>
