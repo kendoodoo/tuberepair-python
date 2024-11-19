@@ -1,4 +1,4 @@
-from modules import get, helpers
+from modules import get, helpers,yt
 from flask import Blueprint, Flask, request, redirect, render_template
 import config
 from modules.logs import print_with_seperator
@@ -15,21 +15,21 @@ def search(channel_id, res=''):
         res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res) 
-    # fetch from... you guessed it
-    data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}")
+    # fetch from... you can't believe it.
 
     # Templates have the / at the end, so let's remove it.
     if url[-1] == '/':
         url = url[:-1]
 
+    data = yt.metadata.simple_channel_info(channel_id)
     # Error handling
     if data and 'error' in data:
         return get.error()
-    
-    channel_url = data['authorId']
-    channel_name = data['author']
-    channel_pic_url = data['authorThumbnails'][0]['url']
-    sub_count = data['subCount']
+
+    channel_url = data['channel_id']
+    channel_name = data['name']
+    channel_pic_url = data['profile_picture']
+    sub_count = data['subscribers']
 
     return get.template('channel_info.jinja2',{
         'author': channel_name,

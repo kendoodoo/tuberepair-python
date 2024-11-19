@@ -8,9 +8,6 @@ import time
 
 video = Blueprint("video", __name__)
 
-def error():
-    return "",404
-
 # featured videos
 # 2 alternate routes for popular page and search results
 @video.route("/feeds/api/standardfeeds/<regioncode>/<popular>")
@@ -66,7 +63,7 @@ def frontpage(regioncode="US", popular=None, res=''):
             'url': url
         })
 
-    return error()
+    return get.error()
 
 # search for videos
 @video.route("/feeds/api/videos")
@@ -87,7 +84,7 @@ def search_videos(res=''):
     search_keyword = request.args.get('q')
 
     if not search_keyword:
-        return error()
+        return get.error()
     
     # print logs if enabled
     if config.SPYING == True:
@@ -152,8 +149,6 @@ def search_videos(res=''):
             'next_page': next_page
         })
 
-    #return error()
-
 # video's comments
 # IDEA: filter the comments too?
 @video.route("/api/videos/<videoid>/comments")
@@ -189,7 +184,7 @@ def comments(videoid, res=''):
             'video_id': videoid
         })
 
-    return error()
+    return get.error()
     
 # fetches video from innertube.
 @video.route("/getvideo/<video_id>")
@@ -239,4 +234,4 @@ def get_suggested(video_id, res=''):
             'url': url,
             'next_page': None
         })
-    return error()
+    return get.error()
