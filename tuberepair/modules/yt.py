@@ -125,7 +125,7 @@ def medium_quality_video_url(video_id):
         }},
         # This can play copyrighted videos.
         # See https://github.com/tombulled/innertube/issues/76
-        "params": 'CgIQBg==',
+        "params": '8AEB',
         "videoId": video_id
     }
 
