@@ -183,22 +183,43 @@ def comments(videoid, res=''):
         })
 
     return get.error()
-    
-# fetches video from innertube.
-@video.route("/getvideo/<video_id>")
-@video.route("/<int:res>/getvideo/<video_id>")
-def getvideo(video_id, res=None):
-    if res is not None or config.MEDIUM_QUALITY is False:
+
+if (config.USE_INNERTUBE):
+    # fetches video from innertube.
+    @video.route("/getvideo/<video_id>")
+    @video.route("/<int:res>/getvideo/<video_id>")
+    def getvideo(video_id, res=None):
+        if res is not None or config.MEDIUM_QUALITY is False:
+            
+            # Clamp Res
+            if type(res) == int:
+                res = min(max(res, 144), config.RESMAX)
         
-        # Clamp Res
-        if type(res) == int:
-            res = min(max(res, 144), config.RESMAX)
-    
-        # Set mimetype since videole device don't recognized it.
-        return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
-    
-    # 360p if enabled
-    return redirect(yt.medium_quality_video_url(video_id), 307)
+            # Set mimetype since videole device don't recognized it.
+            return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
+        
+        # 360p if enabled
+        return redirect(yt.medium_quality_video_url(video_id), 307)
+else:
+    # fetches video from invidious.
+    @video.route("/getvideo/<video_id>")
+    @video.route("/<int:res>/getvideo/<video_id>")
+    def getvideo(video_id, res = None):
+        data = get.fetch(f"{config.URL}/api/v1/videos/{video_id}")
+        '''
+        if res is not None or config.MEDIUM_QUALITY is False:
+            
+            # Clamp Res
+            if type(res) == int:
+                res = min(max(res, 144), config.RESMAX)
+        
+            for adaptive in data['adaptiveFormats']:
+
+            return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
+        '''
+        # 360p if enabled
+        # TODO: Fix resoution not working.
+        return redirect(data['formatStreams'][0]['url'], 307)
 
 @video.route("/feeds/api/videos/<video_id>/related")
 @video.route("/<int:res>/feeds/api/videos/<video_id>/related")
