@@ -3,13 +3,8 @@ from flask import Blueprint, Flask, request, redirect, render_template, Response
 import config
 from modules.logs import print_with_seperator
 from modules import yt
-import threading
-import time
 
 video = Blueprint("video", __name__)
-
-def error():
-    return "",404
 
 # featured videos
 # 2 alternate routes for popular page and search results
@@ -66,7 +61,7 @@ def frontpage(regioncode="US", popular=None, res=''):
             'url': url
         })
 
-    return error()
+    return get.error()
 
 # search for videos
 @video.route("/feeds/api/videos")
@@ -87,7 +82,7 @@ def search_videos(res=''):
     search_keyword = request.args.get('q')
 
     if not search_keyword:
-        return error()
+        return get.error()
     
     # print logs if enabled
     if config.SPYING == True:
@@ -152,8 +147,6 @@ def search_videos(res=''):
             'next_page': next_page
         })
 
-    #return error()
-
 # video's comments
 # IDEA: filter the comments too?
 @video.route("/api/videos/<videoid>/comments")
@@ -189,23 +182,44 @@ def comments(videoid, res=''):
             'video_id': videoid
         })
 
-    return error()
-    
-# fetches video from innertube.
-@video.route("/getvideo/<video_id>")
-@video.route("/<int:res>/getvideo/<video_id>")
-def getvideo(video_id, res=None):
-    if res is not None or config.MEDIUM_QUALITY is False:
+    return get.error()
+
+if (config.USE_INNERTUBE):
+    # fetches video from innertube.
+    @video.route("/getvideo/<video_id>")
+    @video.route("/<int:res>/getvideo/<video_id>")
+    def getvideo(video_id, res=None):
+        if res is not None or config.MEDIUM_QUALITY is False:
+            
+            # Clamp Res
+            if type(res) == int:
+                res = min(max(res, 144), config.RESMAX)
         
-        # Clamp Res
-        if type(res) == int:
-            res = min(max(res, 144), config.RESMAX)
-    
-        # Set mimetype since videole device don't recognized it.
-        return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
-    
-    # 360p if enabled
-    return redirect(yt.medium_quality_video_url(video_id), 307)
+            # Set mimetype since videole device don't recognized it.
+            return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
+        
+        # 360p if enabled
+        return redirect(yt.medium_quality_video_url(video_id), 307)
+else:
+    # fetches video from invidious.
+    @video.route("/getvideo/<video_id>")
+    @video.route("/<int:res>/getvideo/<video_id>")
+    def getvideo(video_id, res = None):
+        data = get.fetch(f"{config.URL}/api/v1/videos/{video_id}")
+        '''
+        if res is not None or config.MEDIUM_QUALITY is False:
+            
+            # Clamp Res
+            if type(res) == int:
+                res = min(max(res, 144), config.RESMAX)
+        
+            for adaptive in data['adaptiveFormats']:
+
+            return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
+        '''
+        # 360p if enabled
+        # TODO: Fix resoution not working.
+        return redirect(data['formatStreams'][0]['url'], 307)
 
 @video.route("/feeds/api/videos/<video_id>/related")
 @video.route("/<int:res>/feeds/api/videos/<video_id>/related")
@@ -239,4 +253,4 @@ def get_suggested(video_id, res=''):
             'url': url,
             'next_page': None
         })
-    return error()
+    return get.error()

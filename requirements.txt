@@ -4,6 +4,5 @@ Flask-Compress
 Jinja2
 requests-cache
 requests
-ua_generator
 waitress
 requests[socks]

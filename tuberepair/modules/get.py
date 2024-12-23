@@ -40,13 +40,8 @@ if config.GET_ERROR_LOGGING:
         if not data:
             print_with_seperator(f'request "{url}" returned nothing from instance.')
         elif 'error' in data:
-            print_with_seperator(
-f'''Invidious returned an error processing "{url}"\n
-----Error begins below----\n
-{data}\n
-----End of error----''')
+            print_with_seperator(f'Invidious returned an error processing "{url}"\n----Error begins below----\n{data}\n----End of error----')
         return data
-                                 
 
 def template(file, render_data):
     t = env.get_template(file)
@@ -56,5 +51,16 @@ def template(file, render_data):
 def error():
     return "",404
 
+# convert subscriber to text
+def subscribers(string):
+    processed_string = string.replace('subscribers', '')
+    # TODO: IS this suppose to return a int or string? We need to be clear here.
 
+    if 'M' in processed_string:
+        return int(float(processed_string.replace('M', '')) * 100000.0)
 
+    if 'K' in processed_string:
+        return int(float(processed_string.replace('K', '')) * 1000.0)
+    
+    else:
+        return processed_string

@@ -1,17 +1,28 @@
-import requests, re
-import requests_cache
+import requests_cache, re, config
 from datetime import timedelta
-import ua_generator
-
-import config
-from modules import helpers
+from modules import helpers, get
 
 # Videos expires after 5 hours, so you don't have to worry.
 session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(hours=4), ignored_parameters=['key'])
 
-# hard-coded API Key, so no limit at all.
+# hard-coded API Key, from youtube's private API
 api_key = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8'
 
+# Get HLS URL via innertube and fetch the file, then filter to fix low quality playback error
+# Much thanks for SpaceSaver.
+def hls_video_url(video_id, res=None):
+
+    # using IOS client since Apple invented HLS
+    json_data = {
+        "context": {"client": {
+            "clientName": "IOS",
+            "clientVersion": "19.16.3"
+        }},
+        "videoId": video_id
+    }
+    
+    # fetch innertube
+    data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, proxies=helpers.proxies).json()
 def data_to_hls_url(data, res = None):
     # get video's m3u8 to process it.
     panda = session.get(data["streamingData"]["hlsManifestUrl"], proxies=helpers.proxies).text.split("\n")
@@ -82,30 +93,22 @@ def data_to_hls_url(data, res = None):
     panda = "\n".join(panda)
     return panda
 
+# 360p (SD)
 # Get HLS URL via youtubei and fetch the file, then filter to fix low quality playback error
 # Much thanks for SpaceSaver.
 def hls_video_url(video_id, res=None):
-
-    # generate random user agent to spoof
-    #
-    ios_user_agent = str(ua_generator.generate(platform='ios'))
-    header_data = {
-        "User-Agent": ios_user_agent,
-        "Referer": "https://m.youtube.com/"
-    }
 
     # using IOS client since Apple invented HLS, duh.
     json_data = {
         "context": {"client": {
             "clientName": "IOS",
             "clientVersion": "19.16.3",
-            "visitorData": "CgtfVHB0eHw4PIBAREiEgHg%3D%3D"
         }},
         "videoId": video_id
     }
     
     # fetch innertube
-    data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, headers=header_data, proxies=helpers.proxies).json()
+    data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, proxies=helpers.proxies).json()
     return data_to_hls_url(data, res)
 
 def data_to_medium_url(data):
@@ -115,72 +118,45 @@ def data_to_medium_url(data):
 # for the kids who begged for this, here you go...
 def medium_quality_video_url(video_id):
 
-    # changing header to spoof
-    misc_user_agent = str(ua_generator.generate(device='desktop', platform='windows', browser='chrome'))
-    header_data = {
-        "User-Agent": misc_user_agent
-    }
-
     json_data = {
         "context": {"client": {
             "clientName": "ANDROID",
             "clientVersion": "19.17.34"
         }},
         # This can play copyrighted videos.
+        # See https://github.com/tombulled/innertube/issues/76
         "params": '8AEB',
         "videoId": video_id
     }
 
     # fetch the API.
-    data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, headers=header_data, proxies=helpers.proxies).json()
+    data = session.post('https://www.youtube.com/youtubei/v1/player?key=' + api_key, json=json_data, proxies=helpers.proxies).json()
 
     # i'm lazy. again.
     return data_to_medium_url(data)
 
-def channel_playlists():
+class metadata:
 
-    # changing header to spoof
-    misc_user_agent = str(ua_generator.generate(device='desktop', platform='windows', browser='chrome'))
-    header_data = {
-        "User-Agent": misc_user_agent
-    }
+    def simple_channel_info(id):
 
-    json_data = {
-        "context": {"client": {
-            "clientName": "TVHTML5_CAST",
-            "clientVersion": "1.1"
-        }},
-        "browseId": "VL" + "PLnMc0DcIgIXI6-K3FSfc08CKDw5FObaDP"
-    }
+        json_data = {
+            "context": {
+                'client': {
+                    'clientName': 'WEB',
+                    'clientVersion': '2.20240814.00.00'
+                }
+            },
+            "params": "EgZzaG9ydHPyBgUKA5oBAA%3D%3D",
+            "browseId": id
+        }
 
-    # fetch the API.
-    data = requests.post('https://www.youtube.com/youtubei/v1/browse?key=' + api_key, json=json_data, headers=header_data).json()
+        # fetch the API.
+        data = session.post('https://www.youtube.com/youtubei/v1/browse?key=' + api_key, json=json_data).json()
 
-    # i'm lazy. again.
-    return data
-
-def channel_info():
-
-    # changing header to spoof
-    misc_user_agent = str(ua_generator.generate(device='desktop', platform='windows', browser='chrome'))
-    header_data = {
-        "User-Agent": misc_user_agent
-    }
-
-    json_data = {
-        "context": {
-            'client': {
-                'hl': 'en',
-                'gl': 'US',
-                'clientName': 'ANDROID',
-                'clientVersion': '19.17.34'
-            }
-        },
-        "browseId": "UCrEKPrJOkTbaOxeZJ8q6Dew"
-    }
-
-    # fetch the API.
-    data = requests.post('https://www.youtube.com/youtubei/v1/browse?key=' + api_key, json=json_data, headers=header_data).json()
-
-    # i'm lazy. again.
-    return data
+        # i'm lazy. again.
+        return {
+            "name": data['header']['pageHeaderRenderer']['pageTitle'],
+            "channel_id": data['contents']['twoColumnBrowseResultsRenderer']['tabs'][0]['tabRenderer']['endpoint']['browseEndpoint']['browseId'],
+            "profile_picture": data['header']['pageHeaderRenderer']['content']['pageHeaderViewModel']['image']['decoratedAvatarViewModel']['avatar']['avatarViewModel']['image']['sources'][0]['url'],
+            "subscribers": get.subscribers(data['header']['pageHeaderRenderer']['content']['pageHeaderViewModel']['metadata']['contentMetadataViewModel']['metadataRows'][1]['metadataParts'][0]['text']['content'])
+        }

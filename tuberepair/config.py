@@ -2,12 +2,17 @@
 # You can change this to anything
 import os
 from modules import helpers
-VERSION = "v0.0.7-beta-RC1"
+VERSION = "v0.0.8-beta"
 # -------------- #
 
 # -- General -- #
 
 OSEnv = os.environ
+
+if "USE_INNERTUBE" in OSEnv:
+    USE_INNERTUBE = helpers.string_to_bool(OSEnv["USE_INNERTUBE"])
+else:
+    USE_INNERTUBE = True
 
 # enables gets from innertube test
 if "CLIENT_TEST" in OSEnv:
