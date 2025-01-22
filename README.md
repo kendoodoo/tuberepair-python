@@ -9,6 +9,10 @@
 - https://tuberepair.litten.ca/
 - https://tuberepair.uptimetrackers.com/
 
+# Todo
+
+- Fix Dislikes (I will use return dislikes, probbaly copy it from MangoTube)
+
 # Features
 - Cache API responses
 - Customizable config
