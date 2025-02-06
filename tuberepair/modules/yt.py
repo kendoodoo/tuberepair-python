@@ -3,7 +3,7 @@ from datetime import timedelta
 from modules import helpers, get
 
 # Videos expires after 5 hours, so you don't have to worry.
-session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(hours=4), ignored_parameters=['key'])
+session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(hours=4), ignored_parameters=['key'], backend=config.backend)
 
 # hard-coded API Key, from youtube's private API
 api_key = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8'
