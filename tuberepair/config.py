@@ -2,12 +2,23 @@
 # You can change this to anything
 import os
 from modules import helpers
+from requests_cache import RedisCache
 VERSION = "v0.0.8-beta"
 # -------------- #
 
 # -- General -- #
 
 OSEnv = os.environ
+
+if "USE_REDIS" in OSEnv:
+    USE_REDIS = helpers.string_to_bool(OSEnv["USE_REDIS"])
+else:
+    USE_REDIS = False
+
+if USE_REDIS:
+    backend = RedisCache(host=OSEnv["REDIS_HOST"], port=OSEnv["REDIS_PORT"])
+else:
+    backend = 'sqlite'
 
 if "USE_INNERTUBE" in OSEnv:
     USE_INNERTUBE = helpers.string_to_bool(OSEnv["USE_INNERTUBE"])

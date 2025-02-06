@@ -10,7 +10,7 @@ from modules import helpers
 from .logs import print_with_seperator
 
 # cache to not spam the invidious instance
-session = CachedSession('cache/info', expire_after=timedelta(hours=1))
+session = CachedSession('cache/info', expire_after=timedelta(hours=1), backend=config.backend)
 
 def unix(unix):
     return datetime.fromtimestamp(int(unix)).isoformat() + '.000Z'
