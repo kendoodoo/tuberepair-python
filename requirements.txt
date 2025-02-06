@@ -6,3 +6,4 @@ requests-cache
 requests
 waitress
 requests[socks]
+redis
