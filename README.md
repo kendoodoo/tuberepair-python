@@ -1,50 +1,18 @@
-# Check 'new' branch, more recent development
-# TubeRepair server, using Flask and Jinja2.
-- __Works out of the box, edit the backend to your likings.__
-- __Fetches from Youtube Private API without using a key (Coming soon!)__
-- Works with Classic YouTube (iOS 5,6), 1.1.0 and 1.2.1 (Possibly 2.2.0 soon)
-- ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
+# Notice
+This repository has stopped development and acts as a reference ONLY. Due to burnout and pressures from the LegacyJailbreak community.
 
-### Current servers (Thanks for the hosting!):
-- https://tuberepair.litten.ca/
-- https://tuberepair.uptimetrackers.com/
-
-# Features
-- Cache API responses
-- Customizable config
-
-### In the future
-- Based all requests via innertube (ditching invidious and request to youtube Private API directly)
-- Private server with password protection and secrets
-
-# Setup
-Make sure you have Python (3.8 minimum) and virtualenv (optional) installed.
-```bash
-# Download
-git clone https://github.com/kendoodoo/tuberepair-python
-cd tuberepair-python
-
-# Preparing virtualenv
-# You can just skip to pip, but for good measures.
-virtualenv tuberepair
-source tuberepair/bin/activate
-pip install -r requirements.txt
-
-# Running
-python main.py
-```
+But I have moved on, and recent developments will be in https://github.com/kevinf100/tuberepair.uptimetrackers.com, thanks to kevinf100 and SpaceSaver for improv. I will participate again.
 
 # Credits
-
-### Contributors
-- [kendoodoo](https://github.com/kendoodoo) (God)
+## Contributors
+- [kendoodoo](https://github.com/kendoodoo) (who started this)
 - [Nishijima Akito](https://github.com/shijimasoft) (Youtube Classic)
-- [SpaceSaver](https://github.com/SpaceSaver) (YouTube Private API, HLS playback filter)
-- (et al.)
+- [SpaceSaver](https://github.com/spacesaver) (YouTube Private API, HLS playback filter)
+- [kevinf100](https://github.com/kevinf100) (Continued development)
+(et al.)
+## Code
 
-### Code
-I will not copy code that explicitly states "do not modify".
-- https://github.com/ftde0/yt2009
-__without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software__
-- https://github.com/tombulled/innertube
-__You may reproduce and distribute copies of the Work or Derivative Works thereof in any medium, with or without modifications__
+I will not 'copy' code that explicitly states "do not modify".
+
+- https://github.com/ftde0/yt2009 __without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software__
+- https://github.com/tombulled/innertube __You may reproduce and distribute copies of the Work or Derivative Works thereof in any medium, with or without modifications__
