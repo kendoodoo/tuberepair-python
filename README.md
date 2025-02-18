@@ -1,5 +1,5 @@
 # Notice
-This repository has stopped development and acts as a reference ONLY. Due to burnout and pressures from the LegacyJailbreak community.
+This repository has stopped development and acts as a reference ONLY. Due to burnout and pressures from the LegacyJailbreak community, I have lost interest and no longer care about it.
 
 But I have moved on, and recent developments will be in https://github.com/kevinf100/tuberepair.uptimetrackers.com, thanks to kevinf100 and SpaceSaver for improv. I will participate again.
 
