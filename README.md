@@ -3,7 +3,7 @@ This repository has stopped development and acts as a reference ONLY. Due to bur
 
 But I have moved on, and recent developments will be in https://github.com/kevinf100/tuberepair.uptimetrackers.com, thanks to kevinf100 and SpaceSaver for improvs, I will participate again.
 
-__FORK__: DO NOT, in any circumstances, fork this piece of code and claim it's another "revival" or your own. I don't tolerate snobs from r/oldyoutubelayout. Thank you.
+__FORK__: DO NOT, in any circumstances, fork this piece of code and claim it's another "revival" or your own. I don't tolerate snobbers. Thank you.
 
 # Credits
 ## Contributors
