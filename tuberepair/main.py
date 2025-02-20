@@ -1,4 +1,4 @@
-# Version v0.0.1 (beta-3.5)
+# Version whatever...
 import signal
 from flask import Flask
 from flask_compress import Compress
@@ -28,7 +28,7 @@ app.register_blueprint(channel)
 if config.CLIENT_TEST:
     app.register_blueprint(client_videos)
 
-# use compression to load faster
+# use compression to load faster via client
 if config.COMPRESS:
     compress = Compress(app)
 

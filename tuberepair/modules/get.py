@@ -15,7 +15,7 @@ session = CachedSession('cache/info', expire_after=timedelta(hours=1), backend=c
 def unix(unix):
     return datetime.fromtimestamp(int(unix)).isoformat() + '.000Z'
 
-def unix_now(): # Will be used in another update
+def unix_now(): # Will be used in another update, but WHEN??? HUH???
     return datetime.now().isoformat() + '.000Z'
 
 # jinja2 path
@@ -49,18 +49,4 @@ def template(file, render_data):
     return output
 
 def error():
-    return "",404
-
-# convert subscriber to text
-def subscribers(string):
-    processed_string = string.replace('subscribers', '')
-    # TODO: IS this suppose to return a int or string? We need to be clear here.
-
-    if 'M' in processed_string:
-        return int(float(processed_string.replace('M', '')) * 100000.0)
-
-    if 'K' in processed_string:
-        return int(float(processed_string.replace('K', '')) * 1000.0)
-    
-    else:
-        return processed_string
+    return "", 403

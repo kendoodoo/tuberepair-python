@@ -55,6 +55,7 @@ def process_start_index(request):
 
     return current_page, next_page
 
+# TODO: really?
 def string_to_bool(input):
     if not isinstance(input, str):
         raise ValueError("A String was not passed")

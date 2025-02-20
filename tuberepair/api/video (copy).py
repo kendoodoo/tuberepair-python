@@ -1,8 +1,8 @@
 from modules import get, helpers
 from flask import Blueprint, Flask, request, redirect, render_template, Response
+import config
 from modules.logs import print_with_seperator
 from modules import yt
-import config
 
 video = Blueprint("video", __name__)
 
@@ -18,28 +18,52 @@ def frontpage(regioncode="US", popular=None, res=''):
     if type(res) == int:
         res = min(max(res, 144), config.RESMAX)
 
-    url = request.url_root
+    url = request.url_root + str(res) 
+    # trending videos categories
+    # the menu got less because of youtube removing it.
+    apiurl = config.URL + "/api/v1/trending?region=" + regioncode
+    if popular == "most_popular_Film":
+        apiurl = f"{config.URL}/api/v1/trending?type=Movies&region={regioncode}"
+    if popular == "most_popular_Games":
+        apiurl = f"{config.URL}/api/v1/trending?type=Gaming&region={regioncode}"
+    if popular == "most_popular_Music":
+        apiurl = f"{config.URL}/api/v1/trending?type=Music&region={regioncode}"    
 
-    if url[-1] == '/':
-        url = url[:-1]
+    # fetch api from invidious
+    data = get.fetch(apiurl)
+
     # Will be used for checking Classic
     user_agent = request.headers.get('User-Agent').lower()
-
-    # print logs if enabled
-    if config.SPYING == True:
-        print_with_seperator("Region code: " + regioncode)
     
-    # Google YT
-    return get.template('featured.jinja2',{
-        'data': yt.trending_feeds(),
-        'unix': get.unix,
-        'url': url
-    })
+    # Templates have the / at the end, so let's remove it.
+    if url[-1] == '/':
+        url = url[:-1]
+
+    if data:
+
+        # print logs if enabled
+        if config.SPYING == True:
+            print_with_seperator("Region code: " + regioncode)
+
+        # Classic YT path
+        if "youtube/1.0.0" in user_agent or "youtube v1.0.0" in user_agent:
+            # get template
+            return get.template('classic/featured.jinja2',{
+                'data': data[:15],
+                'unix': get.unix,
+                'url': url
+            })
+        
+        # Google YT
+        return get.template('featured.jinja2',{
+            'data': data[:config.FEATURED_VIDEOS],
+            'unix': get.unix,
+            'url': url
+        })
 
     return get.error()
 
 # search for videos
-# TODO: ditch.
 @video.route("/feeds/api/videos")
 @video.route("/feeds/api/videos/")
 @video.route("/<int:res>/feeds/api/videos")
