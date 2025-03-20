@@ -24,17 +24,26 @@ def frontpage(regioncode="US", popular=None, res=''):
         url = url[:-1]
     # Will be used for checking Classic
     user_agent = request.headers.get('User-Agent').lower()
+    print(user_agent)
 
     # print logs if enabled
     if config.SPYING == True:
         print_with_seperator("Region code: " + regioncode)
-    
-    # Google YT
-    return get.template('featured.jinja2',{
-        'data': yt.trending_feeds(),
-        'unix': get.unix,
-        'url': url
-    })
+
+    if "youtube/1.0.0" in user_agent or "youtube v1.0.0" in user_agent:
+        # get template
+        return get.template('classic/featured.jinja2',{
+            'data': yt.trending_feeds(),
+            'unix': get.unix,
+            'url': url
+        })
+    else:
+        # Google YT
+        return get.template('featured.jinja2',{
+            'data': yt.trending_feeds(),
+            'unix': get.unix,
+            'url': url
+        })
 
     return get.error()
 
@@ -49,7 +58,7 @@ def search_videos(res=''):
     # Clamp Res
     if type(res) == int:
         res = min(max(res, 144), config.RESMAX)
-    
+
     url = request.url_root + str(res)
     currentPage, next_page = helpers.process_start_index(request)
 
@@ -59,7 +68,7 @@ def search_videos(res=''):
 
     if not search_keyword:
         return get.error()
-    
+
     # print logs if enabled
     if config.SPYING == True:
         print_with_seperator('Searched: ' + search_keyword)
@@ -69,7 +78,7 @@ def search_videos(res=''):
 
     # q and page is already made, so lets hand add it
     query = f'q={search_keyword}&type=video&page={currentPage}'
-    
+
     # If we have orderby, turn it into invidious friendly parameters
     # Else ignore it
     orderby = request.args.get('orderby')
@@ -87,7 +96,7 @@ def search_videos(res=''):
     duration = request.args.get('duration')
     if duration in helpers.valid_search_duration:
         query += f'&duration={helpers.valid_search_duration[duration]}'
-    
+
     # If we have captions, turn it into invidious friendly parameters
     # Else ignore it
     # NOTE: YouTube 1.1.0 app only supports subtitles in the search
@@ -95,7 +104,7 @@ def search_videos(res=''):
     if type(caption) == str and caption.lower() == 'true':
         query += '&features=subtitles'
 
-    # Santize and stitch 
+    # Santize and stitch
     query = query.replace('&', '&amp;')
 
     # search by videos
@@ -130,13 +139,14 @@ def search_videos(res=''):
 @video.route("/feeds/api/videos/<videoid>/comments")
 @video.route("/<int:res>/feeds/api/videos/<videoid>/comments")
 def comments(videoid, res=''):
-    
+
     # Clamp Res
     if type(res) == int:
         res = min(max(res, 144), config.RESMAX)
-    
-    url = request.url_root + str(res) 
 
+    url = request.url_root + str(res)
+
+    # this shit is so messy, ditchchhhhhh
     continuation_token = request.args.get('continuation') and '&amp;continuation=' + request.args.get('continuation') or ''
     # fetch invidious comments api
     data = get.fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}{continuation_token}")
@@ -166,14 +176,14 @@ if (config.USE_INNERTUBE):
     @video.route("/<int:res>/getvideo/<video_id>")
     def getvideo(video_id, res=None):
         if res is not None or config.MEDIUM_QUALITY is False:
-            
+
             # Clamp Res
             if type(res) == int:
                 res = min(max(res, 144), config.RESMAX)
-        
+
             # Set mimetype since videole device don't recognized it.
             return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
-        
+
         # 360p if enabled
         return redirect(yt.medium_quality_video_url(video_id), 307)
 else:
@@ -184,11 +194,11 @@ else:
         data = get.fetch(f"{config.URL}/api/v1/videos/{video_id}")
         '''
         if res is not None or config.MEDIUM_QUALITY is False:
-            
+
             # Clamp Res
             if type(res) == int:
                 res = min(max(res, 144), config.RESMAX)
-        
+
             for adaptive in data['adaptiveFormats']:
 
             return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")

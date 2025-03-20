@@ -2,40 +2,48 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:openSearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:yt="http://gdata.youtube.com/schemas/2007" xmlns:media="http://search.yahoo.com/mrss/" gd:etag="">
   <id>http://gdata.youtube.com/feeds/api/standardfeeds/US/recently_featured</id>
   <category scheme="http://schemas.google.com/g/2005#kind" term="http://gdata.youtube.com/schemas/2007/#video" />
-<title>Spotlight Videos</title>  <logo>http://www.gstatic.com/youtube/img/logo.png</logo>
+  <title>Spotlight Videos</title>  
+  <logo>http://www.gstatic.com/youtube/img/logo.png</logo>
   <link rel="http://schemas.google.com/g/2005#feed" type="application/atom+xml" href="{{url}}/feeds/api/standardfeeds/US/recently_featured" />
   <link rel="http://schemas.google.com/g/2005#batch" type="application/atom+xml" href="{{url}}/feeds/api/standardfeeds/US/recently_featured/batch" />
   <link rel="self" type="application/atom+xml" href="{{url}}/feeds/api/standardfeeds/US/recently_featured" />
-  <!-- <link rel="service" type="application/atomsvc+xml" href="{{url}}/feeds/api/standardfeeds/US/recently_featured?alt=atom-service" /> -->
   <author>
     <name>TubeFixer</name>
     <uri>https://tubefixer.ovh/</uri>
   </author>
   <generator version="2.0" uri="{{url}}/">TubeFixer API v2</generator>
-<openSearch:totalResults>200</openSearch:totalResults>
-  <openSearch:itemsPerPage>5</openSearch:itemsPerPage>
-  <openSearch:startIndex></openSearch:startIndex>
+<openSearch:totalResults>1000000</openSearch:totalResults>
+  <openSearch:itemsPerPage>10</openSearch:itemsPerPage>
+  <openSearch:startIndex>1</openSearch:startIndex>
 
 {% for video in data %}
-  <entry gd:etag="DvG208XLOOIt9OjbjbsvNBaj-6c">
-    <id>tag:youtube.com,2008:video:{{video['videoId']}}</id>
-    <published>{{unix(video['published'])}}</published>
-    <updated>{{unix(video['published'])}}</updated>
+  {% set channel = video['channel_name'] %}
+  {% set channel_id = video['channel_id'] %}
+  {% set video_id = video['video_id'] %}
+  {% set title = video['title'] %}
+  {% set description = video['description'] %}
+  {% set time = unix('0') %}
+  {% set views = video['views'] %}
+  {% set length = video['length']%}
+  <entry gd:etag="e">
+    <id>tag:youtube.com,2008:video:{{video_id}}</id>
+    <published>{{time}}</published>
+    <updated>{{time}}</updated>
     <category scheme="http://schemas.google.com/g/2005#kind" term="http://gdata.youtube.com/schemas/2007#video" />
     <category scheme="http://gdata.youtube.com/schemas/2007/categories.cat" term="Music" label="Music" />
-    <title>{{video['title']}}</title>
-    <content type="video/mp4" src="{{url}}/video/sd/{{video['videoId']}}" />
-    <link rel="alternate" type="text/html" href="https://www.youtube.com/watch?v={{video['videoId']}}&amp;feature=youtube_gdata" />
-    <link rel="http://gdata.youtube.com/schemas/2007#video.complaints" type="application/atom+xml" href="{{url}}/feeds/api/videos/{{video['videoId']}}/complaints" />
-    <link rel='http://gdata.youtube.com/schemas/2007#video.related' type='application/atom+xml' href="https://gdata.youtube.com/feeds/api/videos/{{video['videoId']}}/related"/>
-    <link rel="http://gdata.youtube.com/schemas/2007#video.captionTracks" type="application/atom+xml" href="{{url}}/feeds/api/videos/{{video['videoId']}}/captions" yt:hasEntries="false" />
-    <link rel="http://gdata.youtube.com/schemas/2007#mobile" type="text/html" href="http://m.youtube.com/details?v={{video['videoId']}}" />
-    <link rel="http://gdata.youtube.com/schemas/2007#uploader" type="application/atom+xml" href="{{url}}/feeds/api/users/{{video['authorId']}}" />
-    <link rel="self" type="application/atom+xml" href="{{url}}/feeds/api/videos/{{video['videoId']}}" />
+    <title>{{title}}</title>
+    <content type="video/mp4" src="{{url}}/video/sd/{{video_id}}" />
+    <link rel="alternate" type="text/html" href="https://www.youtube.com/watch?v={{video_id}}&amp;feature=youtube_gdata" />
+    <link rel="http://gdata.youtube.com/schemas/2007#video.complaints" type="application/atom+xml" href="{{url}}/feeds/api/videos/{{video_id}}/complaints" />
+    <link rel='http://gdata.youtube.com/schemas/2007#video.related' type='application/atom+xml' href="https://gdata.youtube.com/feeds/api/videos/{{video_id}}/related"/>
+    <link rel="http://gdata.youtube.com/schemas/2007#video.captionTracks" type="application/atom+xml" href="{{url}}/feeds/api/videos/default/captions" yt:hasEntries="false" />
+    <link rel="http://gdata.youtube.com/schemas/2007#mobile" type="text/html" href="http://m.youtube.com/details?v={{video_id}}" />
+    <link rel="http://gdata.youtube.com/schemas/2007#uploader" type="application/atom+xml" href="{{url}}/feeds/api/users/{{channel_id}}" />
+    <link rel="self" type="application/atom+xml" href="{{url}}/feeds/api/videos/{{video_id}}" />
     <author>
-      <name>{{video['author']}}</name>
-      <uri>{{url}}/feeds/api/users/{{video['authorId']}}</uri>
-      <yt:userId>{{video['authorId']}}</yt:userId>
+      <name>{{channel}}</name>
+      <uri>{{url}}/feeds/api/users/{{channel_id}}</uri>
+      <yt:userId>{{channel_id}}</yt:userId>
     </author>
 
     <yt:accessControl action="comment" permission="allowed" />
@@ -47,33 +55,33 @@
     <yt:accessControl action="monetize" permission="denied" />
     <yt:accessControl action="autoPlay" permission="allowed" />
     <yt:accessControl action="syndicate" permission="allowed" />
-    <gd:comments><gd:feedLink href='{{url}}/api/videos/{{video['videoId']}}/comments'/></gd:comments>
-    <yt:statistics favoriteCount="0" viewCount="{{video['viewCount']}}" />
+    <gd:comments><gd:feedLink href='{{url}}/api/videos/{{video_id}}/comments'/></gd:comments>
+    <yt:statistics favoriteCount="0" viewCount="{{views}}" />
 <gd:rating average="5" max="5" min="1" numRaters="8101" rel="http://schemas.google.com/g/2005#overall" />
     <yt:rating numDislikes="0" numLikes="8101" />
 <yt:hd />
     <media:group>
       <media:category label="Music" scheme="http://gdata.youtube.com/schemas/2007/categories.cat">Music</media:category>
-      <media:content url="{{url}}/getvideo/{{video['videoId']}}" type="video/mp4" medium="video" isDefault="true" expression="full" duration="{{video['lengthSeconds']}}" yt:format="3" />
-      <media:content url="{{url}}/getvideo/{{video['videoId']}}" type="video/3gpp" medium="video" expression="full" duration="{{video['lengthSeconds']}}" yt:format="2" />
-      <media:content url="{{url}}/getvideo/{{video['videoId']}}" type="video/mp4" medium="video" expression="full" duration="{{video['lengthSeconds']}}" yt:format="8" />
-      <media:content url="{{url}}/getvideo/{{video['videoId']}}" type="video/3gpp" medium="video" expression="full" duration="{{video['lengthSeconds']}}" yt:format="9" />
-      <media:credit role="uploader" scheme="urn:youtube" yt:display="{{video['author']}}">{{video['author']}}</media:credit>
-      <media:description type="plain">{{video['description']}}</media:description>
+      <media:content url="{{url}}/getvideo/{{video_id}}" type="video/mp4" medium="video" isDefault="true" expression="full" duration="{{length}}" yt:format="3" />
+      <media:content url="{{url}}/getvideo/{{video_id}}" type="video/3gpp" medium="video" expression="full" duration="{{length}}" yt:format="2" />
+      <media:content url="{{url}}/getvideo/{{video_id}}" type="video/mp4" medium="video" expression="full" duration="{{length}}" yt:format="8" />
+      <media:content url="{{url}}/getvideo/{{video_id}}" type="video/3gpp" medium="video" expression="full" duration="{{length}}" yt:format="9" />
+      <media:credit role="uploader" scheme="urn:youtube" yt:display="{{channel}}">{{channel}}</media:credit>
+      <media:description type="plain">{{description}}</media:description>
       <media:keywords></media:keywords>
       <media:license type="text/html" href="http://www.youtube.com/t/terms">youtube</media:license>
-      <media:player url="https://www.youtube.com/watch?v={{video['videoId']}}&amp;feature=youtube_gdata_player" />
-      <media:thumbnail url="https://i.ytimg.com/vi/{{video['videoId']}}/default.jpg" height="90" width="120" yt:name="default" />
-			<media:thumbnail url="https://i.ytimg.com/vi/{{video['videoId']}}/mqdefault.jpg" height="180" width="320" yt:name="mqdefault" />
-      <media:thumbnail url="https://i.ytimg.com/vi/{{video['videoId']}}/hqdefault.jpg" height="360" width="480" yt:name="hqdefault" />
-      <media:thumbnail url="https://i.ytimg.com/vi/{{video['videoId']}}/sddefault.jpg" height="480" width="640" yt:name="sddefault" />
-      <media:thumbnail url="https://i.ytimg.com/vi/{{video['videoId']}}/maxresdefault.jpg" height="720" width="1280" yt:name="maxresdefault" />
-      <media:title type="plain">{{video['title']}}</media:title>
+      <media:player url="https://www.youtube.com/watch?v={{video_id}}&amp;feature=youtube_gdata_player" />
+      <media:thumbnail url="https://i.ytimg.com/vi/{{video_id}}/default.jpg" height="90" width="120" yt:name="default" />
+			<media:thumbnail url="https://i.ytimg.com/vi/{{video_id}}/mqdefault.jpg" height="180" width="320" yt:name="mqdefault" />
+      <media:thumbnail url="https://i.ytimg.com/vi/{{video_id}}/hqdefault.jpg" height="360" width="480" yt:name="hqdefault" />
+      <media:thumbnail url="https://i.ytimg.com/vi/{{video_id}}/sddefault.jpg" height="480" width="640" yt:name="sddefault" />
+      <media:thumbnail url="https://i.ytimg.com/vi/{{video_id}}/maxresdefault.jpg" height="720" width="1280" yt:name="maxresdefault" />
+      <media:title type="plain">{{title}}</media:title>
       <yt:aspectRatio>widescreen</yt:aspectRatio>
-      <yt:duration seconds="{{video['lengthSeconds']}}" />
-      <yt:uploaded>{{unix(video['published'])}}</yt:uploaded>
-      <yt:uploaderId>{{video['authorId']}}</yt:uploaderId>
-      <yt:videoid>{{video['videoId']}}</yt:videoid>
+      <yt:duration seconds="{{length}}" />
+      <yt:uploaded>{{time}}</yt:uploaded>
+      <yt:uploaderId>{{channel_id}}</yt:uploaderId>
+      <yt:videoid>{{video_id}}</yt:videoid>
     </media:group>
   </entry>
 {% endfor %}

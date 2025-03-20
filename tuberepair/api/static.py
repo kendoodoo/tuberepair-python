@@ -42,3 +42,9 @@ def login_bypass(res=None):
     return f"DeviceId={key}\nDeviceKey={key}"
 
 # --------------------------------------------- #
+# feat: LOGIN. REAL FUCKING LOGIN.
+# note: PLEASE, PLEASE figure out.
+
+@static.route("/accounts/ClientLogin", methods=['POST'])
+def login_rel():
+    return '''SID=DQAAAGgA...7Zg8CTN\nLSID=DQAAAGsA...lk8BBbG\nAuth=DQAAAGgA...dk3fA5N'''

@@ -21,7 +21,7 @@ def search(channel_id, res=''):
         url = url[:-1]
 
     # fetch from... you can't believe it.
-    # TODO: Make this a config setting letting users use innertube or Invidious!
+    # TODO: Make this a config setting letting users use innertube or Invidious. NO.
     data = yt.metadata.simple_channel_info(channel_id)
     # Error handling
     if data and 'error' in data:

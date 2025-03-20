@@ -23,8 +23,8 @@
 		<yt:userId></yt:userId>
 	</author>
 	<generator version='2.1' uri='{{url}}/'>YouTube data API</generator>
-<openSearch:totalResults>50</openSearch:totalResults>
-  <openSearch:itemsPerPage>50</openSearch:itemsPerPage>
+<openSearch:totalResults>{{data|count}}</openSearch:totalResults>
+  <openSearch:itemsPerPage>{{data|count}}</openSearch:itemsPerPage>
   <openSearch:startIndex>1</openSearch:startIndex>
 
 {% for video in data %}
@@ -32,7 +32,7 @@
 	{% set channel_id = video['channel_id'] %}
 	{% set video_id = video['video_id'] %}
 	{% set title = video['title'] %}
-	{% set description = video['description']%}
+	{% set description = video['description'] %}
 	{% set time = unix('0') %}
 	{% set views = video['views'] %}
 	{% set length = video['length']%}
