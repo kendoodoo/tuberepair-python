@@ -15,6 +15,7 @@ video = Blueprint("video", __name__)
 def frontpage(regioncode="US", popular=None, res=''):
 
     # Clamp Res
+    # TODO: do we need to?
     if type(res) == int:
         res = min(max(res, 144), config.RESMAX)
 
