@@ -2,7 +2,7 @@
 - __Works out of the box, edit the backend to your likings.__
 - __Fetches from Youtube Private API without using a key__
 - Works with Classic YouTube, 1.0 to 2.2.0 for Google YouTube
-- ⚠️ This project is usable now, but still in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
+- ⚠️ This project will always be in beta. You can help in [bag's discord](https://discord.bag-xml.com) ⚠️
 - ⚠️ You can also fork this repo and create pull request if you'll like to add or fix things!⚠️
   
 # Features
