@@ -84,8 +84,9 @@ docker compose up -d --build
 # Credits
 
 ### Contributors
-- [kendoodoo](https://github.com/kendoodoo) (God)
-- [Nishijima Akito](https://github.com/shijimasoft) (Youtube Classic)
+- [kendoodoo](https://github.com/kendoodoo) (who started this)
+- [ObscureMosquito](https://github.com/ObscureMosquito) (YouTube Classic)
+- [Nishijima Akito](https://github.com/shijimasoft) (YouTube Classic)
 - [SpaceSaver](https://github.com/SpaceSaver) (YouTube Private API, HLS playback filter)
 - [Kevinf100](https://github.com/kevinf100) (Added features from the fork)
 - (et al.)
