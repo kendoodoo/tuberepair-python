@@ -1,3 +1,5 @@
+# NOTICE NOTICE!!!
+check new branch. i have dev'd again.
 # Notice
 This repository has stopped development and acts as a reference ONLY. Due to burnout and pressures from the LegacyJailbreak community, I have lost interest and no longer care about it.
 
