@@ -1,10 +1,12 @@
 from modules import get, helpers
 from flask import Blueprint, Flask, request, redirect, render_template, Response
 import config
-from modules.logs import print_with_seperator
+from modules.client.logs import print_with_seperator
 from modules import yt
 import threading
 import time
+
+# TODO: what is this.
 
 client_videos = Blueprint("client_videos", __name__)
 videos_dict = {}

@@ -10,7 +10,9 @@ from api.static import static
 from api.playlist import playlist
 from api.video import video
 from api.channel import channel
-from modules import logs
+
+# log
+from modules.client import logs
 
 if config.CLIENT_TEST:
     from api.client_videos import client_videos

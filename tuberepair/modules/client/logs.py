@@ -6,6 +6,7 @@ class color:
     DEFAULT = '\033[39m'
     
 # Things that aren't colors.
+# TODO: prove you wrong.
 class other_chars:
     END = '\033[0m'
     BOLD = '\033[1m'

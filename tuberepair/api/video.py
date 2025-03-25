@@ -1,6 +1,7 @@
-from modules import get, helpers
+# imports
+from modules.client import get, helpers
 from flask import Blueprint, Flask, request, redirect, render_template, Response
-from modules.logs import print_with_seperator
+from modules.client.logs import print_with_seperator
 from modules import yt
 import config
 
@@ -15,7 +16,7 @@ video = Blueprint("video", __name__)
 def frontpage(regioncode="US", popular=None, res=''):
 
     # Clamp Res
-    # TODO: do we need to?
+    # TODO: middleware?
     if type(res) == int:
         res = min(max(res, 144), config.RESMAX)
 
@@ -23,6 +24,7 @@ def frontpage(regioncode="US", popular=None, res=''):
 
     if url[-1] == '/':
         url = url[:-1]
+        
     # Will be used for checking Classic
     user_agent = request.headers.get('User-Agent').lower()
     print(user_agent)

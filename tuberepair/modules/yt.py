@@ -1,14 +1,6 @@
-# TODO: split this thing
-import requests_cache, re, config
-from datetime import timedelta
-from modules import helpers
-
 # NOTE: check them first
 from .innertube import client, handler
 from .innertube.client import Client
-
-# Video expires after 5 hours
-session = requests_cache.CachedSession('cache/videos', expire_after=timedelta(hours=4), ignored_parameters=['key'], allowable_methods=('POST'), backend=config.backend)
 
 # Get HLS URL via innertube and fetch the file, then filter to fix auto quality playback error
 # SpaceSaver.
@@ -21,10 +13,10 @@ def data_to_hls_url(data, res=None):
     return handler.misc.hls_quality_split(data, res)
 
 def hls_video_url(video_id, res=None):
-    # using IOS client since Apple invented HLS, duh.
+    # using IOS client since Apple invented HLS.
     json_data = {
         "videoId": video_id,
-        "context": Client("IOS", "19.16.3")
+        "context": Client(["IOS", "19.16.3"])
     }
     
     # fetch innertube
@@ -32,7 +24,6 @@ def hls_video_url(video_id, res=None):
     return data_to_hls_url(data, res)
 
 # experimental: client side video fetching.
-# i think we should let regex do this on client-side.
 def data_to_medium_url(data):
     return data["streamingData"]['formats'][0]['url']
 
@@ -44,7 +35,7 @@ def medium_quality_video_url(video_id):
         # This can play copyrighted videos. See https://github.com/tombulled/innertube/issues/76.
         "params": '8AEB',
         "videoId": video_id,
-        "context": Client("ANDROID", "19.17.34")
+        "context": Client(["ANDROID", "19.17.34"])
     }
 
     # fetch the API.

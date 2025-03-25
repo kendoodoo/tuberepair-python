@@ -1,4 +1,4 @@
-# IF YOU ARE GOING TO USE THIS EXMAPLE COPY IT UP ONE DIRECTORY!
-```bash
+# IF YOU ARE GOING TO USE THIS EXAMPLE COPY IT UP ONE DIRECTORY!
+```
 cp .env docker-compose-example.yml ../
 ```

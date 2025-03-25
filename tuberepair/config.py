@@ -1,136 +1,100 @@
-# -- DEV ZONE -- #
-# You can change this to anything
-import os
-from modules import helpers
+# incase you used one of those files.
+import config_env
+# Redis
 from requests_cache import RedisCache
+
+# -- DEV ZONE -- #
+# You can change this to anything.
 VERSION = "v0.0.8-beta"
 # -------------- #
 
+# TODO: make this less of a mess.
+
 # -- General -- #
-
-OSEnv = os.environ
-
-if "USE_REDIS" in OSEnv:
-    USE_REDIS = helpers.string_to_bool(OSEnv["USE_REDIS"])
-else:
-    USE_REDIS = False
-
-if USE_REDIS:
-    backend = RedisCache(host=OSEnv["REDIS_HOST"], port=OSEnv["REDIS_PORT"])
-else:
-    backend = 'sqlite'
-
-if "USE_INNERTUBE" in OSEnv:
-    USE_INNERTUBE = helpers.string_to_bool(OSEnv["USE_INNERTUBE"])
-else:
-    USE_INNERTUBE = True
-
-# enables gets from innertube test
-if "CLIENT_TEST" in OSEnv:
-    CLIENT_TEST = helpers.string_to_bool(OSEnv["CLIENT_TEST"])
-else:
-    CLIENT_TEST = False
 
 # gets 360p by default is user doesn't provide a resolution
 # NOTE: loads a ton faster
-if "MEDIUM_QUALITY" in OSEnv:
-    MEDIUM_QUALITY = helpers.string_to_bool(OSEnv["MEDIUM_QUALITY"])
-else:
-    MEDIUM_QUALITY = True
+MEDIUM_QUALITY = True
 
-
-if "GET_ERROR_LOGGING" in OSEnv:
-    GET_ERROR_LOGGING = helpers.string_to_bool(OSEnv["GET_ERROR_LOGGING"])
-else:
-    GET_ERROR_LOGGING = True
+# Use innertube
+# Directly the YouTube Private API!
+USE_INNERTUBE = True
 
 # resolution for DEFAULT HLS playback
 # None, 144, 240, 360, 480, 720, 1080...
-if "HLS_RESOLUTION" in OSEnv:
-    HLS_RESOLUTION = int(OSEnv["HLS_RESOLUTION"])
-else:
-    HLS_RESOLUTION = 720
+HLS_RESOLUTION = 720
 
-# Set indivious instance
-# NOTE: for info fetching only right now.
+# Use invidious
+# NOTE: for video fetching, in case of emergency.
 # add http:// or https://
-
-if "URL" in OSEnv:
-    URL = OSEnv["URL"]
-else:
-    URL = "https://invidious.nerdvpn.de"
-
-if "PROXY" in OSEnv:
-    helpers.setup_proxies(OSEnv["PROXY"])
-
-# Max res to allow users
-# Mainly to stop converting long numbers to strings.
-# Always set this geater or equal to YouTubes Max res
-# I don't recommend changing this.
-
-if "RESMAX" in OSEnv and OSEnv["RESMAX"].isdigit():
-    RESMAX = int(OSEnv["RESMAX"])
-else:
-    RESMAX = 36000
-
-# Set port
-# Anything around 1000-10000
-# NOTE: set common ports so you can remember it.
-
-if "PORT" in OSEnv:
-    PORT = OSEnv["PORT"]
-else:
-    PORT = "4000"
-
-# Debug mode 
-# NOTE: recommended True if you want to fix the code and auto reload
-
-if "DEBUG" in OSEnv:
-    DEBUG = helpers.string_to_bool(OSEnv["DEBUG"])
-else:
-    DEBUG = True
+URL = "https://invidious.nerdvpn.de"
 
 # Spying on stuff
 # NOTE: Don't judge people on their search lol
-if "SPYING" in OSEnv:
-    SPYING = helpers.string_to_bool(OSEnv["SPYING"])
-else:
-    SPYING = True
+SPYING = True
 
-# Compress response
-# NOTE: Really helps squeezing it down, about 80%. Won't affect potato PC that much.
-if "COMPRESS" in OSEnv:
-    COMPRESS = helpers.string_to_bool(OSEnv["COMPRESS"])
-else:
-    COMPRESS = True
+# Set amount of featured videos.
+# NOTE: to cut bandwidth or load, either way.
+FEATURED_VIDEOS = 20
 
-# -- Custom functions -- #
+# Set amount of comments
+# For each continuation.
+COMMENTS = 20
 
-# Number of featured videos (including categories)
-# max: 50
-if "FEATURED_VIDEOS" in OSEnv:
-    FEATURED_VIDEOS = min(int(OSEnv["FEATURED_VIDEOS"]), 50)
-else:
-    FEATURED_VIDEOS = 20
-
-# NO LONGER IN USE!
-# Number of search videos
-# max: 20
-#if "SEARCHED_VIDEOS" in OSEnv:
-#    SEARCHED_VIDEOS = min(int(OSEnv["SEARCHED_VIDEOS"]), 20)
-#else:
-#    SEARCHED_VIDEOS = 15
-
-# Number of displayed comments
-# max: 20
-if "COMMENTS" in OSEnv:
-    COMMENTS = min(int(OSEnv["COMMENTS"]), 20)
-else:
-    COMMENTS = 20
-
-# Sort comments
+# Sort comments by...
 # "newest", "popular"
-if "SORT_COMMENTS" in OSEnv:
-    SORT_COMMENTS = OSEnv["SORT_COMMENTS"]
-else:
-    SORT_COMMENTS = "popular"
+SORT_COMMENTS = "popular"
+
+# -- Misc -- #
+
+# Set port
+# Anything around 1 to 65000-ish
+# NOTE: set common ports so you can remember it. like 3000, 4000, 8000...
+PORT = 2000
+
+# Debug mode
+# NOTE: ALWAYS turn this on if you want to report bugs.
+DEBUG = True
+
+# TODO: explain me this too. what is this?
+CLIENT_TEST = False
+
+# Compress XML responses by GZIP
+# NOTE: Not resource intensive.
+COMPRESS = True
+
+# Set maximum resolution to use in URL.
+# TODO: explain me this.
+RESMAX = 36000
+
+# TODO: overlapping "SPYING"???
+GET_ERROR_LOGGING = True
+
+# ---------- #
+
+# If you know what you're doing, go ahead.
+# (so cliche...)
+
+# -- database -- #
+
+# cache for info
+# (in hours)
+CACHE_INFO = 1
+
+# cache for videos
+# NOTE: google will automatically remove the link in 5 hours
+# (in hours)
+CACHE_VIDEO = 4
+
+# Use REDIS? NO THANKS.
+# You could use it tho...
+USE_REDIS = False
+
+# TODO: put it somewhere else...
+if USE_REDIS:
+    backend = RedisCache(host=OSEnv["REDIS_HOST"], port=OSEnv["REDIS_PORT"])
+
+# TODO: explain me this. what is this?
+backend = 'sqlite'
+
+# --------- #

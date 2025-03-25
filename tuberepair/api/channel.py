@@ -1,7 +1,10 @@
-from modules import get, helpers, yt
+from modules.client import get, helpers
+# TODO: make this yt shit done.
+from modules import yt
+
 from flask import Blueprint, Flask, request, redirect, render_template
 import config
-from modules.logs import print_with_seperator
+from modules.client.logs import print_with_seperator
 
 channel = Blueprint("channel", __name__)
 

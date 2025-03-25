@@ -1,8 +1,8 @@
 FROM nginxproxy/nginx-proxy:alpine AS cf-proxy
 
-COPY cloudflare-ips-conf.sh proxy.conf ./
-RUN chmod +x cloudflare-ips-conf.sh && ./cloudflare-ips-conf.sh
-RUN mv allow-cf.conf proxy.conf /etc/nginx/conf.d/
+COPY ./proxy/cloudflare-ips-conf.sh ./proxy/proxy.conf ./
+RUN chmod +x ./proxy/cloudflare-ips-conf.sh && ./proxy/cloudflare-ips-conf.sh
+RUN mv allow-cf.conf ./proxy/proxy.conf /etc/nginx/conf.d/
 
 
 ######################
@@ -14,7 +14,7 @@ ARG TUBEREPAIR_USER_UID="2000"
 ARG TUBEREPAIR_USER_GID="2000"
 EXPOSE 80
 EXPOSE 443
-LABEL NAME="TubeRepair tuberepair.uptimetrackers.com blueprint"
+LABEL NAME="TubeRepair tuberepair.uptimetrackers.com experimental"
 LABEL VERSION="0.1 Beta"
 
 COPY --chown=${TUBEREPAIR_USER_UID}:${TUBEREPAIR_USER_GID} ./requirements.txt /tuberepair-python/

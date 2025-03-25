@@ -1,6 +1,6 @@
 from flask import Blueprint, request, redirect, send_file, render_template, Response
 import config
-from modules import get, helpers
+from modules.client import get, helpers
 from jinja2 import Environment, FileSystemLoader
 
 playlist = Blueprint("playlist", __name__)

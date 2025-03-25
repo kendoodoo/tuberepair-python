@@ -1,6 +1,8 @@
 import werkzeug
 from .logs import print_with_seperator
 
+# TODO: explain me this.
+
 valid_search_orderby = {
     'relevance': 'relevance',
     'published': 'date',
@@ -54,14 +56,3 @@ def process_start_index(request):
     next_page = next_page.replace('&', '&amp;')
 
     return current_page, next_page
-
-# TODO: really?
-def string_to_bool(input):
-    if not isinstance(input, str):
-        raise ValueError("A String was not passed")
-    lower_input = input.lower()
-    if lower_input == "true":
-        return True
-    elif lower_input == "false":
-        return False
-    raise ValueError("This string isn't true of false!")
