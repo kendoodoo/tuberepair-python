@@ -27,7 +27,7 @@ HLS_RESOLUTION = 720
 # Use invidious
 # NOTE: for video fetching, in case of emergency.
 # add http:// or https://
-URL = "https://invidious.nerdvpn.de"
+URL = "https://id.420129.xyz"
 
 # Spying on stuff
 # NOTE: Don't judge people on their search lol
@@ -35,7 +35,7 @@ SPYING = True
 
 # Set amount of featured videos.
 # NOTE: to cut bandwidth or load, either way.
-FEATURED_VIDEOS = 20
+FEATURED_VIDEOS = 15
 
 # Set amount of comments
 # For each continuation.
@@ -92,7 +92,7 @@ USE_REDIS = False
 
 # TODO: put it somewhere else...
 if USE_REDIS:
-    backend = RedisCache(host=OSEnv["REDIS_HOST"], port=OSEnv["REDIS_PORT"])
+    backend = RedisCache(host=REDIS_HOST, port=REDIS_PORT)
 
 # TODO: explain me this. what is this?
 backend = 'sqlite'

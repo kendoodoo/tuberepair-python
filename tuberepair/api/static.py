@@ -3,6 +3,7 @@ import config
 from uuid import uuid4
 
 static = Blueprint("static", __name__, static_folder="../static")
+
 # Still passed without unique keys.
 key = uuid4().hex
 

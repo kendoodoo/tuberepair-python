@@ -1,31 +1,36 @@
+from flask import Blueprint, Flask, request, redirect, render_template
+from functools import wraps
+
 from modules.client import get, helpers
 # TODO: make this yt shit done.
 from modules import yt
-
-from flask import Blueprint, Flask, request, redirect, render_template
 import config
 from modules.client.logs import print_with_seperator
 
 channel = Blueprint("channel", __name__)
 
+# added decorators to make life easier
+def sanitize_url(f):
+    @wraps(f)
+    def res(*args, **kwargs):
+
+        if type(res) == int:
+            res = min(max(res, 144), config.RESMAX)
+
+        return f(*args, **kwargs)
+    return res
+
 # get channel info
+@sanitize_url
 @channel.route("/feeds/api/channels/<channel_id>")
 @channel.route("/<int:res>/feeds/api/channels/<channel_id>")
 def search(channel_id, res=''):
     
-    # Clamp Res
-    if type(res) == int:
-        res = min(max(res, 144), config.RESMAX)
-    
     url = request.url_root + str(res) 
-
-    # Templates have the / at the end, so let's remove it.
-    if url[-1] == '/':
-        url = url[:-1]
 
     # fetch from... you can't believe it.
     # TODO: Make this a config setting letting users use innertube or Invidious. NO.
-    data = yt.metadata.simple_channel_info(channel_id)
+    data = yt.simple_channel_info(channel_id)
     # Error handling
     if data and 'error' in data:
         return get.error()
@@ -44,22 +49,15 @@ def search(channel_id, res=''):
     })
 
 # search for channels
+@sanitize_url
 @channel.route("/feeds/api/channels")
 @channel.route("/<int:res>/feeds/api/channels")
 def channels(res=''):
-    
-    # Clamp Res
-    if type(res) == int:
-        res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res) 
     query = request.args.get('q')
     current_page, next_page = helpers.process_start_index(request)
     data = get.fetch(f"{config.URL}/api/v1/search?q={query}&type=channel&page={current_page}")
-
-    # Templates have the / at the end, so let's remove it.
-    if url[-1] == '/':
-        url = url[:-1]
 
     if not data:
         next_page = None
@@ -73,7 +71,7 @@ def channels(res=''):
 
     #return get.error()
     
-
+@sanitize_url
 @channel.route("/feeds/api/users/<channel_id>/uploads")
 @channel.route("/<int:res>/feeds/api/users/<channel_id>/uploads")
 def uploads(channel_id, res=''):

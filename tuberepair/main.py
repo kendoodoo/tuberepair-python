@@ -22,6 +22,10 @@ if config.CLIENT_TEST:
 logs.version(config.VERSION)
 app = Flask(__name__)
 
+# HACK: remove the slash at the end. GLOBALLY.
+# checkmate, kevin!
+app.url_map.strict_slashes = False
+
 # register seperate paths
 app.register_blueprint(static)
 app.register_blueprint(playlist)

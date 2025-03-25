@@ -1,7 +1,9 @@
+# helpers - misc stuff, mostly for apis
+
 import werkzeug
 from .logs import print_with_seperator
 
-# TODO: explain me this.
+# TODO: comment how this works?
 
 valid_search_orderby = {
     'relevance': 'relevance',
@@ -21,6 +23,16 @@ valid_search_duration = {
     'long': 'long'
 }
 
+# user agent check
+def user_agent(string):
+    # should it be something like "sanitize"?
+    processed = string.lower()
+    if "youtube/1.0.0" in processed or "youtube v1.0.0" in processed:
+        return True
+    else:
+        return False
+
+# proxy zone
 proxies = None
 
 def setup_proxies(proxy):

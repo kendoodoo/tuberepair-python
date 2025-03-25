@@ -1,6 +1,9 @@
 # imports
-from modules.client import get, helpers
 from flask import Blueprint, Flask, request, redirect, render_template, Response
+from functools import wraps
+
+# custom ones
+from modules.client import get, helpers
 from modules.client.logs import print_with_seperator
 from modules import yt
 import config
@@ -9,31 +12,22 @@ video = Blueprint("video", __name__)
 
 # featured videos
 # 2 alternate routes for popular page and search results
-@video.route("/feeds/api/standardfeeds/<regioncode>/<popular>")
-@video.route("/feeds/api/standardfeeds/<popular>")
-@video.route("/<int:res>/feeds/api/standardfeeds/<regioncode>/<popular>")
-@video.route("/<int:res>/feeds/api/standardfeeds/<popular>")
 def frontpage(regioncode="US", popular=None, res=''):
+    
+    url = request.url_root
 
-    # Clamp Res
-    # TODO: middleware?
     if type(res) == int:
         res = min(max(res, 144), config.RESMAX)
 
-    url = request.url_root
-
-    if url[-1] == '/':
-        url = url[:-1]
-        
     # Will be used for checking Classic
-    user_agent = request.headers.get('User-Agent').lower()
+    user_agent = request.headers.get('User-Agent')
     print(user_agent)
 
     # print logs if enabled
     if config.SPYING == True:
         print_with_seperator("Region code: " + regioncode)
 
-    if "youtube/1.0.0" in user_agent or "youtube v1.0.0" in user_agent:
+    if helpers.user_agent(user_agent):
         # get template
         return get.template('classic/featured.jinja2',{
             'data': yt.trending_feeds(),
@@ -52,10 +46,6 @@ def frontpage(regioncode="US", popular=None, res=''):
 
 # search for videos
 # TODO: ditch.
-@video.route("/feeds/api/videos")
-@video.route("/feeds/api/videos/")
-@video.route("/<int:res>/feeds/api/videos")
-@video.route("/<int:res>/feeds/api/videos/")
 def search_videos(res=''):
 
     # Clamp Res
@@ -65,7 +55,7 @@ def search_videos(res=''):
     url = request.url_root + str(res)
     currentPage, next_page = helpers.process_start_index(request)
 
-    user_agent = request.headers.get('User-Agent').lower()
+    user_agent = request.headers.get('User-Agent')
 
     search_keyword = request.args.get('q')
 
@@ -112,15 +102,12 @@ def search_videos(res=''):
 
     # search by videos
     data = get.fetch(f"{config.URL}/api/v1/search?{query}")
-    # Templates have the / at the end, so let's remove it.
-    if url[-1] == '/':
-        url = url[:-1]
 
     if not data:
         next_page = None
 
     # classic tube check
-    if "youtube/1.0.0" in user_agent or "youtube v1.0.0" in user_agent:
+    if helpers.user_agent(user_agent):
         return get.template('classic/search.jinja2',{
             'data': data,
             'unix': get.unix,
@@ -154,9 +141,6 @@ def comments(videoid, res=''):
     # fetch invidious comments api
     data = get.fetch(f"{config.URL}/api/v1/comments/{videoid}?sortby={config.SORT_COMMENTS}{continuation_token}")
 
-    # Templates have the / at the end, so let's remove it.
-    if url[-1] == '/':
-        url = url[:-1]
     if data:
         # NOTE: No comments sometimes returns {'error': 'Comments not found.'}
         if 'error' in data:
@@ -185,10 +169,10 @@ if (config.USE_INNERTUBE):
                 res = min(max(res, 144), config.RESMAX)
 
             # Set mimetype since videole device don't recognized it.
-            return Response(yt.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
+            return Response(yt.video.hls_video_url(video_id, res), mimetype="application/vnd.apple.mpegurl")
 
         # 360p if enabled
-        return redirect(yt.medium_quality_video_url(video_id), 307)
+        return redirect(yt.video.medium_quality_video_url(video_id), 307)
 else:
     # fetches video from invidious.
     @video.route("/getvideo/<video_id>")
@@ -218,9 +202,6 @@ def get_suggested(video_id, res=''):
 
     url = request.url_root + str(res)
     user_agent = request.headers.get('User-Agent')
-    # Templates have the / at the end, so let's remove it.
-    if url[-1] == '/':
-        url = url[:-1]
 
     if data:
         if 'error' in data:
@@ -228,7 +209,7 @@ def get_suggested(video_id, res=''):
         else:
             data = data['recommendedVideos']
         # classic tube check
-        if "YouTube v1.0.0" in user_agent:
+        if helpers.user_agent(user_agent):
             return get.template('classic/search.jinja2',{
                 'data': data,
                 'unix': get.unix,
@@ -243,3 +224,17 @@ def get_suggested(video_id, res=''):
             'next_page': None
         })
     return get.error()
+
+# worse than hell, but works
+
+# paths for trending feeds
+video.add_url_rule("/feeds/api/standardfeeds/<regioncode>/<popular>", view_func=frontpage)
+video.add_url_rule("/feeds/api/standardfeeds/<popular>", view_func=frontpage)
+video.add_url_rule("/<int:res>/feeds/api/standardfeeds/<regioncode>/<popular>", view_func=frontpage)
+video.add_url_rule("/<int:res>/feeds/api/standardfeeds/<popular>", view_func=frontpage)
+
+# paths for search videos
+video.add_url_rule("/feeds/api/videos", view_func=search_videos)
+video.add_url_rule("/feeds/api/videos/", view_func=search_videos)
+video.add_url_rule("/<int:res>/feeds/api/videos", view_func=search_videos)
+video.add_url_rule("/<int:res>/feeds/api/videos/", view_func=search_videos)
