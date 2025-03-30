@@ -5,7 +5,7 @@ from requests_cache import RedisCache
 
 # -- DEV ZONE -- #
 # You can change this to anything.
-VERSION = "v0.0.8-beta"
+VERSION = "v0.0.9-beta"
 # -------------- #
 
 # TODO: make this less of a mess.

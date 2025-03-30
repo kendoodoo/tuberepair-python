@@ -1,17 +1,11 @@
-from flask import Blueprint, request, redirect, send_file, render_template, Response
+from flask import Blueprint, request, g
 import config
 from modules.client import get, helpers
-from jinja2 import Environment, FileSystemLoader
 
 playlist = Blueprint("playlist", __name__)
 
-# jinja2 path
-env = Environment(loader=FileSystemLoader('templates'))
-
 # get playlists
 # TODO: get more video info since invidious simplified it.
-@playlist.route("/feeds/api/users/<channel_id>/playlists")
-@playlist.route("/<int:res>/feeds/api/users/<channel_id>/playlists")
 def playlists(channel_id, res=''):
 
     # Clamp Res
@@ -22,10 +16,6 @@ def playlists(channel_id, res=''):
     continuationToken = request.args.get('continuation') and '?continuation=' + request.args.get('continuation') or ''
     try:
         data = get.fetch(f"{config.URL}/api/v1/channels/{channel_id}/playlists{continuationToken}")
-
-        # Templates have the / at the end, so let's remove it.
-        if url[-1] == '/':
-            url = url[:-1]
         
         if data:
             return get.template('channel_playlists.jinja2',{
@@ -41,11 +31,10 @@ def playlists(channel_id, res=''):
 
 # get playlist's video
 # TODO: fix the damn thing
-@playlist.route("/feeds/api/playlists/<playlist_id>")
-@playlist.route("/<int:res>/feeds/api/playlists/<playlist_id>")
 def playlists_video(playlist_id, res=''):
     
     max_results = request.args.get('max-results')
+
     # TODO: Find out what it wants when this happens.
     # This happens on YouTube 2.0.0, when you load a video from the playlist it add this
     # for the playlist queue
@@ -53,6 +42,7 @@ def playlists_video(playlist_id, res=''):
         return get.error()
     if playlist_id.strip().lower() == '(null)':
         return get.error()
+
     # Clamp Res
     if type(res) == int:
         res = min(max(res, 144), config.RESMAX)
@@ -66,10 +56,6 @@ def playlists_video(playlist_id, res=''):
     
     url = request.url_root + str(res)
     data = get.fetch(f"{config.URL}/api/v1/playlists/{playlist_id}?{query}")
-    
-    # Templates have the / at the end, so let's remove it.
-    if url[-1] == '/':
-        url = url[:-1]
 
     if not data:
         next_page = None
@@ -85,8 +71,6 @@ def playlists_video(playlist_id, res=''):
     return get.error()
 
 # Playlist search (v2.0.0)
-@playlist.route("/feeds/api/playlists/snippets")
-@playlist.route("/<int:res>/feeds/api/playlists/snippets")
 def playlists_search(res=''):
     
     # Clamp Res
@@ -110,10 +94,6 @@ def playlists_search(res=''):
     
     url = request.url_root + str(res)
     data = get.fetch(f"{config.URL}/api/v1/search?{query}")
-    
-    # Templates have the / at the end, so let's remove it.
-    if url[-1] == '/':
-        url = url[:-1]
 
     if not data:
         next_page = None,
@@ -123,3 +103,15 @@ def playlists_search(res=''):
             'url': url,
             'next_page': next_page
         })
+
+# worse than hell, but works
+def assign(path, func):
+    bprint = playlist
+    # saves a ton of unnecessary
+    bprint.add_url_rule(path, view_func=func)
+    # here's your res, kevin
+    bprint.add_url_rule("/<int:res>" + path, view_func=func)
+
+assign("/feeds/api/users/<channel_id>/playlists", playlists)
+assign("/feeds/api/playlists/<playlist_id>", playlists_video)
+assign("/feeds/api/playlists/snippets", playlists_search)

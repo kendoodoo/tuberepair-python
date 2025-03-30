@@ -18,7 +18,7 @@ class video:
         # using IOS client since Apple invented HLS.
         json_data = {
             "videoId": video_id,
-            "context": Client(constants.IOS)
+            "context": Client(constants.client.IOS)
         }
         
         # fetch innertube
@@ -38,7 +38,7 @@ class video:
             # See https://github.com/tombulled/innertube/issues/76.
             "params": '8AEB',
             "videoId": video_id,
-            "context": Client(constants.ANDROID)
+            "context": Client(constants.client.ANDROID)
         }
 
         # fetch the API.
@@ -54,7 +54,7 @@ def trending_feeds(region="US", type=""):
 
     json = {
       "browseId": "FEtrending",
-      "context": Client(constants.WEB, region)
+      "context": Client(constants.client.WEB, region)
     }
 
     # SEND TO YOUTUBE IMMEDIATELY
@@ -91,7 +91,7 @@ def search(query, type="videos"):
     json = {
         "query": str(query),
         "params": constant.param.search(type),
-        "context": Client(constants.WEB)
+        "context": Client(constants.client.WEB)
     }
 
     data = requests.post(constants.search, json)
@@ -116,8 +116,8 @@ def search(query, type="videos"):
 def simple_channel_info(id):
 
     json = {
-        "context": Client(constants.WEB),
-        "params": "EgZzaG9ydHPyBgUKA5oBAA%3D%3D",
+        "context": Client(constants.client.WEB),
+        "params": constants.param.channel_info,
         "browseId": id
     }
 

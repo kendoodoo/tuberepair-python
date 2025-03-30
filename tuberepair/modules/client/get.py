@@ -1,5 +1,6 @@
 from requests_cache import CachedSession
 from jinja2 import Environment, FileSystemLoader
+from flask import request
 from datetime import timedelta, datetime
 import requests
 import json
@@ -16,7 +17,7 @@ info_cache = CachedSession('cache/info', expire_after=timedelta(hours=config.CAC
 # cache to not spam the invidious instance
 session = info_cache
 
-def unix(unix):
+def unix(unix="0"):
     return datetime.fromtimestamp(int(unix)).isoformat() + '.000Z'
 
 # Will be used in another update, but WHEN??? HUH???

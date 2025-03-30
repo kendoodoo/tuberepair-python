@@ -11,11 +11,11 @@ player = base_url + 'player?key=' + key
 browse = base_url + 'browse?key=' + key
 search = base_url + 'search?key=' + key
 
-WEB = ["WEB", "2.20230728.00.00"]
-# I'd like to make one for people to repurpose their crap into brainrot sesh for the younglings
-WEB_KIDS = ["WEB_KIDS", "2.20230111.00.00"]
-IOS = ["IOS", "19.16.3"]
-ANDROID = ["ANDROID", "19.17.34"]
+class client:
+	WEB = ["WEB", "2.20230728.00.00"]
+	WEB_KIDS = ["WEB_KIDS", "2.20230111.00.00"]
+	IOS = ["IOS", "19.16.3"]
+	ANDROID = ["ANDROID", "19.17.34"]
 
 # params: a "nice" way to spot trending topics by ID.
 # google, i hate you.
@@ -37,6 +37,8 @@ class param:
 			return "CAASAhAC"
 		if type == "movies":
 			return "CAASAhAE"
+	
+	channel_info = "EgZzaG9ydHPyBgUKA5oBAA%3D%3D"
 
 		# I'll probably put more, but the ID format sucks
 		# MANUALLY.

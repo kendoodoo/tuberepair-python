@@ -10,8 +10,9 @@ key = uuid4().hex
 # static contents
 # --------------------------------------------- #
 
+# WTF: kev, you're gonna put res on every corner of this thing?
 @static.route("/")
-def index(res=None):
+def index():
     return render_template('web/index.html', version=config.VERSION, medium=config.MEDIUM_QUALITY, hls=config.HLS_RESOLUTION)
 
 # sidebar menu

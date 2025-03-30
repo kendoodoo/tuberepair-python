@@ -2,26 +2,13 @@ from flask import Blueprint, Flask, request, redirect, render_template
 from functools import wraps
 
 from modules.client import get, helpers
-# TODO: make this yt shit done.
 from modules import yt
 import config
 from modules.client.logs import print_with_seperator
 
 channel = Blueprint("channel", __name__)
 
-# added decorators to make life easier
-def sanitize_url(f):
-    @wraps(f)
-    def res(*args, **kwargs):
-
-        if type(res) == int:
-            res = min(max(res, 144), config.RESMAX)
-
-        return f(*args, **kwargs)
-    return res
-
 # get channel info
-@sanitize_url
 @channel.route("/feeds/api/channels/<channel_id>")
 @channel.route("/<int:res>/feeds/api/channels/<channel_id>")
 def search(channel_id, res=''):
@@ -49,7 +36,6 @@ def search(channel_id, res=''):
     })
 
 # search for channels
-@sanitize_url
 @channel.route("/feeds/api/channels")
 @channel.route("/<int:res>/feeds/api/channels")
 def channels(res=''):
@@ -70,14 +56,13 @@ def channels(res=''):
     })
 
     #return get.error()
-    
-@sanitize_url
+
 @channel.route("/feeds/api/users/<channel_id>/uploads")
 @channel.route("/<int:res>/feeds/api/users/<channel_id>/uploads")
 def uploads(channel_id, res=''):
     
     # Clamp Res
-    if type(res) == int:
+    if type(kwargs.get('res', None)) == int:
         res = min(max(res, 144), config.RESMAX)
     
     url = request.url_root + str(res) 

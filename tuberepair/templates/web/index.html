@@ -56,16 +56,6 @@
         <div id="link-box"><b><a href="/"><p id="url">js is not available</p></a></b></div>
         <p id="credits">(hold to copy)</p>
     </div>
-    <div style="text-align: center;">
-        <p>You can also pick a resolution by adding it after the /:</p>
-        <div id="link-box"><b><a href="/"><p id="360example">js is not available</p></a></b></div>
-        <p id="credits">(hold to copy)</p>
-    </div>
-    <div style="text-align: center;">
-        <p>You can also pick a resolution by adding it after the /:</p>
-        <div id="link-box"><b><a href="/"><p id="1080example">js is not available</p></a></b></div>
-        <p id="credits">(hold to copy)</p>
-    </div>
     <br>
     </div>
 </body>
@@ -77,6 +67,7 @@ document.getElementById('360example').innerHTML = link + '360';
 document.getElementById('1080example').innerHTML = link + '1080';
 
 var infoEle = document.getElementById('info');
+// nice trick, kev
 var medium = "{{medium}}";
 medium = medium === "True";
 if (medium) {

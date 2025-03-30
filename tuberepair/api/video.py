@@ -1,5 +1,5 @@
 # imports
-from flask import Blueprint, Flask, request, redirect, render_template, Response
+from flask import Blueprint, Flask, request, redirect, render_template, Response, g
 from functools import wraps
 
 # custom ones
@@ -10,14 +10,22 @@ import config
 
 video = Blueprint("video", __name__)
 
+# added a flask decorator to make life easier
+def sanitize(f):
+
+    @wraps(f)
+    def log(*args, **kwargs):
+
+        if type(kwargs.get('res', None)) == int:
+            res = min(max(res, 144), config.RESMAX)
+
+        return f(*args, **kwargs)
+    return log
+
 # featured videos
 # 2 alternate routes for popular page and search results
+@sanitize
 def frontpage(regioncode="US", popular=None, res=''):
-    
-    url = request.url_root
-
-    if type(res) == int:
-        res = min(max(res, 144), config.RESMAX)
 
     # Will be used for checking Classic
     user_agent = request.headers.get('User-Agent')
@@ -27,20 +35,15 @@ def frontpage(regioncode="US", popular=None, res=''):
     if config.SPYING == True:
         print_with_seperator("Region code: " + regioncode)
 
-    if helpers.user_agent(user_agent):
+    if helpers.classic(user_agent):
         # get template
         return get.template('classic/featured.jinja2',{
             'data': yt.trending_feeds(),
-            'unix': get.unix,
-            'url': url
+            'unix': get.unix
         })
     else:
         # Google YT
-        return get.template('featured.jinja2',{
-            'data': yt.trending_feeds(),
-            'unix': get.unix,
-            'url': url
-        })
+        return render_template('featured.jinja2', data=yt.trending_feeds(), unix=get.unix)
 
     return get.error()
 
@@ -57,7 +60,7 @@ def search_videos(res=''):
 
     user_agent = request.headers.get('User-Agent')
 
-    search_keyword = request.args.get('q')
+    search_keyword = request.args.get('q').replace(" ", "%20")
 
     if not search_keyword:
         return get.error()
@@ -65,9 +68,6 @@ def search_videos(res=''):
     # print logs if enabled
     if config.SPYING == True:
         print_with_seperator('Searched: ' + search_keyword)
-
-    # remove space character
-    search_keyword = search_keyword.replace(" ", "%20")
 
     # q and page is already made, so lets hand add it
     query = f'q={search_keyword}&type=video&page={currentPage}'
@@ -107,7 +107,7 @@ def search_videos(res=''):
         next_page = None
 
     # classic tube check
-    if helpers.user_agent(user_agent):
+    if helpers.classic(user_agent):
         return get.template('classic/search.jinja2',{
             'data': data,
             'unix': get.unix,
@@ -124,10 +124,6 @@ def search_videos(res=''):
 
 # video's comments
 # IDEA: filter the comments too?
-@video.route("/api/videos/<videoid>/comments")
-@video.route("/<int:res>/api/videos/<videoid>/comments")
-@video.route("/feeds/api/videos/<videoid>/comments")
-@video.route("/<int:res>/feeds/api/videos/<videoid>/comments")
 def comments(videoid, res=''):
 
     # Clamp Res
@@ -194,8 +190,6 @@ else:
         # TODO: Fix resoution not working.
         return redirect(data['formatStreams'][0]['url'], 307)
 
-@video.route("/feeds/api/videos/<video_id>/related")
-@video.route("/<int:res>/feeds/api/videos/<video_id>/related")
 def get_suggested(video_id, res=''):
 
     data = get.fetch(f"{config.URL}/api/v1/videos/{video_id}")
@@ -209,7 +203,7 @@ def get_suggested(video_id, res=''):
         else:
             data = data['recommendedVideos']
         # classic tube check
-        if helpers.user_agent(user_agent):
+        if helpers.classic(user_agent):
             return get.template('classic/search.jinja2',{
                 'data': data,
                 'unix': get.unix,
@@ -225,16 +219,24 @@ def get_suggested(video_id, res=''):
         })
     return get.error()
 
-# worse than hell, but works
+# worse than hell, but it works
+def assign(path, func):
+    bprint = video
+    # saves a ton of unnecessary
+    bprint.add_url_rule(path, view_func=func)
+
+    # here's your res, kevin
+    bprint.add_url_rule("/<int:res>" + path, view_func=func)
 
 # paths for trending feeds
-video.add_url_rule("/feeds/api/standardfeeds/<regioncode>/<popular>", view_func=frontpage)
-video.add_url_rule("/feeds/api/standardfeeds/<popular>", view_func=frontpage)
-video.add_url_rule("/<int:res>/feeds/api/standardfeeds/<regioncode>/<popular>", view_func=frontpage)
-video.add_url_rule("/<int:res>/feeds/api/standardfeeds/<popular>", view_func=frontpage)
-
+assign("/feeds/api/standardfeeds/<regioncode>/<popular>", frontpage)
+assign("/feeds/api/standardfeeds/<popular>", frontpage)
 # paths for search videos
-video.add_url_rule("/feeds/api/videos", view_func=search_videos)
-video.add_url_rule("/feeds/api/videos/", view_func=search_videos)
-video.add_url_rule("/<int:res>/feeds/api/videos", view_func=search_videos)
-video.add_url_rule("/<int:res>/feeds/api/videos/", view_func=search_videos)
+assign("/feeds/api/videos/", search_videos)
+# paths for video comments
+assign("/api/videos/<videoid>/comments", comments)
+assign("/feeds/api/videos/<videoid>/comments", comments)
+# get video
+assign("/getvideo/<video_id>", getvideo)
+# get related videos
+assign("/feeds/api/videos/<video_id>/related", get_suggested)

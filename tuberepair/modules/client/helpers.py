@@ -24,7 +24,7 @@ valid_search_duration = {
 }
 
 # user agent check
-def user_agent(string):
+def classic(string):
     # should it be something like "sanitize"?
     processed = string.lower()
     if "youtube/1.0.0" in processed or "youtube v1.0.0" in processed:
