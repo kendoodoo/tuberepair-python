@@ -27,6 +27,8 @@ def sanitize(f):
 @sanitize
 def frontpage(regioncode="US", popular=None, res=''):
 
+    url = request.url_root
+
     # Will be used for checking Classic
     user_agent = request.headers.get('User-Agent')
     print(user_agent)
@@ -39,11 +41,16 @@ def frontpage(regioncode="US", popular=None, res=''):
         # get template
         return get.template('classic/featured.jinja2',{
             'data': yt.trending_feeds(),
-            'unix': get.unix
+            'unix': get.unix,
+            'url': url
         })
     else:
         # Google YT
-        return render_template('featured.jinja2', data=yt.trending_feeds(), unix=get.unix)
+        return get.template('featured.jinja2',{
+            'data': yt.trending_feeds(),
+            'unix': get.unix,
+            'url': url
+        })
 
     return get.error()
 

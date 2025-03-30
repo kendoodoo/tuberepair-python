@@ -19,7 +19,7 @@
 	<link rel='service' type='application/atomsvc+xml' href='/feeds/api/playlists/8E2186857EE27746?alt=atom-service&amp;v=2'/>
 	<author>
 		<name></name>
-		<uri></uri>
+		<uri>{{url}}</uri>
 		<yt:userId></yt:userId>
 	</author>
 	<generator version='2.1' uri='/'>YouTube data API</generator>
@@ -35,7 +35,7 @@
 	{% set description = video['description'] %}
 	{% set time = unix('0') %}
 	{% set views = video['views'] %}
-	{% set length = video['length']%}
+	{% set length = video['length'] %}
 	<entry gd:etag='W/&quot;{{video_id}}.&quot;'>
 		<id>tag:youtube.com,2008:playlist:{{video_id}}:{{video_id}}</id>
 		<published>{{ time }}</published>
@@ -47,9 +47,9 @@
 		<link rel='alternate' type='text/html' href="http://www.youtube.com/watch?v={{video_id}}&amp;feature=youtube_gdata"/>
 		<link rel='http://gdata.youtube.com/schemas/2007#video.related' type='application/atom+xml' href="https://gdata.youtube.com/feeds/api/videos/{{video_id}}/related"/>
 		<link rel='/schemas/1970#mobile' type='text/html' href="http://m.youtube.com/details?v={{video_id}}"/>
-		<link rel='/schemas/1970#uploader' type='application/atom+xml' href="/feeds/api/users/{{channel_id}}?v=2e"/>
-		<link rel="/schemas/2007#related" type="application/atom+xml" href="/feeds/api/videos/{{video_id}}/related" />
-		<link rel='related' type='application/atom+xml' href="/feeds/api/videos/{{video_id}}?v=2"/>
+		<link rel='/schemas/1970#uploader' type='application/atom+xml' href="{{url}}/feeds/api/users/{{channel_id}}?v=2e"/>
+		<link rel="/schemas/2007#related" type="application/atom+xml" href="{{url}}/feeds/api/videos/{{video_id}}/related" />
+		<link rel='related' type='application/atom+xml' href="{{url}}/feeds/api/videos/{{video_id}}?v=2"/>
 		<link rel='self' type='application/atom+xml' href='/feeds/api/playlists/8E2186857EE27746/PLyl9mKRbpNIpJC5B8qpcgKX8v8NI62Jho?v=2'/>
 		<author>
 			<name>{{channel}}</name>
@@ -65,17 +65,17 @@
 		<yt:accessControl action='autoPlay' permission='allowed'/>
 		<yt:accessControl action='syndicate' permission='allowed'/>
 		<gd:comments>
-			<gd:feedLink rel='/schemas/1970#comments' href="/api/videos/{{video_id}}/comments?v=2" countHint='5'/>
+			<gd:feedLink rel='/schemas/1970#comments' href="{{url}}/api/videos/{{video_id}}/comments?v=2" countHint='5'/>
 		</gd:comments>
 		<gd:related>
-			<gd:feedLink rel='/schemas/1970#related' href="/feeds/api/videos/{{video_id}}/related" countHint='5'/>
+			<gd:feedLink rel='/schemas/1970#related' href="{{url}}/feeds/api/videos/{{video_id}}/related" countHint='5'/>
 		</gd:related>
 		<yt:location></yt:location>
 		<media:group>
 			<media:category label='Howto &amp; Style' scheme='/schemas/1970/categories.cat'>Howto</media:category>
 			<media:content url="http://www.youtube.com/v/{{video_id}}?version=3&amp;f=playlists&amp;app=youtube_gdata" type='application/x-shockwave-flash' medium='video' isDefault='true' expression='full' duration='0' yt:format='5'/>
-			<media:content url="/getvideo/{{video_id}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='1'/>
-			<media:content url="/getvideo/{{video_id}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='6'/>
+			<media:content url="{{url}}/getvideo/{{video_id}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='1'/>
+			<media:content url="{{url}}/getvideo/{{video_id}}" type='video/3gpp' type='video/3gpp' medium='video' expression='full' duration='0' yt:format='6'/>
 			<media:credit role='uploader' scheme='urn:youtube' yt:display='{{channel}}' yt:type='partner'>{{channel_id}}</media:credit>
 			<media:description type='plain'>{{description}}</media:description>
 			<media:keywords/>
@@ -87,10 +87,10 @@
 			<media:thumbnail url="https://i.ytimg.com/vi/{{video_id}}/default.jpg" height='90' width='120' time='00:00:00.000' yt:name='start'/>
 			<media:thumbnail url="https://i.ytimg.com/vi/{{video_id}}/default.jpg" height='90' width='120' time='00:00:00.000' yt:name='middle'/>
 			<media:thumbnail url="https://i.ytimg.com/vi/{{video_id}}/default.jpg" height='90' width='120' time='00:00:00.000' yt:name='end'/>
-			<media:content url="/getvideo/{{video_id}}" type="video/mp4" medium="video" isDefault="true" expression="full" duration="0" yt:format="3" />
-			<media:content url="/getvideo/{{video_id}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="2" />
-			<media:content url="/getvideo/{{video_id}}" type="video/mp4" medium="video" expression="full" duration="0" yt:format="8" />
-			<media:content url="/getvideo/{{video_id}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="9" />
+			<media:content url="{{url}}/getvideo/{{video_id}}" type="video/mp4" medium="video" isDefault="true" expression="full" duration="0" yt:format="3" />
+			<media:content url="{{url}}/getvideo/{{video_id}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="2" />
+			<media:content url="{{url}}/getvideo/{{video_id}}" type="video/mp4" medium="video" expression="full" duration="0" yt:format="8" />
+			<media:content url="{{url}}/getvideo/{{video_id}}" type="video/3gpp" medium="video" expression="full" duration="0" yt:format="9" />
 			<media:title type='plain'>{{description}}</media:title>
 			<yt:duration seconds="{{length}}"/>
 			<yt:uploaded>{{time}}</yt:uploaded>
