@@ -35,6 +35,11 @@ pip install -r requirements.txt
 python main.py
 ```
 
+## other notes
+Since YouTube is getting more aggressive with blockage, I suggest you host yourself a [Invidious](https://github.com/iv-org/invidious) instance, and set it via config.py. This makes sure that video will load (not metadata)...
+
+...you could also use proxies to bypass this (as mentioned above), but that requires extensive "birdwatching" and a pain to deal with.
+
 # Docker
 
 Make sure you have Linux, ports 80 and 443 open, [Docker](https://docs.docker.com/engine/install/), and DNS record already pointing to your server.
